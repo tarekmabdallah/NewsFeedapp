@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">News Feed app</string>
+
+    <string name="empty_text">There is no Articles,please check your internet connection</string>
+
+    <string name="settings_activity_label">Settings</string>
+    
+    <string name="tag_list_label">Order By Tag</string>
+    <string name="tag_list_key" translatable="false">order_by_tag</string>
+    <string name="tag_list_default_value" translatable="false">@string/tag_list_ordered_by_tag_sport_default_value</string>
+    
+    <string name="tag_list_ordered_by_tag_world_label">World</string>
+    <string name="tag_list_ordered_by_tag_world_default_value" translatable="false">world/world</string>
+
+    <string name="tag_list_ordered_by_tag_politics_label">Politics</string>
+    <string name="tag_list_ordered_by_tag_politics_default_value" translatable="false">politics/politics</string>
+
+    <string name="tag_list_ordered_by_tag_sport_label">Sport</string>
+    <string name="tag_list_ordered_by_tag_sport_default_value" translatable="false">sport/sport</string>
+
+
+
+    <string name="date_list_label">Order By Date</string>
+    <string name="date_list_key" translatable="false">order_by_date</string>
+    <string name="date_list_default_value" translatable="false">@string/date_list_2018_default_value</string>
+
+    <string name="date_list_2018_label">2018</string>
+    <string name="date_list_2018_default_value" translatable="false">2018-01-01</string>
+
+    <string name="date_list_2017_label">2017</string>
+    <string name="date_list_2017_default_value" translatable="false">2017-01-01</string>
+
+    <string name="date_list_2016_label">2016</string>
+    <string name="date_list_2016_default_value" translatable="false">2016-01-01</string>
+
+    <string name="date_list_2015_label">2015</string>
+    <string name="date_list_2015_default_value" translatable="false">2015-01-01</string>
+
+    <string name="search_label">Search</string>
+    <string name="search_key" translatable="false">search</string>
+    <string name="search_default_value" translatable="false"> </string>
+
+</resources>

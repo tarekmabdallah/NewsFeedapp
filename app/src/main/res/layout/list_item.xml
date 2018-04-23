@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/padding_value">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/title_text_style"
+        android:background="@color/title_color_background"/>
+
+    <LinearLayout
+        android:id="@+id/h_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/title">
+
+        <TextView
+            android:id="@+id/section"
+            style="@style/details_text_style"
+            android:background="@color/section_color_background"/>
+
+        <TextView
+            android:id="@+id/author"
+            style="@style/details_text_style"
+            android:background="@color/author_color_background"/>
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/details_text_style"
+            android:background="@color/date_color_background"/>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
