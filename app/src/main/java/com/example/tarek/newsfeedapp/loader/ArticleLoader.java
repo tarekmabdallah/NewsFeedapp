@@ -16,12 +16,12 @@ public class ArticleLoader extends AsyncTaskLoader<List<Article>> {
     public ArticleLoader(Context context , String url ) {
         super(context);
         this.url = url;
+        ArticleQueryUtils.context = context;
     }
 
     @Override
     public List<Article> loadInBackground() {
         List<Article> articles = ArticleQueryUtils.fetchArticlesData(url);
-
         return articles;
     }
 

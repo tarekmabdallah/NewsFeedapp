@@ -1,12 +1,15 @@
 package com.example.tarek.newsfeedapp.utils;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tarek.newsfeedapp.article.Article;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +42,10 @@ public class ArticleQueryUtils {
     private static final String SECTION_NAME="sectionName";
     private static final String WEB_PUBLICATION_DATE="webPublicationDate";
     private static final String WEB_URL="webUrl";
+    private static final String SERVER_ERROR = "Unable to process your request Kindly try again";
     private static final String TAG = ArticleQueryUtils.class.getSimpleName();
     public static final String EMPTY_NAME = "";
+    public static Context context;
 
     public static List<Article> fetchArticlesData(String urlString){
 
@@ -125,6 +130,7 @@ public class ArticleQueryUtils {
                 InputStream stream = urlConnection.getInputStream();
                 jsonResponse = readInputStream(stream);
             }else if (response == BAD_GATEWAY || response == SERVICE_UNAVAILABLE){
+                Toast.makeText(context, SERVER_ERROR, Toast.LENGTH_LONG).show();
                 return jsonResponse; // as empty
             }
         }catch (IOException e){
