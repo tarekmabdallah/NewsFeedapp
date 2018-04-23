@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.tarek.newsfeedapp.article.Article;
 import com.example.tarek.newsfeedapp.R;
+import com.example.tarek.newsfeedapp.article.Article;
 import com.example.tarek.newsfeedapp.utils.ArticleQueryUtils;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ArticleArrayAdapter extends ArrayAdapter<Article> {
 
     private Context context;
-    private final String NO_NAME_AVAILABLE = "author name not available";
+    private final String NO_NAME_AVAILABLE = "author name\nnot available";
     private final String NEW_LINE = "\n";
     private final int ZERO = 0;
     private final int MAX_LENGTH_LINE_1 =11;
