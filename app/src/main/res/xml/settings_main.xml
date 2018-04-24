@@ -5,7 +5,7 @@
         android:title="@string/tag_list_label"
         android:entries="@array/tag_labels_order_by"
         android:entryValues="@array/tag_values_order_by"
-        android:defaultValue="@string/tag_list_ordered_by_tag_sport_default_value"
+        android:defaultValue="@string/tag_list_ordered_by_section_sport_default_value"
         android:key="@string/tag_list_key" />
 
 

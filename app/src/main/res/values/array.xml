@@ -2,16 +2,16 @@
 <resources>
 
     <string-array name="tag_labels_order_by">
-        <item>@string/tag_list_ordered_by_tag_sport_label</item>
-        <item>@string/tag_list_ordered_by_tag_politics_label</item>
-        <item>@string/tag_list_ordered_by_tag_world_label</item>
+        <item>@string/tag_list_ordered_by_section_sport_label</item>
+        <item>@string/tag_list_ordered_by_section_politics_label</item>
+        <item>@string/tag_list_ordered_by_section_world_label</item>
     </string-array>
 
 
     <string-array name="tag_values_order_by">
-        <item>@string/tag_list_ordered_by_tag_sport_default_value</item>
-        <item>@string/tag_list_ordered_by_tag_politics_default_value</item>
-        <item>@string/tag_list_ordered_by_tag_world_default_value</item>
+        <item>@string/tag_list_ordered_by_section_sport_default_value</item>
+        <item>@string/tag_list_ordered_by_section_politics_default_value</item>
+        <item>@string/tag_list_ordered_by_tag_section_default_value</item>
     </string-array>
 
     <string-array name="date_labels_order_by">

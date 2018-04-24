@@ -27,7 +27,7 @@
         <TextView
             android:id="@+id/author"
             style="@style/details_text_style"
-            android:gravity="center" />
+            android:gravity="center|bottom" />
 
         <TextView
             android:id="@+id/date"

@@ -42,6 +42,7 @@ public class ArticleQueryUtils {
     private static final String SECTION_NAME="sectionName";
     private static final String WEB_PUBLICATION_DATE="webPublicationDate";
     private static final String WEB_URL="webUrl";
+    private static final String TAGS = "tags";
     private static final String SERVER_ERROR = "Unable to process your request Kindly try again";
     private static final String TAG = ArticleQueryUtils.class.getSimpleName();
     public static final String EMPTY_NAME = "";
@@ -80,7 +81,7 @@ public class ArticleQueryUtils {
 
                 String title = currentObject.getString(WEB_TITLE);
                 String section = currentObject.getString(SECTION_NAME);
-                String author = EMPTY_NAME; // there is no author name in this API
+                String author = currentObject.getJSONArray(TAGS).getJSONObject(ZERO).getString(WEB_TITLE);
                 String date = currentObject.getString(WEB_PUBLICATION_DATE); // it is been formatted in this API
                 String url = currentObject.getString(WEB_URL);
 
