@@ -35,10 +35,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             Preference orderedByDate = findPreference(getString(R.string.date_list_key));
             setSummaryToPreference(orderedByDate , getString(R.string.date_list_key));
-
-            Preference searched = findPreference(getString(R.string.search_key));
-            setSummaryToPreference(searched , getString(R.string.search_key));
-
         }
 
         private void setSummaryToPreference(Preference preferences , String preferenceStringValue) {
@@ -59,9 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
                     CharSequence[] labels = listPreference.getEntries();
                     preference.setSummary(labels[prefIndex]);
                 }
-            }else {
-                // in case of the user searched for any thing
-                preference.setSummary(value);
             }
             return true;
         }

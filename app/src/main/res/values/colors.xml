@@ -3,11 +3,6 @@
     <color name="colorPrimary">#b8eef9</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBackground">#b8eef9</color>
 
-    <color name="title_color_background">#303F9F</color>
-    <color name="section_color_background">#3F51B5</color>
-    <color name="author_color_background">#3F51B5</color>
-    <color name="date_color_background">#3F51B5</color>
-
-    <color name="app_background">#b8eef9</color>
 </resources>

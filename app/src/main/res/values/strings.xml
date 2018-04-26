@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">News Feed app</string>
 
-    <string name="empty_text">Seems no internet connection\nplease check your internet connection</string>
+    <string name="empty_text">Seems that is no internet connection\nplease check your internet connection</string>
 
     <string name="settings_activity_label">Settings</string>
 
@@ -13,9 +13,6 @@
 
     <string name="tag_list_ordered_by_section_world_label">World</string>
     <string name="tag_list_ordered_by_tag_section_default_value" translatable="false">world</string>
-
-    <string name="tag_list_ordered_by_section_politics_label">Politics</string>
-    <string name="tag_list_ordered_by_section_politics_default_value" translatable="false">politics</string>
 
     <string name="tag_list_ordered_by_section_sport_label">Sport</string>
     <string name="tag_list_ordered_by_section_sport_default_value" translatable="false">sport</string>
@@ -37,9 +34,5 @@
 
     <string name="date_list_2015_label">2015</string>
     <string name="date_list_2015_default_value" translatable="false">2015-01-01</string>
-
-    <string name="search_label">Search</string>
-    <string name="search_key" translatable="false">search</string>
-    <string name="search_default_value" translatable="false"> </string>
 
 </resources>

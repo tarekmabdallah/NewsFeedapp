@@ -30,7 +30,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String QUERY_SEARCH_TAG = "q";
     private static final String QUERY_SECTION_TAG = "section";
     private static final String QUERY_DATE_TAG = "from-date";
     private static final String QUERY_CONTRIBUTOR_TAG = "show-tags";
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView emptyTextView;
     private View progressBar ;
     private ArticleArrayAdapter adapter  ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Article article = adapter.getItem(position);
+                view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 try {
                     Intent openWebPage = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getUrl()));
                     startActivity(openWebPage);
@@ -98,13 +99,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String date = preferences.getString(
                 getString(R.string.date_list_key),getString(R.string.date_list_default_value));
 
-        String searched = preferences.getString(
-                getString(R.string.search_key),getString(R.string.search_default_value));
-
         Uri uri = Uri.parse(URL_API);
         Uri.Builder builder = uri.buildUpon();
 
-        builder.appendQueryParameter(QUERY_SEARCH_TAG, searched);
         builder.appendQueryParameter(QUERY_SECTION_TAG, section);
         builder.appendQueryParameter(QUERY_CONTRIBUTOR_TAG, CONTRIBUTOR_VALUE);
         builder.appendQueryParameter(QUERY_DATE_TAG, date);

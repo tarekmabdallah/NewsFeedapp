@@ -3,11 +3,11 @@ package com.example.tarek.newsfeedapp.article;
 
 public class Article {
 
-    private String title ;
-    private String section ;
-    private String author;
-    private String date;
-    private String url;
+    private final String title;
+    private final String section;
+    private final String author;
+    private final String date;
+    private final String url;
 
     public Article (String title , String section , String author , String date ,String url){
         this.title = title;

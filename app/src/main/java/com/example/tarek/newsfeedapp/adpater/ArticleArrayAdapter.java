@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ArticleArrayAdapter extends ArrayAdapter<Article> {
 
-    private Context context;
+    private final Context context;
     private static final String NEW_LINE = "\n";
     private static final int ZERO = 0;
     private static final int MAX_LENGTH_LINE_1 = 11;

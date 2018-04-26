@@ -10,19 +10,17 @@ import java.util.List;
 
 public class ArticleLoader extends AsyncTaskLoader<List<Article>> {
 
-    private static final String TAG = ArticleLoader.class.getSimpleName();
-    private String url ;
+    // --Commented out by Inspection (26/04/2018 08:52 ص):private static final String TAG = ArticleLoader.class.getSimpleName();
+    private final String url;
 
     public ArticleLoader(Context context , String url ) {
         super(context);
         this.url = url;
-        ArticleQueryUtils.context = context;
     }
 
     @Override
     public List<Article> loadInBackground() {
-        List<Article> articles = ArticleQueryUtils.fetchArticlesData(url);
-        return articles;
+        return ArticleQueryUtils.fetchArticlesData(url);
     }
 
     @Override
