@@ -2,13 +2,15 @@
 <resources>
 
     <string-array name="tag_labels_order_by">
-        <item>@string/tag_list_ordered_by_section_sport_label</item>
         <item>@string/tag_list_ordered_by_section_world_label</item>
+        <item>@string/tag_list_ordered_by_section_sport_label</item>
+        <item>@string/tag_list_ordered_by_section_football_label</item>
     </string-array>
 
     <string-array name="tag_values_order_by">
+        <item>@string/tag_list_ordered_by_section_world_default_value</item>
         <item>@string/tag_list_ordered_by_section_sport_default_value</item>
-        <item>@string/tag_list_ordered_by_tag_section_default_value</item>
+        <item>@string/tag_list_ordered_by_section_sport_football_value</item>
     </string-array>
 
 

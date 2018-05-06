@@ -13,6 +13,7 @@ public class ArticleLoader extends AsyncTaskLoader<List<Article>> {
     // --Commented out by Inspection (26/04/2018 08:52 ص):private static final String TAG = ArticleLoader.class.getSimpleName();
     private final String url;
 
+
     public ArticleLoader(Context context , String url ) {
         super(context);
         this.url = url;

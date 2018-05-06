@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:padding="@dimen/padding_value">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/title_text_style"
-        android:padding="@dimen/padding_value" />
-
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding_value"
-        app:layout_constraintTop_toBottomOf="@id/title">
+        android:background="@android:color/white"
+        android:padding="@dimen/padding_value">
 
         <TextView
-            android:id="@+id/section"
-            style="@style/details_text_style"
-            android:gravity="bottom" />
+            android:id="@+id/title"
+            style="@style/title_text_style"
+            android:padding="@dimen/padding_value" />
 
-        <TextView
-            android:id="@+id/author"
-            style="@style/details_text_style"
-            android:gravity="center|bottom" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_value"
+            app:layout_constraintTop_toBottomOf="@id/title">
 
-        <TextView
-            android:id="@+id/date"
-            style="@style/details_text_style"
-            android:gravity="end" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/section"
+                style="@style/details_text_style"
+                android:gravity="bottom" />
 
+            <TextView
+                android:id="@+id/author"
+                style="@style/details_text_style"
+                android:gravity="center|bottom" />
 
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/date"
+                style="@style/details_text_style"
+                android:gravity="end" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

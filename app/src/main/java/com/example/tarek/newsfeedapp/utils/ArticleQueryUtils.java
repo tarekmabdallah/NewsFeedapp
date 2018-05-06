@@ -1,9 +1,7 @@
 package com.example.tarek.newsfeedapp.utils;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.tarek.newsfeedapp.activities.MainActivity;
 import com.example.tarek.newsfeedapp.article.Article;
 
 import org.json.JSONArray;
@@ -48,7 +46,6 @@ public class ArticleQueryUtils {
     public static final String EMPTY_NAME = "";
 
     public static List<Article> fetchArticlesData(String urlString){
-
         try {
             Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
@@ -81,7 +78,7 @@ public class ArticleQueryUtils {
                 String title = currentObject.getString(WEB_TITLE);
                 String section = currentObject.getString(SECTION_NAME);
                 String author = currentObject.getJSONArray(TAGS).getJSONObject(ZERO).getString(WEB_TITLE);
-                String date = currentObject.getString(WEB_PUBLICATION_DATE); // it is been formatted in this API
+                String date = currentObject.getString(WEB_PUBLICATION_DATE); // it was been formatted in this API
                 String url = currentObject.getString(WEB_URL);
 
                 articles.add(new Article(title,section,author,date,url));
@@ -94,7 +91,7 @@ public class ArticleQueryUtils {
     }
 
     private static String readInputStream (InputStream inputStream) {
-        String jsonResponse = "";
+        String jsonResponse;
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream , Charset.forName("UTF-8"));
         BufferedReader reader = new BufferedReader(inputStreamReader);
         StringBuilder builder = new StringBuilder();
@@ -114,7 +111,7 @@ public class ArticleQueryUtils {
     }
 
     private static String makeHttpRequest (URL url){
-        String jsonResponse = "";
+        String jsonResponse = EMPTY_NAME;
         try {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod(REQUESTED_METHOD);
@@ -130,8 +127,8 @@ public class ArticleQueryUtils {
                 InputStream stream = urlConnection.getInputStream();
                 jsonResponse = readInputStream(stream);
             }else if (response == BAD_GATEWAY || response == SERVICE_UNAVAILABLE){
-                MainActivity activity = new MainActivity(); // to be passed to Toast as a context
-                Toast.makeText(activity, SERVER_ERROR, Toast.LENGTH_LONG).show();
+                // TODO : how to pass "context here" for Toast msg ? or to show Text in MainActivity with this msg ?
+                printLogException(TAG, null, SERVER_ERROR);
                 return jsonResponse; // as empty
             }
         }catch (IOException e){

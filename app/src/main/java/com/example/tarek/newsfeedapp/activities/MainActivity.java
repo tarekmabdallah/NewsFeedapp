@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,9 @@ import com.example.tarek.newsfeedapp.utils.ArticleQueryUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
@@ -39,22 +43,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String URL_API = "https://content.guardianapis.com/search";
     private static final String ACTIVITY_NOT_FOUND_EXCEPTION = "ActivityNotFoundException";
     private static final int LOADER_ID = 1;
-    private TextView emptyTextView;
-    private View progressBar ;
     private ArticleArrayAdapter adapter  ;
 
+    @BindView(R.id.list)
+    ListView listView;
+    @BindView(R.id.no_article_text_view)
+    TextView emptyTextView;
+    @BindView(R.id.no_article_image)
+    ImageView image;
+    @BindView(R.id.indicator)
+    View progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         // set UI
         setUI();
 
-
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
+
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         boolean isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
 
@@ -62,16 +73,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // initiate  loader
             getLoaderManager().initLoader(LOADER_ID ,null ,this); // .forceLoad();
         }else {
-            emptyTextView.setText(getText(R.string.empty_text));
             progressBar.setVisibility(View.GONE);
+            image.setVisibility(View.VISIBLE);
+            image.setImageResource(R.drawable.icons8_disconnected);
+            emptyTextView.setText(getText(R.string.empty_text));
         }
-
     }
 
     private void setUI(){
-        ListView listView = findViewById(R.id.list);
-        emptyTextView = findViewById(R.id.empty_text_view);
-        progressBar = findViewById(R.id.indicator);
+
         adapter = new ArticleArrayAdapter(this, new ArrayList<Article>());
         listView.setEmptyView(emptyTextView);
         listView.setAdapter(adapter);
@@ -121,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (articleList != null && !articleList.isEmpty()){
             adapter.addAll(articleList);
         } else {
+            image.setVisibility(View.VISIBLE);
+            image.setImageResource(R.drawable.icons8_empty_box);
             emptyTextView.setText(getString(R.string.no_news_found));
         }
     }

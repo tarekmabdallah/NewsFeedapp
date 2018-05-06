@@ -13,13 +13,22 @@
         android:divider="@null"
         android:dividerHeight="@dimen/padding_value"
         android:padding="@dimen/padding_value">
-
     </ListView>
 
+    <ImageView
+        android:id="@+id/no_article_image"
+        android:layout_width="@dimen/no_article_image_height_width"
+        android:layout_height="@dimen/no_article_image_height_width"
+        android:layout_above="@id/no_article_text_view"
+        android:layout_centerInParent="true"
+        android:src="@drawable/icons8_empty_box"
+        android:visibility="gone" />
+
     <TextView
-        android:id="@+id/empty_text_view"
+        android:id="@+id/no_article_text_view"
         style="@style/text_style"
         android:layout_centerInParent="true"/>
+
 
     <ProgressBar
         android:id="@+id/indicator"
