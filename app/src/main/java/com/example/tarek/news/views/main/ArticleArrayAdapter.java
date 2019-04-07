@@ -1,5 +1,5 @@
 /*
-Copyright 2018 tarekmabdallah91@gmail.com
+Copyright 2019 tarekmabdallah91@gmail.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package com.example.tarek.newsfeedapp.adpater;
+package com.example.tarek.news.views.main;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -25,10 +25,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.tarek.newsfeedapp.R;
-import com.example.tarek.newsfeedapp.article.Article;
+import com.example.tarek.news.R;
+import com.example.tarek.news.models.Search.Article;
 
 import java.util.List;
+
 
 public class ArticleArrayAdapter extends ArrayAdapter<Article> {
 
@@ -41,7 +42,7 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
     private static final String EMPTY_TEXT = "";
 
 
-    public ArticleArrayAdapter(@NonNull Context context, List<Article> articles) {
+    ArticleArrayAdapter(@NonNull Context context, List<Article> articles) {
         super(context, 0 , articles);
         this.context = context;
     }
@@ -58,16 +59,17 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
             viewHolderItem.sectionTextView = rootView.findViewById(R.id.section);
             viewHolderItem.authorTextView = rootView.findViewById(R.id.author);
             viewHolderItem.dateTextView = rootView.findViewById(R.id.date);
-
             rootView.setTag(viewHolderItem);
         }else {
             viewHolderItem = (ViewHolderItem) rootView.getTag();
         }
         Article currentArticle = getItem(position);
-        viewHolderItem.titleTextView.setText(currentArticle.getTitle());
-        viewHolderItem.sectionTextView.setText(currentArticle.getSection());
-        viewHolderItem.authorTextView.setText(currentArticle.getAuthor());
-        viewHolderItem.dateTextView.setText(makeDateInTwoLines(currentArticle.getDate()));
+        if (currentArticle != null) { // TODO: 07-Apr-19 to get author name instead of type
+            viewHolderItem.titleTextView.setText(currentArticle.getWebTitle());
+            viewHolderItem.sectionTextView.setText(currentArticle.getSectionName());
+            viewHolderItem.authorTextView.setText(currentArticle.getType());
+            viewHolderItem.dateTextView.setText(makeDateInTwoLines(currentArticle.getWebPublicationDate()));
+        }
         return rootView;
     }
 

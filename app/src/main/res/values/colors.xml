@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-   Copyright 2018 tarekmabdallah91@gmail.com
+   Copyright 2019 tarekmabdallah91@gmail.com
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,8 +14,17 @@
    limitations under the License.
    -->
 <resources>
+
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorBackground">#b8eef9</color>
+    <color name="background_app">#b8eef9</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="dark_gray">@android:color/darker_gray</color>
+    <color name="text_color_sign_up">@android:color/darker_gray</color>
+    <color name="background_temp_image">#fff</color>
+    <color name="price_color">#abaaaa</color>
+    <color name="border_color">#9a9a9a</color>
+    <color name="background_gray">#dcdcdc</color>
 
 </resources>

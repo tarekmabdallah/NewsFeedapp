@@ -14,9 +14,9 @@
    limitations under the License.
    -->
 <resources>
-    <string name="app_name">News Feed app</string>
+    <string name="app_name">News app</string>
 
-    <string name="empty_text">Seems that is no internet connection\nplease check your internet connection</string>
+    <string name="no_connection">Sorry no internet connection\nplease check your connection and try again later\nOr click here to refresh</string>
 
     <string name="settings_activity_label">Settings</string>
 
@@ -51,5 +51,11 @@
 
     <string name="date_list_2015_label">2015</string>
     <string name="date_list_2015_default_value" translatable="false">2015-01-01</string>
+    <string name="throwable">throwable</string>
+    <string name="required_msg">required !</string>
+    <string name="special_chars_msg">Please, remove any special chars</string>
+    <string name="password_requirements_msg">password must have ,,,</string>
+    <string name="password_length_msg">Password must be more than 6 letters</string>
+    <string name="no_items_msg">Sorry, no Items for this page</string>
 
 </resources>
