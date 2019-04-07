@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.tarek.newsfeedapp.BuildConfig;
 import com.example.tarek.newsfeedapp.R;
 import com.example.tarek.newsfeedapp.adpater.ArticleArrayAdapter;
 import com.example.tarek.newsfeedapp.article.Article;
@@ -55,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String QUERY_CONTRIBUTOR_TAG = "show-tags";
     private static final String CONTRIBUTOR_VALUE = "contributor";
     private static final String QUERY_API_KEY_TAG = "api-key";
-    private static final String API_KEY_VALUE = "test";
+    // TODO: you can put your API key in gradle.properties like THE_GUARDIAN_API_KEY = "put_your_key_here"
+    private static final String API_KEY_VALUE = BuildConfig.ApiKey;
     private static final String URL_API = "https://content.guardianapis.com/search";
     private static final String ACTIVITY_NOT_FOUND_EXCEPTION = "ActivityNotFoundException";
     private static final int LOADER_ID = 1;
