@@ -41,8 +41,10 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,9 +54,15 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static com.example.tarek.news.utils.Constants.API_KEY;
 import static com.example.tarek.news.utils.Constants.COMMA;
+import static com.example.tarek.news.utils.Constants.CONTRIBUTOR_KEYWORD;
 import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
 import static com.example.tarek.news.utils.Constants.ONE;
+import static com.example.tarek.news.utils.Constants.QUERY_API_KEY_KEYWORD;
+import static com.example.tarek.news.utils.Constants.QUERY_TAGS_KEYWORD;
+import static com.example.tarek.news.utils.Constants.SPACE_REGEX;
+import static com.example.tarek.news.utils.Constants.TWO;
 import static com.example.tarek.news.utils.Constants.VALID_EMAIL_ADDRESS_REGEX;
 import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.Constants.makeTypeFaceLabelStyle;
@@ -138,6 +146,13 @@ public class ViewsUtils {
 
     public static String getTextFromEditText(EditText editText) {
         return editText.getText().toString().trim();
+    }
+
+    /**
+     * @return true if the @param entry is not empty else return false
+     */
+    public static boolean isValidString(String entry) {
+        return !entry.replaceAll(SPACE_REGEX, EMPTY_STRING).isEmpty();
     }
 
     /**
@@ -258,6 +273,13 @@ public class ViewsUtils {
                 .into(imageView);
     }
 
+    public static void loadImage(int imageResId, ImageView imageView) {
+        Picasso.get().load(imageResId)
+                .placeholder(R.drawable.progress_animated)
+                .error(R.drawable.progress_animated)
+                .into(imageView);
+    }
+
     /**
      * to control showing dialog fragments by tag
      */
@@ -342,30 +364,48 @@ public class ViewsUtils {
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-        boolean isConnected = networkInfo != null && networkInfo.isConnected();
-        if (!isConnected) showShortToastMsg(context, context.getString(R.string.no_connection));
-        return isConnected;
+        return networkInfo != null && networkInfo.isConnected();
+        //if (!isConnected) showShortToastMsg(context, context.getString(R.string.no_connection));
+        // return isConnected;
     }
 
     /**
      * to handle the failure msg in almost calls of the app
+     * views[0] progress bar
+     * views[1] TextView to show msg
+     * views[2] ImageView to show icon / image
+     * the views may have just 2 elements progressbar and textView so we check if length is > 2
      */
-    public static void showFailureMsg(View progressBar, TextView noDataTV, Throwable t) {
+    public static void showFailureMsg(Throwable t, int imageResIntId, View... views) {
+        View progressBar = views[ZERO];
+        TextView noDataTV = (TextView) views[ONE];
+        ImageView noDataIV;
+        if (TWO < views.length) {
+            noDataIV = (ImageView) views[TWO];
+            showNoDataImage(noDataIV, imageResIntId);
+        }
         showProgressBar(progressBar, false);
         String errorMsg = t.getMessage();
+        final String ERROR_TIMEOUT_CONNECTION = "NETWORK ERROR Read error"; //"NETWORK ERROR Read error: ssl=0xb47da400: I/O error during system call, Connection timed out"
         if (null != noDataTV) {
             Context context = noDataTV.getContext();
             Log.e(context.getClass().getSimpleName(), context.getString(R.string.throwable) + errorMsg);
-            if (!isConnected(context)) errorMsg = context.getString(R.string.no_connection);
+            if (errorMsg.contains(ERROR_TIMEOUT_CONNECTION))
+                errorMsg = context.getString(R.string.no_connection);
             showNoDataMsg(noDataTV, errorMsg);
         }
     }
 
-    private static void showNoDataMsg(TextView noDataTV, String msg) {
+    public static void showNoDataMsg(TextView noDataTV, String msg) {
         makeViewVisible(noDataTV);
         makeTypeFaceLabelStyle(noDataTV);
         if (null == msg) msg = "unknown error !";
         noDataTV.setText(msg);
+    }
+
+    public static void showNoDataImage(ImageView noDataIV, int imageResIntId) {
+        makeViewVisible(noDataIV);
+        loadImage(imageResIntId, noDataIV);
     }
 
     /**
@@ -431,6 +471,16 @@ public class ViewsUtils {
             makeViewGone(noDataTV);
             showToastMsgOnFailLoadingData(noDataTV.getContext(), msg);
         }
+    }
+
+    /**
+     * @return map contains API_KEY and CONTRIBUTOR_KEYWORD which are common in al most APIs
+     */
+    public static Map<String, String> getQueriesMap() {
+        Map<String, String> queries = new HashMap<>();
+        queries.put(QUERY_TAGS_KEYWORD, CONTRIBUTOR_KEYWORD);
+        queries.put(QUERY_API_KEY_KEYWORD, API_KEY);
+        return queries;
     }
 
 }

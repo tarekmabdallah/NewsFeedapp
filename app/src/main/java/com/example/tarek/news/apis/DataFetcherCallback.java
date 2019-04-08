@@ -16,8 +16,6 @@
 
 package com.example.tarek.news.apis;
 
-import retrofit2.Response;
-
 /**
  * interface to deal with Retrofit 2 cases and to get the the response or the failure case
  * that make we use ONE method for all Retrofit calls and then do the appropriate logic for each call
@@ -26,17 +24,13 @@ public interface DataFetcherCallback {
 
     /**
      * called when there is a successful response to view the data in the UI
-     *
-     * @param response -
      */
-    void onDataFetched(Response response);
+    void onDataFetched(Object body);
 
 
     /**
      * called when the call failed to get the response for any reason (each case is handled in the Method which deal with all calls in RetrofitWrapper)
-     *
-     * @param t-
      */
-    void onFailure(Throwable t);
+    void onFailure(Throwable t, int errorImageResId);
 
 }

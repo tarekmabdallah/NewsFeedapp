@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2019 tarekmabdallah91@gmail.com
  *
@@ -49,8 +48,10 @@ public class APIClient {
                 public synchronized okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
                     Request request = chain.request();
                     Request.Builder requestBuilder = request.newBuilder();
-                    requestBuilder.addHeader("Content-Type", "application/json");
+                    // requestBuilder.addHeader("Content-Type", "application/json");
+                    requestBuilder.addHeader("format", "json");
                     requestBuilder.addHeader("Accept-Language", "en-US");
+                    // requestBuilder.addHeader(QUERY_API_KEY_KEYWORD, API_KEY);
                     return chain.proceed(requestBuilder.build());
                 }
             };
@@ -90,6 +91,7 @@ public class APIClient {
      * @param dataFetcherCallback-
      */
     public static void getResponse(Call call, final DataFetcherCallback dataFetcherCallback) {
+        final int errorImageResId = android.R.drawable.stat_notify_error;
         call.clone().enqueue(new Callback() { // call.clone() to avoid java.lang.IllegalStateException: Already executed.
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) {
@@ -97,7 +99,7 @@ public class APIClient {
                 String message = response.message();
                 Throwable throwable;
                 if (response.isSuccessful())
-                    dataFetcherCallback.onDataFetched(response);
+                    dataFetcherCallback.onDataFetched(response.body());
                 else {
                     if (code == 401) // "UNAUTHENTICATED"
                         throwable = new Throwable("UNAUTHENTICATED" + message);
@@ -111,7 +113,7 @@ public class APIClient {
                         throwable = new Throwable(message);
                     else
                         throwable = new Throwable("FATAL ERROR\nUnexpected response " + message);
-                    dataFetcherCallback.onFailure(throwable);
+                    dataFetcherCallback.onFailure(throwable, errorImageResId);
                 }
             }
 
@@ -120,7 +122,7 @@ public class APIClient {
                 String message = t.getMessage();
                 if (t instanceof IOException) message = "NETWORK ERROR " + message;
                 else message = "FATAL ERROR\nUnexpected response " + message;
-                dataFetcherCallback.onFailure(new Throwable(message));
+                dataFetcherCallback.onFailure(new Throwable(message), errorImageResId);
             }
         });
     }

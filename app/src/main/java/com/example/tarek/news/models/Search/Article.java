@@ -20,6 +20,8 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Article {
 
     @SerializedName("sectionName")
@@ -54,6 +56,9 @@ public class Article {
 
     @SerializedName("type")
     private String type;
+
+    @SerializedName("tags")
+    private List<Tags> tags;
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
@@ -143,6 +148,14 @@ public class Article {
         return type;
     }
 
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
+    }
+
+    public List<Tags> getTags() {
+        return tags;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -159,6 +172,7 @@ public class Article {
                         ",id = '" + id + '\'' +
                         ",sectionId = '" + sectionId + '\'' +
                         ",type = '" + type + '\'' +
+                        ",tags = '" + tags + '\'' +
                         "}";
     }
 }

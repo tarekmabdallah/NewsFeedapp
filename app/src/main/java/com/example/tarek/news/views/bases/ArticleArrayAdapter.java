@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package com.example.tarek.news.views.main;
+package com.example.tarek.news.views.bases;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.tarek.news.R;
 import com.example.tarek.news.models.Search.Article;
+import com.example.tarek.news.models.Search.Tags;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
     private static final String EMPTY_TEXT = "";
 
 
-    ArticleArrayAdapter(@NonNull Context context, List<Article> articles) {
+    public ArticleArrayAdapter(@NonNull Context context, List<Article> articles) {
         super(context, 0 , articles);
         this.context = context;
     }
@@ -64,11 +65,13 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
             viewHolderItem = (ViewHolderItem) rootView.getTag();
         }
         Article currentArticle = getItem(position);
-        if (currentArticle != null) { // TODO: 07-Apr-19 to get author name instead of type
+        if (currentArticle != null) {
             viewHolderItem.titleTextView.setText(currentArticle.getWebTitle());
             viewHolderItem.sectionTextView.setText(currentArticle.getSectionName());
-            viewHolderItem.authorTextView.setText(currentArticle.getType());
             viewHolderItem.dateTextView.setText(makeDateInTwoLines(currentArticle.getWebPublicationDate()));
+            List<Tags> tags = currentArticle.getTags();
+            if (null != tags && !tags.isEmpty())
+                viewHolderItem.authorTextView.setText(tags.get(ZERO).getWebTitle());
         }
         return rootView;
     }

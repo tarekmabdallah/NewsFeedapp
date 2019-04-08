@@ -16,6 +16,8 @@ limitations under the License.
 
 package com.example.tarek.news.views;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -73,5 +75,9 @@ public class SettingsActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
+
+    public static Intent openSettingsActivity(Context context) {
+        return new Intent(context, SettingsActivity.class);
     }
 }

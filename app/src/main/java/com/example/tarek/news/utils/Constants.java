@@ -28,15 +28,22 @@ public class Constants {
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static final String SPACE_REGEX = "[\\s]";
     public static final String EMPTY_STRING = "";
     public static final String COMMA = ",";
     public static final String SPACE = " ";
     public static final String NEW_LINE = "\n";
+    public static final String QUERY_Q_KEYWORD = "q";
+    public static final String QUERY_API_KEY_KEYWORD = "api-key";
+    // to get the tags which contains the author name use this query and this value
+    public static final String QUERY_TAGS_KEYWORD = "show-tags";
+    public static final String CONTRIBUTOR_KEYWORD = "contributor";
 
     // TODO: you can put your API key in gradle.properties like THE_GUARDIAN_API_KEY = "put_your_key_here"
     public static final String API_KEY = BuildConfig.ApiKey;
     public static final String ACTIVITY_NOT_FOUND_EXCEPTION = "ActivityNotFoundException";
 
+    public static final int INVALID = -1;
     public static final int ZERO = 0;
     public static final int ONE = 1;
     public static final int TWO = 2;

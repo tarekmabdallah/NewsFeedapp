@@ -13,9 +13,17 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_search"
+        android:title="@string/search_label"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/item_settings"
-        android:title="@string/settings_activity_label" />
+        android:title="@string/settings_activity_label"
+        app:showAsAction="never" />
 </menu>

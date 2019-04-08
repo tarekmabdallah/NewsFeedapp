@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.tarek.news.apis;
+package com.example.tarek.news.views.bases;
 
-import com.example.tarek.news.models.Search.ResponseSearchForKeyWord;
+import android.view.Menu;
 
-import java.util.Map;
+public abstract class BaseActivityNoMenu extends BaseActivity {
 
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.QueryMap;
-
-public interface APIServices {
-
-    @GET("search")
-    Call<ResponseSearchForKeyWord> searchForKeyword(@QueryMap Map<String, String> queries);
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
+    }
 }

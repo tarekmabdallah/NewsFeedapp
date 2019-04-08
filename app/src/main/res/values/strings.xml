@@ -16,7 +16,7 @@
 <resources>
     <string name="app_name">News app</string>
 
-    <string name="no_connection">Sorry no internet connection\nplease check your connection and try again later\nOr click here to refresh</string>
+    <string name="no_connection">Sorry no internet connection\nplease check your connection\nand try again later</string>
 
     <string name="settings_activity_label">Settings</string>
 
@@ -57,5 +57,7 @@
     <string name="password_requirements_msg">password must have ,,,</string>
     <string name="password_length_msg">Password must be more than 6 letters</string>
     <string name="no_items_msg">Sorry, no Items for this page</string>
+    <string name="no_browser_msg">Sorry, You don\'t have a browser app or any app can open this page</string>
+    <string name="search_label">Search</string>
 
 </resources>
