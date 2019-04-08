@@ -16,8 +16,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".views.main.MainActivity">
+    android:layout_height="match_parent">
 
     <SearchView
         android:id="@+id/search_view"
@@ -28,13 +27,22 @@
         android:layout_alignParentTop="true" />
 
     <ListView
+        android:id="@+id/search_history_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/dark_gray"
+        android:dividerHeight="@dimen/space2"
+        android:padding="@dimen/space16"
+        android:layout_below="@id/search_view"/>
+
+    <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"
         android:dividerHeight="@dimen/space8"
         android:padding="@dimen/space8"
-        android:layout_below="@id/search_view"></ListView>
+        android:layout_below="@id/search_view"/>
 
     <include
         layout="@layout/progress_bar_no_data_tv_layout"

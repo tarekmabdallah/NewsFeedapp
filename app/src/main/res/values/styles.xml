@@ -48,4 +48,38 @@
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
+    <style name="icons_style">
+        <item name="android:layout_width">@dimen/icons_size</item>
+        <item name="android:layout_height">@dimen/icons_size</item>
+    </style>
+
+    <style name="medium_icons_style">
+    <item name="android:layout_width">@dimen/medium_icons_size</item>
+    <item name="android:layout_height">@dimen/medium_icons_size</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="large_text_style" parent="text_style">
+        <item name="android:textAppearance">@android:style/TextAppearance.Holo.Widget.ActionBar.Title</item>
+    </style>
+
+    <style name="medium_text_style" parent="text_style">
+        <item name="android:textAppearance">@android:style/TextAppearance.Holo.Medium</item>
+        <item name="android:textSize">@dimen/spinner_item_size</item>
+    </style>
+
+    <style name="small_text_style" parent="text_style">
+        <item name="android:textAppearance">@android:style/TextAppearance.Holo.Small</item>
+    </style>
+
+    <!--an other style for TV as Spinner >> style="@android:style/Widget.Holo.Spinner" /> -->
+    <style name="text_view_with_spinner_layout_style" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Holo.Medium</item>
+        <item name="android:textSize">@dimen/spinner_item_size</item>
+    </style>
+
+
 </resources>

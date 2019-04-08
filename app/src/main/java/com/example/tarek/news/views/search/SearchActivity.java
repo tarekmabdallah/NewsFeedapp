@@ -20,7 +20,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.KeyEvent;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,6 +29,7 @@ import android.widget.SearchView;
 import com.example.tarek.news.R;
 import com.example.tarek.news.apis.APIClient;
 import com.example.tarek.news.apis.APIServices;
+import com.example.tarek.news.data.sp.SharedPreferencesHelper;
 import com.example.tarek.news.models.Search.Article;
 import com.example.tarek.news.models.Search.ResponseSearchForKeyWord;
 import com.example.tarek.news.views.bases.ArticleArrayAdapter;
@@ -42,20 +43,29 @@ import butterknife.BindView;
 import retrofit2.Call;
 
 import static com.example.tarek.news.apis.APIClient.getResponse;
+import static com.example.tarek.news.utils.Constants.FIVE;
 import static com.example.tarek.news.utils.Constants.QUERY_Q_KEYWORD;
+import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
 import static com.example.tarek.news.utils.ViewsUtils.isValidString;
+import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
+import static com.example.tarek.news.utils.ViewsUtils.makeViewVisible;
 
 public class SearchActivity extends BaseActivityNoMenu {
 
     private ArticleArrayAdapter adapter;
 
     @BindView(R.id.list_view)
-    ListView listView;
+    ListView articlesListView;
     @BindView(R.id.search_view)
     SearchView searchView;
+    @BindView(R.id.search_history_list_view)
+    ListView searchHistoryListView;
 
+    private SharedPreferencesHelper sharedPreferencesHelper;
     private Map<String, String> queries;
+    private List<String> searchHistoryList;
+    private SearchHistoryAdapter searchHistoryAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -64,22 +74,24 @@ public class SearchActivity extends BaseActivityNoMenu {
 
     @Override
     protected void initiateValues() {
+        sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
         queries = getQueriesMap();
         setListView();
+        setSearchHistoryListView();
         setSearchView();
-        setEnterSoftKeyboardListener();
     }
 
     @Override
     protected void setUI() {
         String searchKeyword = getSearchKeyword();
         if (isValidString(searchKeyword)) super.setUI();
+        else makeViewVisible(searchHistoryListView);
     }
 
     private void setListView() {
         adapter = new ArticleArrayAdapter(this, new ArrayList<Article>());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        articlesListView.setAdapter(adapter);
+        articlesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Article article = adapter.getItem(position);
@@ -96,14 +108,66 @@ public class SearchActivity extends BaseActivityNoMenu {
         });
     }
 
+    public void setSearchHistoryListView() {
+        searchHistoryAdapter = new SearchHistoryAdapter(this);
+        updateSearchAdapter();
+        onClickItemListener onClickItemListener = new onClickItemListener() {
+                @Override
+                public void onClickItem(String item) {
+                    searchForKeyWord(item);
+                    makeViewGone(searchHistoryListView);
+                }
+
+                @Override
+                public void removeItem(String item) {
+                    updateSearchHistory(item, false);
+                }
+            };
+        searchHistoryAdapter.setItemListener(onClickItemListener);
+        searchHistoryListView.setAdapter(searchHistoryAdapter);
+    }
+
+    private void updateSearchHistory(String keyword, boolean isToAdd){
+        if (isToAdd){
+            if (!searchHistoryList.contains(keyword))searchHistoryList.add(keyword);
+            if (searchHistoryList.size() > FIVE) searchHistoryList.remove(ZERO);
+        }else {
+            searchHistoryList.remove(keyword);
+        }
+        sharedPreferencesHelper.saveSearchHistory(searchHistoryList);
+        updateSearchAdapter();
+    }
+
+    private void updateSearchAdapter (){
+        searchHistoryList = sharedPreferencesHelper.getSearchHistory(); // to get arranged list
+        searchHistoryAdapter.clear();
+        searchHistoryAdapter.addAll(searchHistoryList);
+    }
+
+    /**
+     * to save the keyword in search after 2 seconds
+     * https://stackoverflow.com/questions/35224459/how-to-detect-if-users-stop-typing-in-edittext-android
+     */
+    private final int DELAY = 2000; // 2 seconds after user stoped typing
+    private long lastTextEdit = ZERO;
+    Handler handler = new Handler();
+    private Runnable inputFinishChecker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (lastTextEdit + DELAY - 500)) {
+                String searchKeyword = getSearchKeyword();
+                if (isValidString(searchKeyword)) updateSearchHistory(searchKeyword, true);
+                else makeViewVisible(searchHistoryListView);
+            }
+        }
+    };
+
     public void setSearchView() {
-        // TODO: 08-Apr-19 to save last 5 search words in shared preferences
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            /**
-             * called when the user clicked on the search Icon in the keyboard
-             */
+
             @Override
             public boolean onQueryTextSubmit(String query) {
+                // called when the user clicked on the search Icon in the keyboard
+                updateSearchHistory(query, true);
                 searchForKeyWord(query);
                 return false;
             }
@@ -111,31 +175,19 @@ public class SearchActivity extends BaseActivityNoMenu {
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchForKeyWord(newText);
+                lastTextEdit = System.currentTimeMillis();
+                handler.postDelayed(inputFinishChecker, DELAY);
                 return false;
             }
         });
-    }
-
-    /**
-     * to call searchForKeyWord method when the search icon in the keyboard is clicked
-     */
-    private void setEnterSoftKeyboardListener() {
-        searchView.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    switch (keyCode) {
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_ENTER:
-                            String searchKeyword = getSearchKeyword();
-                            searchForKeyWord(searchKeyword);
-                            return true;
-                        default:
-                            break;
-                    }
-                }
-                return false;
+        View.OnClickListener onClickSearchViewListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeViewVisible(searchHistoryListView);
+                makeViewGone(articlesListView);
             }
-        });
+        };
+        searchView.setOnClickListener(onClickSearchViewListener);
     }
 
     /**
@@ -146,7 +198,7 @@ public class SearchActivity extends BaseActivityNoMenu {
         if (isValidString(searchKeyword)) {
             queries.put(QUERY_Q_KEYWORD, searchKeyword);
             callAPi();
-        }
+        } else makeViewVisible(searchHistoryListView);
     }
 
     private String getSearchKeyword() {
@@ -167,6 +219,8 @@ public class SearchActivity extends BaseActivityNoMenu {
             List<Article> articleList = responseSearchForKeyWord.getResponse().getItems();
             if (articleList != null && !articleList.isEmpty()) {
                 adapter.addAll(articleList);
+                makeViewVisible(articlesListView);
+                makeViewGone(searchHistoryListView);
             } else handleNoDataFromResponse();
         }
     }

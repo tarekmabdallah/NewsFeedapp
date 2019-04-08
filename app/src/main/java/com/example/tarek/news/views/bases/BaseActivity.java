@@ -49,7 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
 
     // TODO: 07-Apr-19 to save some articles using Room db
     // TODO: 07-Apr-19 to use paging
-    // TODO: 07-Apr-19 to use shared preferences to save some data
     // TODO: 07-Apr-19 to use Fb sdk for logging
     // TODO: 07-Apr-19 to use firebase for crash analytics and messing
     // TODO: 07-Apr-19 to use the rest APIs

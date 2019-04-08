@@ -41,13 +41,16 @@ public class Constants {
 
     // TODO: you can put your API key in gradle.properties like THE_GUARDIAN_API_KEY = "put_your_key_here"
     public static final String API_KEY = BuildConfig.ApiKey;
-    public static final String ACTIVITY_NOT_FOUND_EXCEPTION = "ActivityNotFoundException";
+
+    public static final String SEARCH_HISTORY_KEYWORD = "search history";
 
     public static final int INVALID = -1;
     public static final int ZERO = 0;
     public static final int ONE = 1;
     public static final int TWO = 2;
     public static final int THREE = 3;
+    public static final int FOUR = 4;
+    public static final int FIVE = 5;
 
     // these all methods used to set Font to the TextViews / EditTexts
     private static Typeface buttonTypeFace(Context context) {
