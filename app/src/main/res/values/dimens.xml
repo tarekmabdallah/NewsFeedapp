@@ -24,14 +24,15 @@
     <dimen name="space16">16dp</dimen>
     <dimen name="space32">32dp</dimen>
     <dimen name="space64">64dp</dimen>
-    <dimen name="text_size">20sp</dimen>
-    <dimen name="title_text_size">20sp</dimen>
-    <dimen name="details_text_size">14sp</dimen>
+
 
     <dimen name="msg_image_height_width">150dp</dimen>
     <dimen name="icons_size">24dp</dimen>
     <dimen name="medium_icons_size">16dp</dimen>
 
     <dimen name="no_data_text_size">16sp</dimen>
-    <dimen name="spinner_item_size">16sp</dimen>
+    <dimen name="list_item_size">20sp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="details_text_size">14sp</dimen>
 </resources>

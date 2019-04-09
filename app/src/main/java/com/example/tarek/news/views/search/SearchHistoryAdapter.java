@@ -35,7 +35,7 @@ public class SearchHistoryAdapter extends ArrayAdapter<String> {
 
     private onClickItemListener itemListener;
 
-    SearchHistoryAdapter(Context context) {
+    public SearchHistoryAdapter(Context context) {
         super(context, ZERO);
     }
 

@@ -26,8 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.models.Search.Article;
-import com.example.tarek.news.models.Search.Fields;
+import com.example.tarek.news.models.search.Article;
+import com.example.tarek.news.models.search.Fields;
 
 import java.util.List;
 

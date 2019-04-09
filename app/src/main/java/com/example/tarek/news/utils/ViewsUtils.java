@@ -363,8 +363,6 @@ public class ViewsUtils {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
         return networkInfo != null && networkInfo.isConnected();
-        //if (!isConnected) showShortToastMsg(context, context.getString(R.string.no_connection));
-        // return isConnected;
     }
 
     /**
@@ -462,22 +460,11 @@ public class ViewsUtils {
     }
 
     /**
-     * to handle the error which contains model state keyword
-     */
-    private static void handleModelStateCase(TextView noDataTV, String msg) {
-        if (null != noDataTV) {
-            makeViewGone(noDataTV);
-            showToastMsgOnFailLoadingData(noDataTV.getContext(), msg);
-        }
-    }
-
-    /**
-     * @return map contains API_KEY and CONTRIBUTOR_KEYWORD which are common in al most APIs
+     * @return map contains SHOW_FIELDS to get articles fields
      */
     public static Map<String, Object> getQueriesMap() {
         Map<String, Object> queries = new HashMap<>();
         queries.put(SHOW_FIELDS, ARTICLE_FIELDS);
-//        queries.put(QUERY_TAGS_KEYWORD, CONTRIBUTOR_KEYWORD); it was used just to get the author name, and now it returns also in the ARTICLE_FIELDS
         return queries;
     }
 

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.example.tarek.news.views.main;
+package com.example.tarek.news.views.sections;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -26,12 +27,10 @@ import android.widget.ListView;
 import com.example.tarek.news.R;
 import com.example.tarek.news.apis.APIClient;
 import com.example.tarek.news.apis.APIServices;
-import com.example.tarek.news.models.search.Article;
-import com.example.tarek.news.models.search.ResponseSearchForKeyWord;
-import com.example.tarek.news.views.bases.ArticleArrayAdapter;
+import com.example.tarek.news.models.sections.ResponseSections;
+import com.example.tarek.news.models.sections.Section;
 import com.example.tarek.news.views.bases.BaseActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,19 +38,19 @@ import butterknife.BindView;
 import retrofit2.Call;
 
 import static com.example.tarek.news.apis.APIClient.getResponse;
-import static com.example.tarek.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
 
-public class MainActivity extends BaseActivity {
+public class SectionsActivity extends BaseActivity {
 
     @BindView(R.id.list_view)
     ListView listView;
 
-    private ArticleArrayAdapter adapter  ;
+    private SectionsAdapter sectionsAdapter;
+    private List<Section> sectionList;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_main;
+        return R.layout.activity_sections;
     }
 
     @Override
@@ -60,16 +59,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setListView() {
-        adapter = new ArticleArrayAdapter(this, new ArrayList<Article>());
-        listView.setAdapter(adapter);
+        sectionsAdapter = new SectionsAdapter(this);
+        listView.setAdapter(sectionsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Article article = adapter.getItem(position);
+                // TODO: 09-Apr-19 to create activity or fragment to show articles from search or any other usage
+                // TODO: 09-Apr-19 to  create one method to open articles in browser
+                // TODO: 09-Apr-19 to create webView activity to open articles with HTML formated texts   
+                Section section = sectionList.get(position);
                 try {
                     Intent openWebPage;
-                    if (article != null) {
-                        openWebPage = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getWebUrl()));
+                    if (section != null) {
+                        openWebPage = new Intent(Intent.ACTION_VIEW, Uri.parse(section.getWebUrl()));
                         startActivity(openWebPage);
                     }
                 } catch (ActivityNotFoundException e) {
@@ -82,20 +84,25 @@ public class MainActivity extends BaseActivity {
     protected void callAPi() {
         APIServices apiServices = APIClient.getInstance(this).create(APIServices.class);
         Map<String, Object> queries = getQueriesMap();
-        queries.put(QUERY_Q_KEYWORD, "egypt");
-        Call<ResponseSearchForKeyWord> searchForKeyWord = apiServices.searchForKeyword(queries);
-        getResponse(searchForKeyWord, this);
+        Call<ResponseSections> callSections = apiServices.getSections(queries);
+        getResponse(callSections, this);
     }
 
     @Override
     protected void whenDataFetchedGetResponse(Object response) {
-        adapter.clear();
-        if (response instanceof ResponseSearchForKeyWord) {
-            ResponseSearchForKeyWord responseSearchForKeyWord = (ResponseSearchForKeyWord) response;
-            List<Article> articleList = responseSearchForKeyWord.getResponse().getItems();
-            if (articleList != null && !articleList.isEmpty()) {
-                adapter.addAll(articleList);
+        sectionsAdapter.clear();
+        if (response instanceof ResponseSections) {
+            ResponseSections responseSections = (ResponseSections) response;
+            sectionList = responseSections.getResponse().getResults();
+            if (sectionList != null && !sectionList.isEmpty()) {
+                for (Section section: sectionList) {
+                    sectionsAdapter.add(section.getWebTitle());
+                }
             } else handleNoDataFromResponse();
         }
+    }
+
+    public static Intent openSectionsActivity (Context context){
+        return new Intent(context, SectionsActivity.class);
     }
 }

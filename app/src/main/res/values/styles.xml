@@ -46,6 +46,8 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:layout_margin">@dimen/space4</item>
+        <item name="android:padding">@dimen/space4</item>
     </style>
 
     <style name="icons_style">
@@ -66,7 +68,13 @@
 
     <style name="medium_text_style" parent="text_style">
         <item name="android:textAppearance">@android:style/TextAppearance.Holo.Medium</item>
-        <item name="android:textSize">@dimen/spinner_item_size</item>
+    </style>
+
+    <style name="list_item_style" parent="medium_text_style">
+        <item name="android:textSize">@dimen/list_item_size</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_margin">@dimen/space8</item>
+        <item name="android:padding">@dimen/space16</item>
     </style>
 
     <style name="small_text_style" parent="text_style">
@@ -78,7 +86,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Holo.Medium</item>
-        <item name="android:textSize">@dimen/spinner_item_size</item>
+        <item name="android:textSize">@dimen/list_item_size</item>
     </style>
 
 

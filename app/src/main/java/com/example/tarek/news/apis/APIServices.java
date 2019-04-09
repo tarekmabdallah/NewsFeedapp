@@ -16,7 +16,8 @@
 
 package com.example.tarek.news.apis;
 
-import com.example.tarek.news.models.Search.ResponseSearchForKeyWord;
+import com.example.tarek.news.models.search.ResponseSearchForKeyWord;
+import com.example.tarek.news.models.sections.ResponseSections;
 
 import java.util.Map;
 
@@ -33,4 +34,8 @@ public interface APIServices {
     @GET("search")
     Call<ResponseSearchForKeyWord> searchForKeyword(@QueryMap Map<String, Object> queries);
 
+
+    @Headers({HEADER_API_KEY})
+    @GET("sections")
+    Call<ResponseSections> getSections(@QueryMap Map<String, Object> queries);
 }

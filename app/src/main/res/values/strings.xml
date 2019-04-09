@@ -59,5 +59,6 @@
     <string name="no_items_msg">Sorry, no Items for this page</string>
     <string name="no_browser_msg">Sorry, You don\'t have a browser app or any app can open this page</string>
     <string name="search_label">Search</string>
+    <string name="sections_label">Sections</string>
 
 </resources>

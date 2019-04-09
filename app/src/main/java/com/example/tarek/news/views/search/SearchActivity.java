@@ -30,8 +30,8 @@ import com.example.tarek.news.R;
 import com.example.tarek.news.apis.APIClient;
 import com.example.tarek.news.apis.APIServices;
 import com.example.tarek.news.data.sp.SharedPreferencesHelper;
-import com.example.tarek.news.models.Search.Article;
-import com.example.tarek.news.models.Search.ResponseSearchForKeyWord;
+import com.example.tarek.news.models.search.Article;
+import com.example.tarek.news.models.search.ResponseSearchForKeyWord;
 import com.example.tarek.news.views.bases.ArticleArrayAdapter;
 import com.example.tarek.news.views.bases.BaseActivityNoMenu;
 
@@ -148,7 +148,7 @@ public class SearchActivity extends BaseActivityNoMenu {
      * to save the keyword in search after 2 seconds
      * https://stackoverflow.com/questions/35224459/how-to-detect-if-users-stop-typing-in-edittext-android
      */
-    private final int DELAY = 2000; // 2 seconds after user stoped typing
+    private final int DELAY = 2000; // 2 seconds after user stopped typing
     private long lastTextEdit = ZERO;
     Handler handler = new Handler();
     private Runnable inputFinishChecker = new Runnable() {

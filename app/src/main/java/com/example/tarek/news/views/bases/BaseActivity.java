@@ -17,6 +17,7 @@
 package com.example.tarek.news.views.bases;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -31,12 +32,14 @@ import com.example.tarek.news.apis.DataFetcherCallback;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.ViewsUtils.isConnected;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
 import static com.example.tarek.news.utils.ViewsUtils.showFailureMsg;
 import static com.example.tarek.news.utils.ViewsUtils.showProgressBar;
 import static com.example.tarek.news.utils.ViewsUtils.showShortToastMsg;
 import static com.example.tarek.news.views.search.SearchActivity.openSearchActivity;
+import static com.example.tarek.news.views.sections.SectionsActivity.openSectionsActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements DataFetcherCallback {
 
@@ -99,7 +102,7 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
 //            startActivity(openSettingsActivity(this));
             showShortToastMsg(this, "sorry, not ready now");
         else if (id == R.id.item_search) startActivity(openSearchActivity(this));
-
+        else if (id == R.id.item_sections) startActivity(openSectionsActivity(this));
         return true;
     }
 
@@ -139,6 +142,7 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
     protected void loadData() {
         showProgressBar(progressBar, true);
         callAPi();
+        makeViewGone(errorIV, errorTV);
     }
 
     /**
@@ -164,12 +168,26 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
     }
 
     /**
-     * if there is not internet connection before calling the api
+     * if there is not internet connection before calling the api and refresh after 1 second
      */
     protected void handleCaseNoConnection() {
         Throwable noInternetConnectionThrowable = new Throwable(getString(R.string.no_connection));
         onFailure(noInternetConnectionThrowable, R.drawable.icons8_disconnected);
+        lastTextEdit = System.currentTimeMillis();
+        handler.postDelayed(inputFinishChecker, DELAY);
     }
+
+
+    private final int DELAY = 1000; // to refresh after 1 second
+    private long lastTextEdit = ZERO;
+    Handler handler = new Handler();
+    private Runnable inputFinishChecker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (lastTextEdit + DELAY - 500)) {
+                setUI();
+            }
+        }
+    };
 
     /**
      * override it to getIntent and call it where you need it
