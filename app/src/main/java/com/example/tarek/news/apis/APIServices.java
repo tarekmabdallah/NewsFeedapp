@@ -22,11 +22,15 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.QueryMap;
+
+import static com.example.tarek.news.utils.Constants.HEADER_API_KEY;
 
 public interface APIServices {
 
+    @Headers({HEADER_API_KEY}) /*HEADER_FORMAT, HEADER_LANG,  are set in the interceptor in APIClient */
     @GET("search")
-    Call<ResponseSearchForKeyWord> searchForKeyword(@QueryMap Map<String, String> queries);
+    Call<ResponseSearchForKeyWord> searchForKeyword(@QueryMap Map<String, Object> queries);
 
 }

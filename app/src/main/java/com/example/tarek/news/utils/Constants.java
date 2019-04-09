@@ -38,9 +38,16 @@ public class Constants {
     // to get the tags which contains the author name use this query and this value
     public static final String QUERY_TAGS_KEYWORD = "show-tags";
     public static final String CONTRIBUTOR_KEYWORD = "contributor";
+    public static final String SHOW_FIELDS = "show-fields";
+    public static final String ARTICLE_FIELDS = "trailText,headline,standfirst,byline,main,body"; // CAN ALSO USE "all" to get all fields
 
     // TODO: you can put your API key in gradle.properties like THE_GUARDIAN_API_KEY = "put_your_key_here"
     public static final String API_KEY = BuildConfig.ApiKey;
+
+    // HEADER'S DATA
+    public static final String HEADER_FORMAT = "format: json";
+    public static final String HEADER_LANG = "Accept-Language: en-US";
+    public static final String HEADER_API_KEY = QUERY_API_KEY_KEYWORD + ": " + API_KEY;
 
     public static final String SEARCH_HISTORY_KEYWORD = "search history";
 

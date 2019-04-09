@@ -63,7 +63,7 @@ public class SearchActivity extends BaseActivityNoMenu {
     ListView searchHistoryListView;
 
     private SharedPreferencesHelper sharedPreferencesHelper;
-    private Map<String, String> queries;
+    private Map<String, Object> queries;
     private List<String> searchHistoryList;
     private SearchHistoryAdapter searchHistoryAdapter;
 

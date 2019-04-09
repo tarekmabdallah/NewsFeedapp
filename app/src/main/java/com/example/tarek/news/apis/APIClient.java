@@ -43,6 +43,7 @@ public class APIClient {
 
     public static Retrofit getInstance(final Context context) {
         if (retrofit == null) {
+
             Interceptor interceptor = new Interceptor() {
                 @Override
                 public synchronized okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
@@ -51,7 +52,7 @@ public class APIClient {
                     // requestBuilder.addHeader("Content-Type", "application/json");
                     requestBuilder.addHeader("format", "json");
                     requestBuilder.addHeader("Accept-Language", "en-US");
-                    // requestBuilder.addHeader(QUERY_API_KEY_KEYWORD, API_KEY);
+                   // requestBuilder.addHeader(QUERY_API_KEY_KEYWORD, API_KEY); // API's does not read it here so not used as the header is set in each Call in APIServices
                     return chain.proceed(requestBuilder.build());
                 }
             };
@@ -102,7 +103,7 @@ public class APIClient {
                     dataFetcherCallback.onDataFetched(response.body());
                 else {
                     if (code == 401) // "UNAUTHENTICATED"
-                        throwable = new Throwable("UNAUTHENTICATED" + message);
+                        throwable = new Throwable(message);
                     else if (code == 403) // incorrect credentials
                         throwable = new Throwable("incorrect credentials " + message);
                     else if (code == 422) // "Unprocessable Entity" // in pay mob that means that the order id is duplicated and this id is sent before

@@ -54,13 +54,11 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static com.example.tarek.news.utils.Constants.API_KEY;
+import static com.example.tarek.news.utils.Constants.ARTICLE_FIELDS;
 import static com.example.tarek.news.utils.Constants.COMMA;
-import static com.example.tarek.news.utils.Constants.CONTRIBUTOR_KEYWORD;
 import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
 import static com.example.tarek.news.utils.Constants.ONE;
-import static com.example.tarek.news.utils.Constants.QUERY_API_KEY_KEYWORD;
-import static com.example.tarek.news.utils.Constants.QUERY_TAGS_KEYWORD;
+import static com.example.tarek.news.utils.Constants.SHOW_FIELDS;
 import static com.example.tarek.news.utils.Constants.SPACE_REGEX;
 import static com.example.tarek.news.utils.Constants.TWO;
 import static com.example.tarek.news.utils.Constants.VALID_EMAIL_ADDRESS_REGEX;
@@ -476,10 +474,10 @@ public class ViewsUtils {
     /**
      * @return map contains API_KEY and CONTRIBUTOR_KEYWORD which are common in al most APIs
      */
-    public static Map<String, String> getQueriesMap() {
-        Map<String, String> queries = new HashMap<>();
-        queries.put(QUERY_TAGS_KEYWORD, CONTRIBUTOR_KEYWORD);
-        queries.put(QUERY_API_KEY_KEYWORD, API_KEY);
+    public static Map<String, Object> getQueriesMap() {
+        Map<String, Object> queries = new HashMap<>();
+        queries.put(SHOW_FIELDS, ARTICLE_FIELDS);
+//        queries.put(QUERY_TAGS_KEYWORD, CONTRIBUTOR_KEYWORD); it was used just to get the author name, and now it returns also in the ARTICLE_FIELDS
         return queries;
     }
 

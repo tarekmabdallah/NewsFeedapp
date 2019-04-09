@@ -57,8 +57,11 @@ public class Article {
     @SerializedName("type")
     private String type;
 
+    @SerializedName("fields")
+    private Fields fields;
+
     @SerializedName("tags")
-    private List<Tags> tags;
+    private List<Tags> tags; //it was used just to get the author name, and now it returns also in fields
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
@@ -156,6 +159,14 @@ public class Article {
         return tags;
     }
 
+    public void setFields(Fields fields) {
+        this.fields = fields;
+    }
+
+    public Fields getFields() {
+        return fields;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -172,6 +183,7 @@ public class Article {
                         ",id = '" + id + '\'' +
                         ",sectionId = '" + sectionId + '\'' +
                         ",type = '" + type + '\'' +
+                        ",fields = '" + fields + '\'' +
                         ",tags = '" + tags + '\'' +
                         "}";
     }

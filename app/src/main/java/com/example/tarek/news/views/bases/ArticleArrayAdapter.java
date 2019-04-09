@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.example.tarek.news.R;
 import com.example.tarek.news.models.Search.Article;
-import com.example.tarek.news.models.Search.Tags;
+import com.example.tarek.news.models.Search.Fields;
 
 import java.util.List;
 
@@ -69,9 +69,8 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
             viewHolderItem.titleTextView.setText(currentArticle.getWebTitle());
             viewHolderItem.sectionTextView.setText(currentArticle.getSectionName());
             viewHolderItem.dateTextView.setText(makeDateInTwoLines(currentArticle.getWebPublicationDate()));
-            List<Tags> tags = currentArticle.getTags();
-            if (null != tags && !tags.isEmpty())
-                viewHolderItem.authorTextView.setText(tags.get(ZERO).getWebTitle());
+            Fields fields = currentArticle.getFields();
+            if (null != fields) viewHolderItem.authorTextView.setText(fields.getAuthorName());
         }
         return rootView;
     }

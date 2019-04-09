@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
 
     protected void callAPi() {
         APIServices apiServices = APIClient.getInstance(this).create(APIServices.class);
-        Map<String, String> queries = getQueriesMap();
+        Map<String, Object> queries = getQueriesMap();
         queries.put(QUERY_Q_KEYWORD, "egypt");
         Call<ResponseSearchForKeyWord> searchForKeyWord = apiServices.searchForKeyword(queries);
         getResponse(searchForKeyWord, this);
