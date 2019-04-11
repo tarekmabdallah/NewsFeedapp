@@ -16,10 +16,8 @@
 
 package com.example.tarek.news.views.sections;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -39,6 +37,7 @@ import retrofit2.Call;
 
 import static com.example.tarek.news.apis.APIClient.getResponse;
 import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
+import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
 
 public class SectionsActivity extends BaseActivity {
 
@@ -64,18 +63,8 @@ public class SectionsActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: 09-Apr-19 to  create one method to open articles in browser
-                // TODO: 09-Apr-19 to create webView activity to open articles with HTML formated texts   
                 Section section = sectionList.get(position);
-                try {
-                    Intent openWebPage;
-                    if (section != null) {
-                        openWebPage = new Intent(Intent.ACTION_VIEW, Uri.parse(section.getWebUrl()));
-                        startActivity(openWebPage);
-                    }
-                } catch (ActivityNotFoundException e) {
-                    showToastMsg(getString(R.string.no_browser_msg));
-                }
+                openSectionActivity(getBaseContext(), section.getId());
             }
         });
     }

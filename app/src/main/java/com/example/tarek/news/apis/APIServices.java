@@ -16,7 +16,8 @@
 
 package com.example.tarek.news.apis;
 
-import com.example.tarek.news.models.search.ResponseSearchForKeyWord;
+import com.example.tarek.news.models.articles.ResponseSearchForKeyWord;
+import com.example.tarek.news.models.section.ResponseSection;
 import com.example.tarek.news.models.sections.ResponseSections;
 
 import java.util.Map;
@@ -24,18 +25,24 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 import static com.example.tarek.news.utils.Constants.HEADER_API_KEY;
 
 public interface APIServices {
 
+//    https://square.github.io/retrofit/
+
     @Headers({HEADER_API_KEY}) /*HEADER_FORMAT, HEADER_LANG,  are set in the interceptor in APIClient */
     @GET("search")
     Call<ResponseSearchForKeyWord> searchForKeyword(@QueryMap Map<String, Object> queries);
 
-
     @Headers({HEADER_API_KEY})
     @GET("sections")
     Call<ResponseSections> getSections(@QueryMap Map<String, Object> queries);
+
+    @Headers({HEADER_API_KEY})
+    @GET("{section}")
+    Call<ResponseSection> getSectionArticles(@Path("section") String section, @QueryMap Map<String, Object> queries);
 }

@@ -60,5 +60,6 @@
     <string name="no_browser_msg">Sorry, You don\'t have a browser app or any app can open this page</string>
     <string name="search_label">Search</string>
     <string name="sections_label">Sections</string>
+    <string name="article_details_label">Details</string>
 
 </resources>

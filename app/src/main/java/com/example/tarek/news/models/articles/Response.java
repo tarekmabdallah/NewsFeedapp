@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.tarek.news.models.search;
+package com.example.tarek.news.models.articles;
 
 import android.support.annotation.NonNull;
 

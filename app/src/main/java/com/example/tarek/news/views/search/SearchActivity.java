@@ -28,8 +28,8 @@ import com.example.tarek.news.R;
 import com.example.tarek.news.apis.APIClient;
 import com.example.tarek.news.apis.APIServices;
 import com.example.tarek.news.data.sp.SharedPreferencesHelper;
-import com.example.tarek.news.models.search.Article;
-import com.example.tarek.news.models.search.ResponseSearchForKeyWord;
+import com.example.tarek.news.models.articles.Article;
+import com.example.tarek.news.models.articles.ResponseSearchForKeyWord;
 import com.example.tarek.news.views.bases.BaseActivityNoMenu;
 
 import java.util.List;
@@ -46,7 +46,7 @@ import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
 import static com.example.tarek.news.utils.ViewsUtils.isValidString;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewVisible;
-import static com.example.tarek.news.views.articles.ArticlesFragment.setArticlesFragmentToCommit;
+import static com.example.tarek.news.views.articlesFragment.ArticlesFragment.setArticlesFragmentToCommit;
 
 public class SearchActivity extends BaseActivityNoMenu {
 

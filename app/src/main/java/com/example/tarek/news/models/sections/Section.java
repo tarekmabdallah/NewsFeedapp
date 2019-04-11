@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Section {
 
-	@SerializedName("editions")
-	private List<EditionsItem> editions;
+	@SerializedName("edition")
+	private List<Edition> editions;
 
 	@SerializedName("apiUrl")
 	private String apiUrl;
@@ -24,11 +24,11 @@ public class Section {
 	@SerializedName("activeSponsorships")
 	private List<ActiveSponsorshipsItem> activeSponsorships;
 
-	public void setEditions(List<EditionsItem> editions){
+	public void setEditions(List<Edition> editions){
 		this.editions = editions;
 	}
 
-	public List<EditionsItem> getEditions(){
+	public List<Edition> getEditions(){
 		return editions;
 	}
 

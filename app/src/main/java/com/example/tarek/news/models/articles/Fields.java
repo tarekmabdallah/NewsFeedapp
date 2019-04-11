@@ -1,10 +1,12 @@
-package com.example.tarek.news.models.search;
+package com.example.tarek.news.models.articles;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Fields{
+public class Fields implements Parcelable {
 
 	@SerializedName("trailText")
 	private String trailText;
@@ -23,6 +25,42 @@ public class Fields{
 
 	@SerializedName("byline")
 	private String authorName;
+
+	private Fields(Parcel in) {
+		trailText = in.readString();
+		standfirst = in.readString();
+		main = in.readString();
+		body = in.readString();
+		headline = in.readString();
+		authorName = in.readString();
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(trailText);
+		dest.writeString(standfirst);
+		dest.writeString(main);
+		dest.writeString(body);
+		dest.writeString(headline);
+		dest.writeString(authorName);
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	public static final Creator<Fields> CREATOR = new Creator<Fields>() {
+		@Override
+		public Fields createFromParcel(Parcel in) {
+			return new Fields(in);
+		}
+
+		@Override
+		public Fields[] newArray(int size) {
+			return new Fields[size];
+		}
+	};
 
 	public void setTrailText(String trailText){
 		this.trailText = trailText;

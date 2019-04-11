@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.tarek.news.models.search;
+package com.example.tarek.news.models.articles;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class Article {
+public class Article implements Parcelable {
 
     @SerializedName("sectionName")
     private String sectionName;
@@ -60,8 +60,32 @@ public class Article {
     @SerializedName("fields")
     private Fields fields;
 
-    @SerializedName("tags")
-    private List<Tags> tags; //it was used just to get the author name, and now it returns also in fields
+    private Article(Parcel in) {
+        sectionName = in.readString();
+        pillarName = in.readString();
+        webPublicationDate = in.readString();
+        apiUrl = in.readString();
+        webUrl = in.readString();
+        isHosted = in.readByte() != 0;
+        pillarId = in.readString();
+        webTitle = in.readString();
+        id = in.readString();
+        sectionId = in.readString();
+        type = in.readString();
+        fields = in.readParcelable(Fields.class.getClassLoader());
+    }
+
+    public static final Creator<Article> CREATOR = new Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        @Override
+        public Article[] newArray(int size) {
+            return new Article[size];
+        }
+    };
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
@@ -151,14 +175,6 @@ public class Article {
         return type;
     }
 
-    public void setTags(List<Tags> tags) {
-        this.tags = tags;
-    }
-
-    public List<Tags> getTags() {
-        return tags;
-    }
-
     public void setFields(Fields fields) {
         this.fields = fields;
     }
@@ -184,7 +200,27 @@ public class Article {
                         ",sectionId = '" + sectionId + '\'' +
                         ",type = '" + type + '\'' +
                         ",fields = '" + fields + '\'' +
-                        ",tags = '" + tags + '\'' +
                         "}";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(sectionName);
+        dest.writeString(pillarName);
+        dest.writeString(webPublicationDate);
+        dest.writeString(apiUrl);
+        dest.writeString(webUrl);
+        dest.writeByte((byte) (isHosted ? 1 : 0));
+        dest.writeString(pillarId);
+        dest.writeString(webTitle);
+        dest.writeString(id);
+        dest.writeString(sectionId);
+        dest.writeString(type);
+        dest.writeParcelable(fields, flags);
     }
 }

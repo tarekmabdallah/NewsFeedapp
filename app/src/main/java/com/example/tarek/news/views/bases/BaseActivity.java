@@ -19,6 +19,7 @@ package com.example.tarek.news.views.bases;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,10 +65,21 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
         initiateValues();
+        setActionBar();
         if (null == savedInstanceState) {
             setActivityWhenSaveInstanceStateNull();
         } else {
             reSetActivityWithSaveInstanceState(savedInstanceState);
+        }
+    }
+
+    protected void setActionBar(){
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
     }
 

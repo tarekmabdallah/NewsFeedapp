@@ -1,15 +1,12 @@
-package com.example.tarek.news.views.articles;
+package com.example.tarek.news.views.articlesFragment;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.models.search.Article;
+import com.example.tarek.news.models.articles.Article;
 import com.example.tarek.news.views.bases.ArticleArrayAdapter;
 import com.example.tarek.news.views.bases.BaseFragment;
 
@@ -18,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.example.tarek.news.utils.ViewsUtils.commitFragment;
+import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openWebViewActivityArticle;
 
 
 public class ArticlesFragment extends BaseFragment {
@@ -50,16 +48,8 @@ public class ArticlesFragment extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Article article = adapter.getItem(position);
-                try {
-                    Intent openWebPage;
-                    if (article != null) {
-                        openWebPage = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getWebUrl()));
-                        startActivity(openWebPage);
-                    }
-                } catch (ActivityNotFoundException e) {
-                    showToastMsg(getString(R.string.no_browser_msg));
-                }
+                Article article = articles.get(position);
+                openWebViewActivityArticle(activity, article.getWebUrl());
             }
         });
     }

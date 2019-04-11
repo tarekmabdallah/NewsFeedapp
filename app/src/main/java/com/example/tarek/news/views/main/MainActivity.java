@@ -19,8 +19,8 @@ package com.example.tarek.news.views.main;
 import com.example.tarek.news.R;
 import com.example.tarek.news.apis.APIClient;
 import com.example.tarek.news.apis.APIServices;
-import com.example.tarek.news.models.search.Article;
-import com.example.tarek.news.models.search.ResponseSearchForKeyWord;
+import com.example.tarek.news.models.articles.Article;
+import com.example.tarek.news.models.articles.ResponseSearchForKeyWord;
 import com.example.tarek.news.views.bases.BaseActivity;
 
 import java.util.List;
@@ -31,16 +31,14 @@ import retrofit2.Call;
 import static com.example.tarek.news.apis.APIClient.getResponse;
 import static com.example.tarek.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
-import static com.example.tarek.news.views.articles.ArticlesFragment.setArticlesFragmentToCommit;
+import static com.example.tarek.news.views.articlesFragment.ArticlesFragment.setArticlesFragmentToCommit;
 
 public class MainActivity extends BaseActivity {
 
-
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_main;
+        return R.layout.activity_section;
     }
-
 
     protected void callAPi() {
         APIServices apiServices = APIClient.getInstance(this).create(APIServices.class);
@@ -52,7 +50,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void whenDataFetchedGetResponse(Object response) {
-
         if (response instanceof ResponseSearchForKeyWord) {
             ResponseSearchForKeyWord responseSearchForKeyWord = (ResponseSearchForKeyWord) response;
             List<Article> articleList = responseSearchForKeyWord.getResponse().getItems();
@@ -61,4 +58,6 @@ public class MainActivity extends BaseActivity {
             } else handleNoDataFromResponse();
         }
     }
+
+
 }

@@ -26,8 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.models.search.Article;
-import com.example.tarek.news.models.search.Fields;
+import com.example.tarek.news.models.articles.Article;
+import com.example.tarek.news.models.articles.Fields;
 
 
 public class ArticleArrayAdapter extends ArrayAdapter<Article> {

@@ -2,7 +2,7 @@ package com.example.tarek.news.models.sections;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EditionsItem{
+public class Edition {
 
 	@SerializedName("code")
 	private String code;
@@ -62,7 +62,7 @@ public class EditionsItem{
 	@Override
  	public String toString(){
 		return 
-			"EditionsItem{" + 
+			"Edition{" +
 			"code = '" + code + '\'' + 
 			",apiUrl = '" + apiUrl + '\'' + 
 			",webUrl = '" + webUrl + '\'' + 

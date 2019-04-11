@@ -17,10 +17,12 @@
 package com.example.tarek.news.utils;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -471,5 +473,16 @@ public class ViewsUtils {
 
     public static void commitFragment (FragmentManager fragmentManager, int containerId, Fragment fragment){
         fragmentManager.beginTransaction().replace(containerId, fragment).commit();
+    }
+
+    public static void openUrlInWebBrowser(Context context, String url){
+        try {
+            Intent openWebPage;
+            openWebPage = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            context.startActivity(openWebPage);
+
+        } catch (ActivityNotFoundException e) {
+            showShortToastMsg(context, context.getString(R.string.no_browser_msg));
+        }
     }
 }
