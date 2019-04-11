@@ -23,23 +23,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.apis.APIClient;
-import com.example.tarek.news.apis.APIServices;
 import com.example.tarek.news.models.sections.ResponseSections;
 import com.example.tarek.news.models.sections.Section;
-import com.example.tarek.news.views.bases.BaseActivity;
+import com.example.tarek.news.views.section.SectionActivity;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import retrofit2.Call;
 
-import static com.example.tarek.news.apis.APIClient.getResponse;
-import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
-import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
-
-public class SectionsActivity extends BaseActivity {
+public class SectionsActivity extends SectionActivity {
 
     @BindView(R.id.list_view)
     ListView listView;
@@ -54,7 +47,13 @@ public class SectionsActivity extends BaseActivity {
 
     @Override
     protected void initiateValues() {
+        super.initiateValues();
         setListView();
+    }
+
+    @Override
+    protected String getSectionTitle() {
+        return getString(R.string.sections_label);
     }
 
     private void setListView() {
@@ -64,16 +63,14 @@ public class SectionsActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Section section = sectionList.get(position);
-                openSectionActivity(getBaseContext(), section.getId());
+                openSectionActivity(getBaseContext(), section.getId(), section.getWebTitle());
             }
         });
     }
 
-    protected void callAPi() {
-        APIServices apiServices = APIClient.getInstance(this).create(APIServices.class);
-        Map<String, Object> queries = getQueriesMap();
-        Call<ResponseSections> callSections = apiServices.getSections(queries);
-        getResponse(callSections, this);
+    @Override
+    protected Call getCall() {
+        return apiServices.getSections(queries);
     }
 
     @Override

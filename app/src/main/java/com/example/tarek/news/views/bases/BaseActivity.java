@@ -17,7 +17,6 @@
 package com.example.tarek.news.views.bases;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,8 +31,9 @@ import com.example.tarek.news.apis.DataFetcherCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static com.example.tarek.news.utils.Constants.ZERO;
+import static com.example.tarek.news.utils.ViewsUtils.getTextFromEditText;
 import static com.example.tarek.news.utils.ViewsUtils.isConnected;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
 import static com.example.tarek.news.utils.ViewsUtils.showFailureMsg;
@@ -45,11 +45,13 @@ import static com.example.tarek.news.views.sections.SectionsActivity.openSection
 public abstract class BaseActivity extends AppCompatActivity implements DataFetcherCallback {
 
     @BindView(R.id.msg_iv)
-    ImageView errorIV;
+    protected ImageView errorIV;
     @BindView(R.id.progress_bar)
     protected View progressBar;
     @BindView(R.id.msg_tv)
-    TextView errorTV;
+    protected TextView errorTV;
+    @BindView(R.id.msg_layout)
+    protected View errorLayout;
 
     // TODO: 07-Apr-19 to save some articles using Room db
     // TODO: 07-Apr-19 to use paging
@@ -74,8 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
     }
 
     protected void setActionBar(){
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (null != actionBar){
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -92,13 +92,13 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
     @Override
     public void onDataFetched(Object response) {
         showProgressBar(progressBar, false);
-        makeViewGone(errorIV, errorTV); // to hide if the data reloaded after it was empty
+        makeViewGone(errorLayout); // to hide if the data reloaded after it was empty
         whenDataFetchedGetResponse(response);
     }
 
     @Override
     public void onFailure(Throwable t, int errorImageResId) {
-        showFailureMsg(t, errorImageResId, progressBar, errorTV, errorIV);
+        showFailureMsg(t, errorImageResId, errorLayout, progressBar, errorTV, errorIV);
     }
 
     @Override
@@ -115,6 +115,7 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
             showShortToastMsg(this, "sorry, not ready now");
         else if (id == R.id.item_search) startActivity(openSearchActivity(this));
         else if (id == R.id.item_sections) startActivity(openSectionsActivity(this));
+        else if (item.getItemId() == android.R.id.home) finish();
         return true;
     }
 
@@ -154,7 +155,7 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
     protected void loadData() {
         showProgressBar(progressBar, true);
         callAPi();
-        makeViewGone(errorIV, errorTV);
+        makeViewGone(errorLayout);
     }
 
     /**
@@ -184,22 +185,22 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
      */
     protected void handleCaseNoConnection() {
         Throwable noInternetConnectionThrowable = new Throwable(getString(R.string.no_connection));
-        onFailure(noInternetConnectionThrowable, R.drawable.icons8_disconnected);
-        lastTextEdit = System.currentTimeMillis();
-        handler.postDelayed(inputFinishChecker, DELAY);
+        onFailure(noInternetConnectionThrowable, android.R.drawable.stat_notify_sync);
     }
 
+    /**
+     * to reload data if the user click on the error image and it was because failure in internet connection
+     */
+    @OnClick(R.id.msg_iv)
+    void onClickMsgIV(){
+        String errorMsg = getTextFromEditText(errorTV);
+        if (getString(R.string.no_connection).equals(errorMsg)) setUI();
+    }
 
-    private final int DELAY = 1000; // to refresh after 1 second
-    private long lastTextEdit = ZERO;
-    Handler handler = new Handler();
-    private Runnable inputFinishChecker = new Runnable() {
-        public void run() {
-            if (System.currentTimeMillis() > (lastTextEdit + DELAY - 500)) {
-                setUI();
-            }
-        }
-    };
+    @OnClick(R.id.msg_tv)
+    void onClickMsgTV(){
+        onClickMsgIV();
+    }
 
     /**
      * override it to getIntent and call it where you need it

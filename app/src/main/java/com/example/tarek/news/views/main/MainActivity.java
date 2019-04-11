@@ -16,48 +16,20 @@
 
 package com.example.tarek.news.views.main;
 
-import com.example.tarek.news.R;
-import com.example.tarek.news.apis.APIClient;
-import com.example.tarek.news.apis.APIServices;
-import com.example.tarek.news.models.articles.Article;
-import com.example.tarek.news.models.articles.ResponseSearchForKeyWord;
-import com.example.tarek.news.views.bases.BaseActivity;
+import com.example.tarek.news.views.section.SectionActivity;
 
-import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-
-import static com.example.tarek.news.apis.APIClient.getResponse;
-import static com.example.tarek.news.utils.Constants.QUERY_Q_KEYWORD;
-import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
-import static com.example.tarek.news.views.articlesFragment.ArticlesFragment.setArticlesFragmentToCommit;
-
-public class MainActivity extends BaseActivity {
+public class MainActivity extends SectionActivity {
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_section;
-    }
-
-    protected void callAPi() {
-        APIServices apiServices = APIClient.getInstance(this).create(APIServices.class);
-        Map<String, Object> queries = getQueriesMap();
-        queries.put(QUERY_Q_KEYWORD, "egypt");
-        Call<ResponseSearchForKeyWord> searchForKeyWord = apiServices.searchForKeyword(queries);
-        getResponse(searchForKeyWord, this);
+    protected String getSectionId() {
+        return "world";
     }
 
     @Override
-    protected void whenDataFetchedGetResponse(Object response) {
-        if (response instanceof ResponseSearchForKeyWord) {
-            ResponseSearchForKeyWord responseSearchForKeyWord = (ResponseSearchForKeyWord) response;
-            List<Article> articleList = responseSearchForKeyWord.getResponse().getItems();
-            if (articleList != null && !articleList.isEmpty()) {
-                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container, articleList);
-            } else handleNoDataFromResponse();
-        }
+    protected String getSectionTitle() {
+        return "World news";
     }
 
-
+    @Override // do nothing to avoid showing back arrow in the tool bar
+    protected void setActionBar() {}
 }

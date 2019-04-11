@@ -63,6 +63,7 @@ import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
 import static com.example.tarek.news.utils.Constants.ONE;
 import static com.example.tarek.news.utils.Constants.SHOW_FIELDS;
 import static com.example.tarek.news.utils.Constants.SPACE_REGEX;
+import static com.example.tarek.news.utils.Constants.THREE;
 import static com.example.tarek.news.utils.Constants.TWO;
 import static com.example.tarek.news.utils.Constants.VALID_EMAIL_ADDRESS_REGEX;
 import static com.example.tarek.news.utils.Constants.ZERO;
@@ -145,8 +146,8 @@ public class ViewsUtils {
         return booleans;
     }
 
-    public static String getTextFromEditText(EditText editText) {
-        return editText.getText().toString().trim();
+    public static String getTextFromEditText(TextView view) {
+        return view.getText().toString().trim();
     }
 
     /**
@@ -370,17 +371,20 @@ public class ViewsUtils {
 
     /**
      * to handle the failure msg in almost calls of the app
-     * views[0] progress bar
-     * views[1] TextView to show msg
-     * views[2] ImageView to show icon / image
+     * views[0] layout must be visible here to make it's childes visible
+     * views[1] progress bar
+     * views[2] TextView to show msg
+     * views[3] ImageView to show icon / image
      * the views may have just 2 elements progressbar and textView so we check if length is > 2
      */
     public static void showFailureMsg(Throwable t, int imageResIntId, View... views) {
-        View progressBar = views[ZERO];
-        TextView noDataTV = (TextView) views[ONE];
+        View errorLayout = views[ZERO];
+        makeViewVisible(errorLayout);
+        View progressBar = views[ONE];
+        TextView noDataTV = (TextView) views[TWO];
         ImageView noDataIV;
-        if (TWO < views.length) {
-            noDataIV = (ImageView) views[TWO];
+        if (THREE < views.length) {
+            noDataIV = (ImageView) views[THREE];
             showNoDataImage(noDataIV, imageResIntId);
         }
         showProgressBar(progressBar, false);

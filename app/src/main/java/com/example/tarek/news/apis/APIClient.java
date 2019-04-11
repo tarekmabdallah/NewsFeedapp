@@ -18,11 +18,13 @@ package com.example.tarek.news.apis;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.io.IOException;
 
 import okhttp3.Cache;
 import okhttp3.Dispatcher;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,6 +35,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.tarek.news.utils.Constants.THREE;
+import static com.example.tarek.news.utils.Constants.URL_KEYWORD;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class APIClient {
@@ -99,6 +102,7 @@ public class APIClient {
                 int code = response.code();
                 String message = response.message();
                 Throwable throwable;
+                printCallUrlInLogs(call);
                 if (response.isSuccessful())
                     dataFetcherCallback.onDataFetched(response.body());
                 else {
@@ -120,12 +124,18 @@ public class APIClient {
 
             @Override
             public void onFailure(@NonNull Call call, @NonNull Throwable t) {
+                printCallUrlInLogs(call);
                 String message = t.getMessage();
                 if (t instanceof IOException) message = "NETWORK ERROR " + message;
                 else message = "FATAL ERROR\nUnexpected response " + message;
                 dataFetcherCallback.onFailure(new Throwable(message), errorImageResId);
             }
         });
+    }
+
+    private static void printCallUrlInLogs(Call call){
+        HttpUrl url = call.request().url();
+        Log.d(URL_KEYWORD, url.toString());
     }
 
 }

@@ -17,12 +17,15 @@ import retrofit2.Call;
 
 import static com.example.tarek.news.apis.APIClient.getResponse;
 import static com.example.tarek.news.utils.Constants.SECTION_KEYWORD;
+import static com.example.tarek.news.utils.Constants.TITLE_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
 import static com.example.tarek.news.views.articlesFragment.ArticlesFragment.setArticlesFragmentToCommit;
 
 public class SectionActivity extends BaseActivity {
 
-    private String sectionId;
+    protected APIServices apiServices;
+    protected Map<String, Object> queries;
+    protected Call call;
 
     @Override
     protected int getLayoutResId() {
@@ -31,25 +34,38 @@ public class SectionActivity extends BaseActivity {
 
     @Override
     protected void initiateValues() {
-        getComingIntent();
+        apiServices = APIClient.getInstance(this).create(APIServices.class);
+        queries = getQueriesMap();
+        call = getCall();
+        setTitle(getSectionTitle());
     }
 
-    @Override
-    protected void getComingIntent() {
+    /**
+     * to @return value from intent by @param key
+     */
+    protected Object getValueFromIntent(String key) {
         Intent comingIntent = getIntent();
-        sectionId = comingIntent.getStringExtra(SECTION_KEYWORD);
+        return comingIntent.getStringExtra(key);
+    }
+
+    protected String getSectionId(){
+        return String.valueOf(getValueFromIntent(SECTION_KEYWORD));
+    }
+
+    protected String getSectionTitle(){
+        return String.valueOf(getValueFromIntent(TITLE_KEYWORD));
+    }
+
+    protected Call getCall(){
+        return apiServices.getSectionArticles(getSectionId(), queries);
     }
 
     protected void callAPi() {
-        APIServices apiServices = APIClient.getInstance(this).create(APIServices.class);
-        Map<String, Object> queries = getQueriesMap();
-        Call<ResponseSection> getSectionArticles = apiServices.getSectionArticles(sectionId, queries);
-        getResponse(getSectionArticles, this);
+        getResponse(call, this);
     }
 
     @Override
     protected void whenDataFetchedGetResponse(Object response) {
-
         if (response instanceof ResponseSection) {
             ResponseSection section = (ResponseSection) response;
             List<Article> articleList = section.getResponse().getItems();
@@ -59,9 +75,10 @@ public class SectionActivity extends BaseActivity {
         }
     }
 
-    public static void openSectionActivity(Context context, String sectionId){
+    public static void openSectionActivity(Context context, String sectionId, String sectionTitle){
         Intent openSectionActivity = new Intent(context, SectionActivity.class);
         openSectionActivity.putExtra(SECTION_KEYWORD, sectionId);
+        openSectionActivity.putExtra(TITLE_KEYWORD, sectionTitle);
         context.startActivity(openSectionActivity);
     }
 }

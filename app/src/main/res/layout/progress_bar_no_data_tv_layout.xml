@@ -20,34 +20,24 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@android:color/transparent"
-        android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/progress"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/msg_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:background="@color/background_app">
 
         <ImageView
             android:id="@+id/msg_iv"
             android:layout_width="@dimen/msg_image_height_width"
             android:layout_height="@dimen/msg_image_height_width"
             android:src="@drawable/icons8_disconnected"
-            android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias=".33"
+            app:layout_constraintVertical_bias="0.40"
             android:contentDescription="@string/no_connection" />
 
         <TextView
@@ -56,14 +46,24 @@
             android:text="@string/no_items_msg"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/no_data_text_size"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:layout_marginTop="@dimen/space16"
             app:layout_constraintTop_toBottomOf="@id/msg_iv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progress"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>
 
