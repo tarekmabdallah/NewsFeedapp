@@ -35,13 +35,10 @@
         android:padding="@dimen/space16"
         android:layout_below="@id/search_view"/>
 
-    <ListView
-        android:id="@+id/list_view"
+    <FrameLayout
+        android:id="@+id/fragment_articles_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null"
-        android:dividerHeight="@dimen/space8"
-        android:padding="@dimen/space8"
         android:layout_below="@id/search_view"/>
 
     <include

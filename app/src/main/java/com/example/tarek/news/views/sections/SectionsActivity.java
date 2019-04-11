@@ -64,7 +64,6 @@ public class SectionsActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: 09-Apr-19 to create activity or fragment to show articles from search or any other usage
                 // TODO: 09-Apr-19 to  create one method to open articles in browser
                 // TODO: 09-Apr-19 to create webView activity to open articles with HTML formated texts   
                 Section section = sectionList.get(position);

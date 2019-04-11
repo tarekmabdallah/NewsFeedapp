@@ -16,13 +16,11 @@
 
 package com.example.tarek.news.views.search;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -32,10 +30,8 @@ import com.example.tarek.news.apis.APIServices;
 import com.example.tarek.news.data.sp.SharedPreferencesHelper;
 import com.example.tarek.news.models.search.Article;
 import com.example.tarek.news.models.search.ResponseSearchForKeyWord;
-import com.example.tarek.news.views.bases.ArticleArrayAdapter;
 import com.example.tarek.news.views.bases.BaseActivityNoMenu;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,13 +46,12 @@ import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
 import static com.example.tarek.news.utils.ViewsUtils.isValidString;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewVisible;
+import static com.example.tarek.news.views.articles.ArticlesFragment.setArticlesFragmentToCommit;
 
 public class SearchActivity extends BaseActivityNoMenu {
 
-    private ArticleArrayAdapter adapter;
-
-    @BindView(R.id.list_view)
-    ListView articlesListView;
+    @BindView(R.id.fragment_articles_container)
+    FrameLayout fragmentContainer;
     @BindView(R.id.search_view)
     SearchView searchView;
     @BindView(R.id.search_history_list_view)
@@ -76,7 +71,6 @@ public class SearchActivity extends BaseActivityNoMenu {
     protected void initiateValues() {
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
         queries = getQueriesMap();
-        setListView();
         setSearchHistoryListView();
         setSearchView();
     }
@@ -86,26 +80,6 @@ public class SearchActivity extends BaseActivityNoMenu {
         String searchKeyword = getSearchKeyword();
         if (isValidString(searchKeyword)) super.setUI();
         else makeViewVisible(searchHistoryListView);
-    }
-
-    private void setListView() {
-        adapter = new ArticleArrayAdapter(this, new ArrayList<Article>());
-        articlesListView.setAdapter(adapter);
-        articlesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Article article = adapter.getItem(position);
-                try {
-                    Intent openWebPage;
-                    if (article != null) {
-                        openWebPage = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getWebUrl()));
-                        startActivity(openWebPage);
-                    }
-                } catch (ActivityNotFoundException e) {
-                    showToastMsg(getString(R.string.no_browser_msg));
-                }
-            }
-        });
     }
 
     public void setSearchHistoryListView() {
@@ -184,7 +158,7 @@ public class SearchActivity extends BaseActivityNoMenu {
             @Override
             public void onClick(View v) {
                 makeViewVisible(searchHistoryListView);
-                makeViewGone(articlesListView);
+                makeViewGone(fragmentContainer);
             }
         };
         searchView.setOnClickListener(onClickSearchViewListener);
@@ -194,7 +168,7 @@ public class SearchActivity extends BaseActivityNoMenu {
      * set queries params with the @param searchKeyword
      */
     private void searchForKeyWord(String searchKeyword) {
-        adapter.clear();
+        makeViewGone(fragmentContainer);
         if (isValidString(searchKeyword)) {
             queries.put(QUERY_Q_KEYWORD, searchKeyword);
             callAPi();
@@ -213,13 +187,12 @@ public class SearchActivity extends BaseActivityNoMenu {
 
     @Override
     protected void whenDataFetchedGetResponse(Object response) {
-        adapter.clear();
         if (response instanceof ResponseSearchForKeyWord) {
             ResponseSearchForKeyWord responseSearchForKeyWord = (ResponseSearchForKeyWord) response;
             List<Article> articleList = responseSearchForKeyWord.getResponse().getItems();
             if (articleList != null && !articleList.isEmpty()) {
-                adapter.addAll(articleList);
-                makeViewVisible(articlesListView);
+                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container, articleList);
+                makeViewVisible(fragmentContainer);
                 makeViewGone(searchHistoryListView);
             } else handleNoDataFromResponse();
         }

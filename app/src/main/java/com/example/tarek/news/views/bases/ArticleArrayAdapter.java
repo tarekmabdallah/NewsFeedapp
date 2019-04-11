@@ -29,8 +29,6 @@ import com.example.tarek.news.R;
 import com.example.tarek.news.models.search.Article;
 import com.example.tarek.news.models.search.Fields;
 
-import java.util.List;
-
 
 public class ArticleArrayAdapter extends ArrayAdapter<Article> {
 
@@ -43,8 +41,8 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
     private static final String EMPTY_TEXT = "";
 
 
-    public ArticleArrayAdapter(@NonNull Context context, List<Article> articles) {
-        super(context, 0 , articles);
+    public ArticleArrayAdapter(@NonNull Context context) {
+        super(context, ZERO);
         this.context = context;
     }
 

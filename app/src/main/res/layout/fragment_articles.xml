@@ -20,13 +20,13 @@
     android:layout_height="match_parent"
     tools:context=".views.main.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/fragment_articles_container"
+    <ListView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <include
-        layout="@layout/progress_bar_no_data_tv_layout"
-        tools:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="@dimen/space8"
+        android:padding="@dimen/space8">
+    </ListView>
 
 </RelativeLayout>

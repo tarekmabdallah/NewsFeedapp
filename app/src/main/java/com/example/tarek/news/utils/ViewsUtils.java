@@ -23,6 +23,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -468,4 +469,7 @@ public class ViewsUtils {
         return queries;
     }
 
+    public static void commitFragment (FragmentManager fragmentManager, int containerId, Fragment fragment){
+        fragmentManager.beginTransaction().replace(containerId, fragment).commit();
+    }
 }
