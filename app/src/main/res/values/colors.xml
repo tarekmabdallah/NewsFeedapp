@@ -15,16 +15,15 @@
    -->
 <resources>
 
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorPrimary">#00BCD4</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="background_app">#b8eef9</color>
+    <color name="background_app">#dcdcdc</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="dark_gray">@android:color/darker_gray</color>
-    <color name="text_color_sign_up">@android:color/darker_gray</color>
-    <color name="background_temp_image">#fff</color>
-    <color name="price_color">#abaaaa</color>
-    <color name="border_color">#9a9a9a</color>
-    <color name="background_gray">#dcdcdc</color>
-
+    <color name="text_color">#3F51B5</color>
+    <color name="background_article_title">#99DCDCDC</color>
+    <color name="background_btn">#00BCD4</color>
+    <color name="selected_item_color">#8BC34A</color>
 </resources>

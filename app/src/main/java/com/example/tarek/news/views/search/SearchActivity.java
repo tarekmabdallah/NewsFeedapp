@@ -19,6 +19,7 @@ package com.example.tarek.news.views.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -32,6 +33,7 @@ import com.example.tarek.news.models.articles.Article;
 import com.example.tarek.news.models.articles.ResponseSearchForKeyWord;
 import com.example.tarek.news.views.bases.BaseActivityNoMenu;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +41,7 @@ import butterknife.BindView;
 import retrofit2.Call;
 
 import static com.example.tarek.news.apis.APIClient.getResponse;
+import static com.example.tarek.news.utils.Constants.ARTICLES_LIST_KEYWORD;
 import static com.example.tarek.news.utils.Constants.FIVE;
 import static com.example.tarek.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.example.tarek.news.utils.Constants.ZERO;
@@ -191,7 +194,8 @@ public class SearchActivity extends BaseActivityNoMenu {
             ResponseSearchForKeyWord responseSearchForKeyWord = (ResponseSearchForKeyWord) response;
             List<Article> articleList = responseSearchForKeyWord.getResponse().getItems();
             if (articleList != null && !articleList.isEmpty()) {
-                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container, articleList);
+                getIntent().putParcelableArrayListExtra(ARTICLES_LIST_KEYWORD, (ArrayList<? extends Parcelable>) articleList);
+                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container);
                 makeViewVisible(fragmentContainer);
                 makeViewGone(searchHistoryListView);
             } else handleNoDataFromResponse();

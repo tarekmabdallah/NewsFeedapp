@@ -18,15 +18,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.main.MainActivity">
+    tools:activity=".views.main.MainActivity">
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"
-        android:dividerHeight="@dimen/space8"
-        android:padding="@dimen/space8">
-    </ListView>
+        android:dividerHeight="@dimen/space8"/>
 
 </RelativeLayout>

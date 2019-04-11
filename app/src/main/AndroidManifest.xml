@@ -26,7 +26,8 @@
         <activity android:name=".views.settings.SettingsActivity" android:label="@string/settings_activity_label"/>
         <activity android:name=".views.search.SearchActivity" android:label="@string/search_label" />
         <activity android:name=".views.section.SectionActivity" />
-        <activity android:name=".views.webViewActivity.WebViewActivity" />
+        <activity android:name=".views.webViewActivity.WebViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".views.sections.SectionsActivity" />
     </application>
 

@@ -7,13 +7,14 @@ import android.widget.ListView;
 
 import com.example.tarek.news.R;
 import com.example.tarek.news.models.articles.Article;
-import com.example.tarek.news.views.bases.ArticleArrayAdapter;
+import com.example.tarek.news.views.bases.ArticleAdapter;
 import com.example.tarek.news.views.bases.BaseFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 
+import static com.example.tarek.news.utils.Constants.ARTICLES_LIST_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.commitFragment;
 import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openWebViewActivityArticle;
 
@@ -23,7 +24,7 @@ public class ArticlesFragment extends BaseFragment {
     @BindView(R.id.list_view)
     ListView listView;
 
-    private ArticleArrayAdapter adapter  ;
+    private ArticleAdapter adapter  ;
     private List<Article> articles ;
 
     @Override
@@ -33,12 +34,13 @@ public class ArticlesFragment extends BaseFragment {
 
     @Override
     protected void initiateValues() {
-        adapter = new ArticleArrayAdapter(activity);
+        adapter = new ArticleAdapter(activity);
         setListView();
     }
 
     @Override
     protected void setUI() {
+        articles = activity.getIntent().getParcelableArrayListExtra(ARTICLES_LIST_KEYWORD);
         adapter.clear();
         adapter.addAll(articles);
     }
@@ -54,18 +56,12 @@ public class ArticlesFragment extends BaseFragment {
         });
     }
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
-    }
-
-    public static void setArticlesFragmentToCommit (FragmentManager fm, int containerId,  List<Article> articleList){
-        ArticlesFragment fragment = ArticlesFragment.getInstance(articleList);
+    public static void setArticlesFragmentToCommit (FragmentManager fm, int containerId){
+        ArticlesFragment fragment = ArticlesFragment.getInstance();
         commitFragment(fm, containerId, fragment);
     }
 
-    public static ArticlesFragment getInstance(List<Article> articles) {
-        ArticlesFragment articlesFragment = new ArticlesFragment();
-        articlesFragment.setArticles(articles);
-        return articlesFragment;
+    public static ArticlesFragment getInstance() {
+        return new ArticlesFragment();
     }
 }

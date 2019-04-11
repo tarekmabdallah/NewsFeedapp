@@ -17,43 +17,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space8"
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:padding="@dimen/space8">
 
+        <ImageView
+            android:id="@+id/article_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusableInTouchMode="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="3:2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/article_title"
             style="@style/title_text_style"
             tools:text="@string/app_name"
-            android:padding="@dimen/space8"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/article_image"
+            app:layout_constraintStart_toStartOf="@id/article_image"
+            app:layout_constraintEnd_toEndOf="@id/article_image" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/space8"
-            app:layout_constraintTop_toBottomOf="@id/title">
+            app:layout_constraintTop_toBottomOf="@id/article_title">
 
             <TextView
                 android:id="@+id/section"
                 style="@style/details_text_style"
-                android:gravity="bottom" />
+                android:gravity="start|center"
+                android:padding="@dimen/space8"/>
 
             <TextView
                 android:id="@+id/author"
                 style="@style/details_text_style"
-                android:gravity="center|bottom" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/date"
                 style="@style/details_text_style"
-                android:gravity="end" />
+                android:gravity="end|center" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

@@ -19,6 +19,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/TODO"
-    tools:context="com.example.tarek.news.views.settings.SettingsActivity">
+    tools:activity="com.example.tarek.news.views.settings.SettingsActivity">
 
 </fragment>

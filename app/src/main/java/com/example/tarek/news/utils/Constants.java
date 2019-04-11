@@ -39,7 +39,7 @@ public class Constants {
     public static final String QUERY_TAGS_KEYWORD = "show-tags";
     public static final String CONTRIBUTOR_KEYWORD = "contributor";
     public static final String SHOW_FIELDS = "show-fields";
-    public static final String ARTICLE_FIELDS = "byline"; // CAN ALSO USE "all" to get all fields, "trailText,headline,standfirst,byline,main,body"
+    public static final String ARTICLE_FIELDS = "byline,thumbnail,trailText,headline,trailText,byline,bodyText,wordcount"; // CAN ALSO USE "all" to get all fields, "trailText,headline,standfirst,byline,main,body"
 
     // TODO: you can put your API key in gradle.properties like THE_GUARDIAN_API_KEY = "put_your_key_here"
     public static final String API_KEY = BuildConfig.ApiKey;
@@ -52,6 +52,7 @@ public class Constants {
     public static final String SEARCH_HISTORY_KEYWORD = "search history";
     public static final String TITLE_KEYWORD = "TITLE_KEYWORD";
     public static final String ARTICLE_HTML_KEYWORD = "ARTICLE_HTML_KEYWORD";
+    public static final String ARTICLES_LIST_KEYWORD = "ARTICLE_HTML_KEYWORD";
     public static final String URL_KEYWORD = "URL_KEYWORD";
     public static final String SECTION_KEYWORD = "SECTION_KEYWORD";
 

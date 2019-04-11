@@ -2,6 +2,7 @@ package com.example.tarek.news.views.section;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 
 import com.example.tarek.news.R;
 import com.example.tarek.news.apis.APIClient;
@@ -10,12 +11,14 @@ import com.example.tarek.news.models.articles.Article;
 import com.example.tarek.news.models.section.ResponseSection;
 import com.example.tarek.news.views.bases.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 
 import static com.example.tarek.news.apis.APIClient.getResponse;
+import static com.example.tarek.news.utils.Constants.ARTICLES_LIST_KEYWORD;
 import static com.example.tarek.news.utils.Constants.SECTION_KEYWORD;
 import static com.example.tarek.news.utils.Constants.TITLE_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
@@ -70,7 +73,8 @@ public class SectionActivity extends BaseActivity {
             ResponseSection section = (ResponseSection) response;
             List<Article> articleList = section.getResponse().getItems();
             if (articleList != null && !articleList.isEmpty()) {
-                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container, articleList);
+                getIntent().putParcelableArrayListExtra(ARTICLES_LIST_KEYWORD, (ArrayList<? extends Parcelable>) articleList);
+                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container);
             } else handleNoDataFromResponse();
         }
     }

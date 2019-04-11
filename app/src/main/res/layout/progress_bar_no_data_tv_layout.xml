@@ -30,14 +30,14 @@
 
         <ImageView
             android:id="@+id/msg_iv"
-            android:layout_width="@dimen/msg_image_height_width"
-            android:layout_height="@dimen/msg_image_height_width"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/icons8_disconnected"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.40"
+            app:layout_constraintVertical_bias="0.4"
             android:contentDescription="@string/no_connection" />
 
         <TextView

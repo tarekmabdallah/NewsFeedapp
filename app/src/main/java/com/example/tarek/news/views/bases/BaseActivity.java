@@ -60,6 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity implements DataFetc
     // TODO: 07-Apr-19 to use the rest APIs
     // TODO: 07-Apr-19 to use dragger 2 and RxJava
     // TODO: 07-Apr-19 to update the UI
+    // TODO: 4/11/2019 add rotating func.
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
