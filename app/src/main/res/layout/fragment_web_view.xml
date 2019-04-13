@@ -17,8 +17,20 @@
   ~
   -->
 
-<fragment android:id="@+id/web_view_fragment_id"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.example.tarek.news.views.webViewActivity.WebViewFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    tools:activity="com.example.tarek.news.views.webViewActivity.WebViewActivity">
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"/>
+
+    <include
+        layout="@layout/progress_bar_no_data_tv_layout"
+        tools:visibility="gone" />
+
+</RelativeLayout>

@@ -1,3 +1,21 @@
+/*
+ *
+ * Copyright 2019 tarekmabdallah91@gmail.com
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package com.example.tarek.news.views.section.articlesFragment;
 
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
-import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openWebViewActivityArticle;
+import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openArticleHtmlInWebViewActivity;
 
 
 public class ArticlesFragment extends BaseDataLoaderFragment {
@@ -25,10 +43,7 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
 
     protected ArticleAdapter adapter  ;
     protected List<Article> articles ;
-
     protected String sectionId;
-
-    // TODO: 4/13/2019 create fragment to open the article with it's data (not the website's link)
 
     @Override
     protected int getLayoutResId() {
@@ -53,7 +68,8 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
             @Override
             public void onClickArticle(int position) {
                 Article article = articles.get(position);
-                openWebViewActivityArticle(activity, article.getWebUrl());
+               // openArticleUrlInWebViewActivity(activity, article.getWebUrl());
+                openArticleHtmlInWebViewActivity(activity, article.getFields().getBody());
             }
 
             @Override
@@ -77,9 +93,9 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     protected void whenDataFetchedGetResponse(Object response) {
         if (response instanceof ResponseSection) {
             ResponseSection section = (ResponseSection) response;
-            List<Article> articleList = section.getResponse().getItems();
-            if (articleList != null && !articleList.isEmpty()) {
-                adapter.swapList(articleList);
+            articles = section.getResponse().getItems();
+            if (articles != null && !articles.isEmpty()) {
+                adapter.swapList(articles);
             } else handleNoDataFromResponse();
         }
     }
