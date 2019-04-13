@@ -19,37 +19,26 @@ package com.example.tarek.news.views.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.apis.APIClient;
-import com.example.tarek.news.apis.APIServices;
 import com.example.tarek.news.data.sp.SharedPreferencesHelper;
-import com.example.tarek.news.models.articles.Article;
-import com.example.tarek.news.models.articles.ResponseSearchForKeyWord;
 import com.example.tarek.news.views.bases.BaseActivityNoMenu;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
-import retrofit2.Call;
 
-import static com.example.tarek.news.apis.APIClient.getResponse;
-import static com.example.tarek.news.utils.Constants.ARTICLES_LIST_KEYWORD;
 import static com.example.tarek.news.utils.Constants.FIVE;
-import static com.example.tarek.news.utils.Constants.QUERY_Q_KEYWORD;
+import static com.example.tarek.news.utils.Constants.SEARCH_KEYWORD;
 import static com.example.tarek.news.utils.Constants.ZERO;
-import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
 import static com.example.tarek.news.utils.ViewsUtils.isValidString;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewVisible;
-import static com.example.tarek.news.views.articlesFragment.ArticlesFragment.setArticlesFragmentToCommit;
+import static com.example.tarek.news.utils.ViewsUtils.showView;
 
 public class SearchActivity extends BaseActivityNoMenu {
 
@@ -61,9 +50,11 @@ public class SearchActivity extends BaseActivityNoMenu {
     ListView searchHistoryListView;
 
     private SharedPreferencesHelper sharedPreferencesHelper;
-    private Map<String, Object> queries;
-    private List<String> searchHistoryList;
     private SearchHistoryAdapter searchHistoryAdapter;
+    private onClickItemListener onSearchForKeyWordListener;
+
+    private List<String> searchHistoryList;
+    private SearchFragment fragment;
 
     @Override
     protected int getLayoutResId() {
@@ -72,34 +63,42 @@ public class SearchActivity extends BaseActivityNoMenu {
 
     @Override
     protected void initiateValues() {
+        super.initiateValues();
+        fragment = SearchFragment.getInstance(SEARCH_KEYWORD);
+        onSearchForKeyWordListener = fragment;
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
-        queries = getQueriesMap();
         setSearchHistoryListView();
         setSearchView();
     }
 
     @Override
+    protected void setActivityWhenSaveInstanceStateNull() {
+        setFragmentToCommit(fragment, R.id.fragment_articles_container);
+    }
+
+    @Override
     protected void setUI() {
         String searchKeyword = getSearchKeyword();
-        if (isValidString(searchKeyword)) super.setUI();
-        else makeViewVisible(searchHistoryListView);
+        boolean isValidSearchKeyword = isValidString(searchKeyword);
+        showView(fragmentContainer, isValidSearchKeyword);
+        showView(searchHistoryListView, !isValidSearchKeyword);
     }
 
     public void setSearchHistoryListView() {
         searchHistoryAdapter = new SearchHistoryAdapter(this);
         updateSearchAdapter();
         onClickItemListener onClickItemListener = new onClickItemListener() {
-                @Override
-                public void onClickItem(String item) {
-                    searchForKeyWord(item);
-                    makeViewGone(searchHistoryListView);
-                }
+            @Override
+            public void onClickItem(String item) {
+                searchView.setQuery(item, true);
+                makeViewGone(searchHistoryListView);
+            }
 
-                @Override
-                public void removeItem(String item) {
-                    updateSearchHistory(item, false);
-                }
-            };
+            @Override
+            public void removeItem(String item) {
+                updateSearchHistory(item, false);
+            }
+        };
         searchHistoryAdapter.setItemListener(onClickItemListener);
         searchHistoryListView.setAdapter(searchHistoryAdapter);
     }
@@ -173,33 +172,13 @@ public class SearchActivity extends BaseActivityNoMenu {
     private void searchForKeyWord(String searchKeyword) {
         makeViewGone(fragmentContainer);
         if (isValidString(searchKeyword)) {
-            queries.put(QUERY_Q_KEYWORD, searchKeyword);
-            callAPi();
+            onSearchForKeyWordListener.onClickItem(searchKeyword);
+            makeViewVisible(fragmentContainer);
         } else makeViewVisible(searchHistoryListView);
     }
 
     private String getSearchKeyword() {
         return searchView.getQuery().toString();
-    }
-
-    protected void callAPi() {
-        APIServices apiServices = APIClient.getInstance(this).create(APIServices.class);
-        Call<ResponseSearchForKeyWord> searchForKeyWord = apiServices.searchForKeyword(queries);
-        getResponse(searchForKeyWord, this);
-    }
-
-    @Override
-    protected void whenDataFetchedGetResponse(Object response) {
-        if (response instanceof ResponseSearchForKeyWord) {
-            ResponseSearchForKeyWord responseSearchForKeyWord = (ResponseSearchForKeyWord) response;
-            List<Article> articleList = responseSearchForKeyWord.getResponse().getItems();
-            if (articleList != null && !articleList.isEmpty()) {
-                getIntent().putParcelableArrayListExtra(ARTICLES_LIST_KEYWORD, (ArrayList<? extends Parcelable>) articleList);
-                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container);
-                makeViewVisible(fragmentContainer);
-                makeViewGone(searchHistoryListView);
-            } else handleNoDataFromResponse();
-        }
     }
 
     public static Intent openSearchActivity(Context context) {

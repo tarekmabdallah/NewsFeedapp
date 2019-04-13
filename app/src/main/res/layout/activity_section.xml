@@ -25,8 +25,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <include
-        layout="@layout/progress_bar_no_data_tv_layout"
-        tools:visibility="gone" />
-
 </RelativeLayout>

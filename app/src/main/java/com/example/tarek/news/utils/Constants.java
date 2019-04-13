@@ -49,6 +49,8 @@ public class Constants {
     public static final String HEADER_LANG = "Accept-Language: en-US";
     public static final String HEADER_API_KEY = QUERY_API_KEY_KEYWORD + ": " + API_KEY;
 
+    public static final String SECTIONS_KEYWORD = "sections"; // used in API as section id "sections"
+    public static final String SEARCH_KEYWORD = "search"; // used in API as section id "search"
     public static final String SEARCH_HISTORY_KEYWORD = "search history";
     public static final String TITLE_KEYWORD = "TITLE_KEYWORD";
     public static final String ARTICLE_HTML_KEYWORD = "ARTICLE_HTML_KEYWORD";

@@ -14,6 +14,7 @@
    limitations under the License.
    -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -38,5 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_view"/>
+
+    <include
+        layout="@layout/progress_bar_no_data_tv_layout"
+        tools:visibility="gone" />
 
 </RelativeLayout>

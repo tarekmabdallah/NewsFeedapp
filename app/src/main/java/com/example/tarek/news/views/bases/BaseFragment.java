@@ -9,12 +9,33 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.tarek.news.R;
+import com.example.tarek.news.apis.DataFetcherCallback;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+import static com.example.tarek.news.utils.ViewsUtils.getTextFromEditText;
+import static com.example.tarek.news.utils.ViewsUtils.isConnected;
+import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
+import static com.example.tarek.news.utils.ViewsUtils.showFailureMsg;
+import static com.example.tarek.news.utils.ViewsUtils.showProgressBar;
 import static com.example.tarek.news.utils.ViewsUtils.showShortToastMsg;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements DataFetcherCallback {
+
+    @BindView(R.id.msg_iv)
+    protected ImageView errorIV;
+    @BindView(R.id.progress_bar)
+    protected View progressBar;
+    @BindView(R.id.msg_tv)
+    protected TextView errorTV;
+    @BindView(R.id.msg_layout)
+    protected View errorLayout;
 
     protected Activity activity;
 
@@ -50,6 +71,18 @@ public abstract class BaseFragment extends Fragment {
         activity = (Activity) context;
     }
 
+    @Override
+    public void onDataFetched(Object response) {
+        showProgressBar(progressBar, false);
+        makeViewGone(errorLayout); // to hide if the data reloaded after it was empty
+        whenDataFetchedGetResponse(response);
+    }
+
+    @Override
+    public void onFailure(Throwable t, int errorImageResId) {
+        showFailureMsg(t, errorImageResId, errorLayout, progressBar, errorTV, errorIV);
+    }
+
 
     /**
      * called when the activity created for the first time (WhenSaveInstanceStateNull)
@@ -71,12 +104,68 @@ public abstract class BaseFragment extends Fragment {
     protected void initiateValues() {
     }
 
+
     /**
      * override it to set the  UI
      * it is called in onResume() to recalled each time the activity resumed
      */
     protected void setUI() {
+        if (isConnected(activity)) loadData();
+        else handleCaseNoConnection();
+    }
 
+    /**
+     * to call the api after showing the progressbar
+     * can be called when reloading data is needed
+     */
+    protected void loadData() {
+        showProgressBar(progressBar, true);
+        callAPi();
+        makeViewGone(errorLayout);
+    }
+
+    /**
+     * to be override to call the api
+     */
+    protected void callAPi() {
+
+    }
+
+    /**
+     * called after hiding the loading indicator (progress bar)
+     */
+    protected void whenDataFetchedGetResponse(Object response) {
+
+    }
+
+    /**
+     * called when there response has empty list
+     */
+    protected void handleNoDataFromResponse() {
+        Throwable noDataThrowable = new Throwable(getString(R.string.no_news_found));
+        onFailure(noDataThrowable, R.drawable.icons8_empty_box);
+    }
+
+    /**
+     * if there is not internet connection before calling the api and refresh after 1 second
+     */
+    protected void handleCaseNoConnection() {
+        Throwable noInternetConnectionThrowable = new Throwable(getString(R.string.no_connection));
+        onFailure(noInternetConnectionThrowable, android.R.drawable.stat_notify_sync);
+    }
+
+    /**
+     * to reload data if the user click on the error image and it was because failure in internet connection
+     */
+    @OnClick(R.id.msg_iv)
+    void onClickMsgIV(){
+        String errorMsg = getTextFromEditText(errorTV);
+        if (getString(R.string.no_connection).equals(errorMsg)) setUI();
+    }
+
+    @OnClick(R.id.msg_tv)
+    void onClickMsgTV(){
+        onClickMsgIV();
     }
 
     /**

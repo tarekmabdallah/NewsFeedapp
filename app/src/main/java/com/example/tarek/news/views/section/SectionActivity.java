@@ -2,33 +2,17 @@ package com.example.tarek.news.views.section;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.apis.APIClient;
-import com.example.tarek.news.apis.APIServices;
-import com.example.tarek.news.models.articles.Article;
-import com.example.tarek.news.models.section.ResponseSection;
 import com.example.tarek.news.views.bases.BaseActivity;
+import com.example.tarek.news.views.section.articlesFragment.ArticlesFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-
-import static com.example.tarek.news.apis.APIClient.getResponse;
-import static com.example.tarek.news.utils.Constants.ARTICLES_LIST_KEYWORD;
 import static com.example.tarek.news.utils.Constants.SECTION_KEYWORD;
 import static com.example.tarek.news.utils.Constants.TITLE_KEYWORD;
-import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
-import static com.example.tarek.news.views.articlesFragment.ArticlesFragment.setArticlesFragmentToCommit;
 
 public class SectionActivity extends BaseActivity {
 
-    protected APIServices apiServices;
-    protected Map<String, Object> queries;
-    protected Call call;
+    private ArticlesFragment fragment;
 
     @Override
     protected int getLayoutResId() {
@@ -37,46 +21,21 @@ public class SectionActivity extends BaseActivity {
 
     @Override
     protected void initiateValues() {
-        apiServices = APIClient.getInstance(this).create(APIServices.class);
-        queries = getQueriesMap();
-        call = getCall();
-        setTitle(getSectionTitle());
+        fragment = ArticlesFragment.getInstance(getSectionId());
     }
 
-    /**
-     * to @return value from intent by @param key
-     */
-    protected Object getValueFromIntent(String key) {
-        Intent comingIntent = getIntent();
-        return comingIntent.getStringExtra(key);
+    @Override
+    protected void setUI() {
+        setFragmentToCommit(fragment, R.id.fragment_articles_container);
     }
 
     protected String getSectionId(){
         return String.valueOf(getValueFromIntent(SECTION_KEYWORD));
     }
 
+    @Override
     protected String getSectionTitle(){
         return String.valueOf(getValueFromIntent(TITLE_KEYWORD));
-    }
-
-    protected Call getCall(){
-        return apiServices.getSectionArticles(getSectionId(), queries);
-    }
-
-    protected void callAPi() {
-        getResponse(call, this);
-    }
-
-    @Override
-    protected void whenDataFetchedGetResponse(Object response) {
-        if (response instanceof ResponseSection) {
-            ResponseSection section = (ResponseSection) response;
-            List<Article> articleList = section.getResponse().getItems();
-            if (articleList != null && !articleList.isEmpty()) {
-                getIntent().putParcelableArrayListExtra(ARTICLES_LIST_KEYWORD, (ArrayList<? extends Parcelable>) articleList);
-                setArticlesFragmentToCommit(getSupportFragmentManager(), R.id.fragment_articles_container);
-            } else handleNoDataFromResponse();
-        }
     }
 
     public static void openSectionActivity(Context context, String sectionId, String sectionTitle){

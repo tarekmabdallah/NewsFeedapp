@@ -16,7 +16,6 @@
 
 package com.example.tarek.news.apis;
 
-import com.example.tarek.news.models.articles.ResponseSearchForKeyWord;
 import com.example.tarek.news.models.section.ResponseSection;
 import com.example.tarek.news.models.sections.ResponseSections;
 
@@ -35,14 +34,10 @@ public interface APIServices {
 //    https://square.github.io/retrofit/
 
     @Headers({HEADER_API_KEY}) /*HEADER_FORMAT, HEADER_LANG,  are set in the interceptor in APIClient */
-    @GET("search")
-    Call<ResponseSearchForKeyWord> searchForKeyword(@QueryMap Map<String, Object> queries);
-
-    @Headers({HEADER_API_KEY})
-    @GET("sections")
-    Call<ResponseSections> getSections(@QueryMap Map<String, Object> queries);
-
-    @Headers({HEADER_API_KEY})
     @GET("{section}")
-    Call<ResponseSection> getSectionArticles(@Path("section") String section, @QueryMap Map<String, Object> queries);
+    Call<ResponseSection> getArticlesBySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
+
+    @Headers({HEADER_API_KEY})
+    @GET("{section}") // used for it's different response
+    Call<ResponseSections> getSections(@Path("section") String section, @QueryMap Map<String, Object> queries);
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.tarek.news.models.articles;
+package com.example.tarek.news.models.section.articles;
 
 import android.os.Parcel;
 import android.os.Parcelable;

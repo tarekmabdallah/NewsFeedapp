@@ -27,4 +27,7 @@
         android:divider="@null"
         android:dividerHeight="@dimen/space8"/>
 
+    <include
+        layout="@layout/progress_bar_no_data_tv_layout"
+        tools:visibility="gone" />
 </RelativeLayout>

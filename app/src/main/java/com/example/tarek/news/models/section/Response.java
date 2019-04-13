@@ -1,7 +1,7 @@
 
 package com.example.tarek.news.models.section;
 
-import com.example.tarek.news.models.articles.Article;
+import com.example.tarek.news.models.section.articles.Article;
 import com.example.tarek.news.models.sections.Edition;
 import com.example.tarek.news.models.sections.Section;
 import com.google.gson.annotations.SerializedName;

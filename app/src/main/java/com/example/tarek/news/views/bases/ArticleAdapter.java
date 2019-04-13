@@ -17,7 +17,6 @@ limitations under the License.
 package com.example.tarek.news.views.bases;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -28,8 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.models.articles.Article;
-import com.example.tarek.news.models.articles.Fields;
+import com.example.tarek.news.models.section.articles.Article;
+import com.example.tarek.news.models.section.articles.Fields;
 
 import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.ViewsUtils.loadImage;
@@ -40,9 +39,9 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
 
     private final Activity activity;
 
-    public ArticleAdapter(@NonNull Context activity) {
+    public ArticleAdapter(@NonNull Activity activity) {
         super(activity, ZERO);
-        this.activity = (Activity) activity;
+        this.activity = activity;
     }
 
     @NonNull
