@@ -30,6 +30,7 @@ import com.example.tarek.news.R;
 import butterknife.ButterKnife;
 
 import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
+import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.ViewsUtils.commitFragment;
 import static com.example.tarek.news.utils.ViewsUtils.showShortToastMsg;
 import static com.example.tarek.news.views.search.SearchActivity.openSearchActivity;
@@ -95,6 +96,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         else if (id == R.id.item_sections) startActivity(openSectionsActivity(this));
         else if (item.getItemId() == android.R.id.home) finish();
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        hideMenuItemsByIds(menu, getMenuItemIdsToHide());
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    /**
+     * to hide all items @param ids array from @param menu
+     */
+    private void hideMenuItemsByIds(Menu menu, int...ids){
+        if (null != ids && ZERO < ids.length)
+            for (int id:ids) menu.findItem(id).setVisible(false);
+    }
+
+    /**
+     * override to put and @return  an int[] of the items wanted to be invisible in the action bar menu
+     */
+    protected int[] getMenuItemIdsToHide(){
+        return null;
     }
 
     /**

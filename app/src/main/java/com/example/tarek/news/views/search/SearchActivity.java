@@ -26,7 +26,7 @@ import android.widget.SearchView;
 
 import com.example.tarek.news.R;
 import com.example.tarek.news.data.sp.SharedPreferencesHelper;
-import com.example.tarek.news.views.bases.BaseActivityNoMenu;
+import com.example.tarek.news.views.bases.BaseActivity;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewVisible;
 import static com.example.tarek.news.utils.ViewsUtils.showView;
 
-public class SearchActivity extends BaseActivityNoMenu {
+public class SearchActivity extends BaseActivity {
 
     @BindView(R.id.fragment_articles_container)
     FrameLayout fragmentContainer;
@@ -59,6 +59,11 @@ public class SearchActivity extends BaseActivityNoMenu {
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_search;
+    }
+
+    @Override
+    protected int[] getMenuItemIdsToHide() {
+        return new int[]{R.id.item_search};
     }
 
     @Override

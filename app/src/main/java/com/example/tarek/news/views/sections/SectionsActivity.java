@@ -30,6 +30,11 @@ public class SectionsActivity extends BaseActivity {
     }
 
     @Override
+    protected int[] getMenuItemIdsToHide() {
+        return new int[]{R.id.item_search, R.id.item_sections};
+    }
+
+    @Override
     protected void setActivityWhenSaveInstanceStateNull() {
         SectionsFragment sectionsFragment = SectionsFragment.getInstance();
         setFragmentToCommit(sectionsFragment, R.id.fragment_sections_container);
