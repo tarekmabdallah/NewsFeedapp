@@ -66,6 +66,7 @@ import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
 import static com.example.tarek.news.utils.Constants.ONE;
 import static com.example.tarek.news.utils.Constants.PAGE_SIZE;
 import static com.example.tarek.news.utils.Constants.QUERY_ORDER_BY_KEYWORD;
+import static com.example.tarek.news.utils.Constants.QUERY_ORDER_date_KEYWORD;
 import static com.example.tarek.news.utils.Constants.QUERY_PAGE_SIZE_KEYWORD;
 import static com.example.tarek.news.utils.Constants.QUERY_SHOW_FIELDS_KEYWORD;
 import static com.example.tarek.news.utils.Constants.SPACE_REGEX;
@@ -484,15 +485,19 @@ public class ViewsUtils {
      * @return map contains QUERY_SHOW_FIELDS_KEYWORD to get articles fields
      */
     public static Map<String, Object> getQueriesMap(Context context) {
-        String orderBy = getValueFromPreferencesByKey(context, context.getString(R.string.ordering_list_key), context.getString(R.string.ordering_list_default_value));
+        String orderBy = getValueFromPreferencesByKey(context, R.string.order_by_list_key, R.string.order_by_list_default_value);
+        String orderDate = getValueFromPreferencesByKey(context, R.string.order_date_list_key, R.string.order_date_list_default_value);
         Map<String, Object> queries = new HashMap<>();
         queries.put(QUERY_SHOW_FIELDS_KEYWORD, ARTICLE_FIELDS);
         queries.put(QUERY_PAGE_SIZE_KEYWORD, PAGE_SIZE);
         queries.put(QUERY_ORDER_BY_KEYWORD, orderBy);
+        queries.put(QUERY_ORDER_date_KEYWORD, orderDate);
         return queries;
     }
 
-    public static String getValueFromPreferencesByKey(Context context, String key, String defaultValue){
+    public static String getValueFromPreferencesByKey(Context context, int keyStringId, int defaultValueStringId){
+        String key = context.getString(keyStringId);
+        String defaultValue = context.getString(defaultValueStringId);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(key, defaultValue);
     }

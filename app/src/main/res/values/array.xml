@@ -15,16 +15,28 @@
    -->
 <resources>
 
-    <string-array name="ordering_list_labels">
+    <string-array name="order_by_list_labels">
         <item>@string/newest_label</item>
         <item>@string/oldest_label</item>
         <item>@string/relevance_label</item>
     </string-array>
 
-    <string-array name="ordering_list_values">
+    <string-array name="order_by_list_values">
         <item>@string/newest_value</item>
         <item>@string/oldest_value</item>
         <item>@string/relevance_value</item>
+    </string-array>
+
+    <string-array name="order_date_list_labels">
+        <item>@string/published_label</item>
+        <item>@string/newspaper_edition_label</item>
+        <item>@string/last_modified_label</item>
+    </string-array>
+
+    <string-array name="order_date_list_values">
+        <item>@string/published_value</item>
+        <item>@string/newspaper_edition_value</item>
+        <item>@string/last_modified_value</item>
     </string-array>
 
 </resources>

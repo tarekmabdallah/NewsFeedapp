@@ -21,10 +21,17 @@
         android:key="@string/sections_list_key" />
 
     <ListPreference
-        android:title="@string/ordering_list_label"
-        android:entries="@array/ordering_list_labels"
-        android:entryValues="@array/ordering_list_values"
-        android:defaultValue="@string/ordering_list_default_value"
-        android:key="@string/ordering_list_key" />
+        android:title="@string/order_by_list_label"
+        android:entries="@array/order_by_list_labels"
+        android:entryValues="@array/order_by_list_values"
+        android:defaultValue="@string/order_by_list_default_value"
+        android:key="@string/order_by_list_key" />
+
+    <ListPreference
+        android:title="@string/order_date_list_label"
+        android:entries="@array/order_date_list_labels"
+        android:entryValues="@array/order_date_list_values"
+        android:defaultValue="@string/order_date_list_default_value"
+        android:key="@string/order_date_list_key" />
 
 </PreferenceScreen>

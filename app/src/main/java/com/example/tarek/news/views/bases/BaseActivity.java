@@ -88,10 +88,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.item_settings) startActivity(openSettingsActivity(this));
-//            showShortToastMsg(this, "sorry, not ready now");
-        else if (id == R.id.item_search) startActivity(openSearchActivity(this));
-        else if (id == R.id.item_sections) startActivity(openSectionsActivity(this));
+        if (id == R.id.item_settings) openSettingsActivity(this);
+        else if (id == R.id.item_search) openSearchActivity(this);
+        else if (id == R.id.item_sections) openSectionsActivity(this);
         else if (item.getItemId() == android.R.id.home) finish();
         return true;
     }

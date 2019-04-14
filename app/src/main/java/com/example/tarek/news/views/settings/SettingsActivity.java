@@ -76,7 +76,6 @@ public class SettingsActivity extends BaseActivityNoMenu {
         protected void initiateValues() {
             activity = getActivity();
             sharedPreferencesHelper = SharedPreferencesHelper.getInstance(activity);
-            Gson gson = GsonObject.getGsonInstance();
             String responseSectionsString = sharedPreferencesHelper.getResponseSections();
             if (EMPTY_STRING.equals(responseSectionsString)){
                 showProgressBar(activity, true);
@@ -85,6 +84,7 @@ public class SettingsActivity extends BaseActivityNoMenu {
                 Call getSections = apiServices.getSections(SECTIONS_KEYWORD, queries);
                 APIClient.getResponse(getSections, this);
             }else {
+                Gson gson = GsonObject.getGsonInstance();
                 ResponseSections responseSections = gson.fromJson(responseSectionsString, ResponseSections.class);
                 setSectionsLists(responseSections.getResponse().getResults());
                 setPreferencesViews();
@@ -104,8 +104,11 @@ public class SettingsActivity extends BaseActivityNoMenu {
             sectionsPreference.setEntryValues(sectionsIds.toArray(new CharSequence[ZERO]));
             setSummaryToPreference(sectionsPreference , getString(R.string.sections_list_key));
 
-            Preference orderedByDate = findPreference(getString(R.string.ordering_list_key));
-            setSummaryToPreference(orderedByDate , getString(R.string.ordering_list_key));
+            Preference orderedBy = findPreference(getString(R.string.order_by_list_key));
+            setSummaryToPreference(orderedBy , getString(R.string.order_by_list_key));
+
+            Preference orderedDate = findPreference(getString(R.string.order_date_list_key));
+            setSummaryToPreference(orderedDate , getString(R.string.order_date_list_key));
         }
 
         private void setSummaryToPreference(Preference preferences , String preferenceStringValue) {
@@ -166,7 +169,8 @@ public class SettingsActivity extends BaseActivityNoMenu {
         }
     }
 
-    public static Intent openSettingsActivity(Context context) {
-        return new Intent(context, SettingsActivity.class);
+    public static void openSettingsActivity(Context context) {
+        Intent openSettingsActivity = new Intent(context, SettingsActivity.class);
+        context.startActivity(openSettingsActivity);
     }
 }

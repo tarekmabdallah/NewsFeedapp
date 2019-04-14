@@ -44,7 +44,8 @@ public class SectionsActivity extends BaseActivity {
         return getString(R.string.sections_label);
     }
 
-    public static Intent openSectionsActivity (Context context){
-        return new Intent(context, SectionsActivity.class);
+    public static void openSectionsActivity (Context context){
+        Intent openSectionsActivity = new Intent(context, SectionsActivity.class);
+        context.startActivity(openSectionsActivity);
     }
 }

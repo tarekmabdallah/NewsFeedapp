@@ -27,9 +27,13 @@
     <string name="sections_list_key" translatable="false">main_section</string>
     <string name="sections_list_default_value" translatable="false">@string/world_id</string>
 
-    <string name="ordering_list_label">Order By</string>
-    <string name="ordering_list_key" translatable="false">order_by</string>
-    <string name="ordering_list_default_value" translatable="false">@string/newest_value</string>
+    <string name="order_by_list_label">Order By</string>
+    <string name="order_by_list_key" translatable="false">order_by</string>
+    <string name="order_by_list_default_value" translatable="false">@string/newest_value</string>
+
+    <string name="order_date_list_label">Order Date</string>
+    <string name="order_date_list_key" translatable="false">order_date</string>
+    <string name="order_date_list_default_value" translatable="false">@string/newest_value</string>
 
     <string name="newest_label">Newest</string>
     <string name="oldest_label">Oldest</string>
@@ -37,6 +41,13 @@
     <string name="newest_value">newest</string>
     <string name="oldest_value">oldest</string>
     <string name="relevance_value">relevance</string>
+
+    <string name="published_label">Published</string>
+    <string name="newspaper_edition_label">Newspaper edition</string>
+    <string name="last_modified_label">Last modified</string>
+    <string name="published_value">published</string>
+    <string name="newspaper_edition_value">newspaper-edition</string>
+    <string name="last_modified_value">last-modified</string>
 
     <string name="throwable">throwable</string>
     <string name="required_msg">required !</string>

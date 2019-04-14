@@ -191,8 +191,9 @@ public class SearchActivity extends BaseActivity {
         return searchView.getQuery().toString();
     }
 
-    public static Intent openSearchActivity(Context context) {
-        return new Intent(context, SearchActivity.class);
+    public static void openSearchActivity(Context context) {
+        Intent openSearchActivity = new Intent(context, SearchActivity.class);
+        context.startActivity(openSearchActivity);
     }
 
 }

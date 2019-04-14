@@ -19,7 +19,7 @@ public abstract class BaseDataLoaderFragment extends BaseFragment {
     @Override
     protected void initiateValues() {
         apiServices = APIClient.getInstance(activity).create(APIServices.class);
-        queries = getQueriesMap(activity); //(Map<String, Object>) activity.getIntent().getSerializableExtra(QUERIES_KEYWORD);
+        queries = getQueriesMap(activity);
     }
 
     @Override

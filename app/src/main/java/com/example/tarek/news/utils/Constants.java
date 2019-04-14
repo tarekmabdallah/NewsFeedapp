@@ -43,6 +43,7 @@ public class Constants {
 
     public static final String QUERY_PAGE_SIZE_KEYWORD = "page-size";
     public static final String QUERY_ORDER_BY_KEYWORD = "order-by";
+    public static final String QUERY_ORDER_date_KEYWORD = "order-date";
     public static final String QUERY_SHOW_FIELDS_KEYWORD = "show-fields";
     public static final String ARTICLE_FIELDS = "byline,thumbnail,trailText,headline,trailText,byline,bodyText,body,wordcount"; // CAN ALSO USE "all" to get all fields, "trailText,headline,standfirst,byline,main,body"
 
