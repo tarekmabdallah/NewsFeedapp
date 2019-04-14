@@ -20,9 +20,11 @@ import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +32,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -61,7 +64,10 @@ import static com.example.tarek.news.utils.Constants.ARTICLE_FIELDS;
 import static com.example.tarek.news.utils.Constants.COMMA;
 import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
 import static com.example.tarek.news.utils.Constants.ONE;
-import static com.example.tarek.news.utils.Constants.SHOW_FIELDS;
+import static com.example.tarek.news.utils.Constants.PAGE_SIZE;
+import static com.example.tarek.news.utils.Constants.QUERY_ORDER_BY_KEYWORD;
+import static com.example.tarek.news.utils.Constants.QUERY_PAGE_SIZE_KEYWORD;
+import static com.example.tarek.news.utils.Constants.QUERY_SHOW_FIELDS_KEYWORD;
 import static com.example.tarek.news.utils.Constants.SPACE_REGEX;
 import static com.example.tarek.news.utils.Constants.THREE;
 import static com.example.tarek.news.utils.Constants.TWO;
@@ -324,6 +330,14 @@ public class ViewsUtils {
         return Math.round(fpixels);
     }
 
+    public static void showProgressBar (Context context, boolean show){
+        @SuppressLint("InflateParams")
+        View progressBarLayout =  ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.progress_bar_no_data_tv_layout, null, false);
+        View progressBar = progressBarLayout.findViewById(R.id.progress_bar);
+        ViewsUtils.showProgressBar(progressBar, show);
+    }
+
     /**
      * used when we need to block the UI while some data get loaded and the progressBar is visible
      */
@@ -467,12 +481,20 @@ public class ViewsUtils {
     }
 
     /**
-     * @return map contains SHOW_FIELDS to get articles fields
+     * @return map contains QUERY_SHOW_FIELDS_KEYWORD to get articles fields
      */
-    public static Map<String, Object> getQueriesMap() {
+    public static Map<String, Object> getQueriesMap(Context context) {
+        String orderBy = getValueFromPreferencesByKey(context, context.getString(R.string.ordering_list_key), context.getString(R.string.ordering_list_default_value));
         Map<String, Object> queries = new HashMap<>();
-        queries.put(SHOW_FIELDS, ARTICLE_FIELDS);
+        queries.put(QUERY_SHOW_FIELDS_KEYWORD, ARTICLE_FIELDS);
+        queries.put(QUERY_PAGE_SIZE_KEYWORD, PAGE_SIZE);
+        queries.put(QUERY_ORDER_BY_KEYWORD, orderBy);
         return queries;
+    }
+
+    public static String getValueFromPreferencesByKey(Context context, String key, String defaultValue){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, defaultValue);
     }
 
     public static void commitFragment (FragmentManager fragmentManager, int containerId, Fragment fragment){

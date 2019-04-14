@@ -33,6 +33,6 @@
 
     <item
         android:id="@+id/item_settings"
-        android:title="@string/settings_activity_label"
+        android:title="@string/settings_label"
         app:showAsAction="never" />
 </menu>

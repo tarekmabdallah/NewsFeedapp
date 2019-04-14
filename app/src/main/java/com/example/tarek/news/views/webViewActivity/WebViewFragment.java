@@ -75,10 +75,7 @@ public class WebViewFragment extends BaseFragment {
     protected void setUI() {
         if (null != url) webView.loadUrl(url);
         else if (null != textHtml) webView.loadData(textHtml, HTML_TEXT, UTF8);
-        else {
-            showProgressBar(progressBar, false);
-            showToastMsg("error");
-        }
+        else showToastMsg(getString(R.string.error_label));
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -113,7 +110,7 @@ public class WebViewFragment extends BaseFragment {
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                showToastMsg("Error:" + description);
+                showToastMsg(getString(R.string.error_label) + description);
             }
         };
         webView.setWebViewClient(webViewClient);

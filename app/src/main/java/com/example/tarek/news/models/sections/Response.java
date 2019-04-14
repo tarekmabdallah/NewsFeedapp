@@ -1,5 +1,7 @@
 package com.example.tarek.news.models.sections;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -50,14 +52,15 @@ public class Response{
 		return status;
 	}
 
+	@NonNull
 	@Override
  	public String toString(){
 		return 
 			"Response{" + 
-			"userTier = '" + userTier + '\'' + 
-			",total = '" + total + '\'' + 
-			",results = '" + results + '\'' + 
-			",status = '" + status + '\'' + 
+			"userTier : '" + userTier + '\'' +
+			",total : '" + total + '\'' +
+			",results : '" + results + '\'' +
+			",status : '" + status + '\'' +
 			"}";
 		}
 }

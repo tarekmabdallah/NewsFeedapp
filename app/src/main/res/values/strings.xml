@@ -15,42 +15,29 @@
    -->
 <resources>
     <string name="app_name">News app</string>
+    <string name="search_label">Search</string>
+    <string name="sections_label">Sections</string>
+    <string name="article_details_label">Details</string>
+    <string name="error_label">Error:</string>
+    <string name="main_label">Main</string>
+    <string name="settings_label">Settings</string>
+    <string name="world_id" translatable="false">world</string>
 
-    <string name="no_connection">Sorry no internet connection\nplease check your connection\nand try again later</string>
+    <string name="sections_list_label">Main section</string>
+    <string name="sections_list_key" translatable="false">main_section</string>
+    <string name="sections_list_default_value" translatable="false">@string/world_id</string>
 
-    <string name="settings_activity_label">Settings</string>
+    <string name="ordering_list_label">Order By</string>
+    <string name="ordering_list_key" translatable="false">order_by</string>
+    <string name="ordering_list_default_value" translatable="false">@string/newest_value</string>
 
-    <string name="no_news_found">Currently there are no stories for you.\nYou can always come later\nand check for all new stories.</string>
+    <string name="newest_label">Newest</string>
+    <string name="oldest_label">Oldest</string>
+    <string name="relevance_label">Relevance</string>
+    <string name="newest_value">newest</string>
+    <string name="oldest_value">oldest</string>
+    <string name="relevance_value">relevance</string>
 
-    <string name="tag_list_label">Order By Tag</string>
-    <string name="tag_list_key" translatable="false">order_by_tag</string>
-    <string name="tag_list_default_value" translatable="false">@string/tag_list_ordered_by_section_sport_default_value</string>
-
-    <string name="tag_list_ordered_by_section_world_label">World</string>
-    <string name="tag_list_ordered_by_section_world_default_value" translatable="false">world</string>
-
-    <string name="tag_list_ordered_by_section_sport_label">Sport</string>
-    <string name="tag_list_ordered_by_section_sport_default_value" translatable="false">sport</string>
-
-    <string name="tag_list_ordered_by_section_football_label">Football</string>
-    <string name="tag_list_ordered_by_section_sport_football_value" translatable="false">football</string>
-
-
-    <string name="date_list_label">Order By Date</string>
-    <string name="date_list_key" translatable="false">order_by_date</string>
-    <string name="date_list_default_value" translatable="false">@string/date_list_2018_default_value</string>
-
-    <string name="date_list_2018_label">2018</string>
-    <string name="date_list_2018_default_value" translatable="false">2018-01-01</string>
-
-    <string name="date_list_2017_label">2017</string>
-    <string name="date_list_2017_default_value" translatable="false">2017-01-01</string>
-
-    <string name="date_list_2016_label">2016</string>
-    <string name="date_list_2016_default_value" translatable="false">2016-01-01</string>
-
-    <string name="date_list_2015_label">2015</string>
-    <string name="date_list_2015_default_value" translatable="false">2015-01-01</string>
     <string name="throwable">throwable</string>
     <string name="required_msg">required !</string>
     <string name="special_chars_msg">Please, remove any special chars</string>
@@ -58,8 +45,10 @@
     <string name="password_length_msg">Password must be more than 6 letters</string>
     <string name="no_items_msg">Sorry, no Items for this page</string>
     <string name="no_browser_msg">Sorry, You don\'t have a browser app or any app can open this page</string>
-    <string name="search_label">Search</string>
-    <string name="sections_label">Sections</string>
-    <string name="article_details_label">Details</string>
+
+    <string name="no_connection">Sorry no internet connection\nplease check your connection\nand try again later</string>
+    <string name="no_news_found">Currently there are no stories for you.\nYou can always come later\nand check for all new stories.</string>
+
+
 
 </resources>

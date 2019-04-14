@@ -16,18 +16,29 @@
 
 package com.example.tarek.news.views.main;
 
+import com.example.tarek.news.R;
 import com.example.tarek.news.views.section.SectionActivity;
+
+import butterknife.BindString;
+
+import static com.example.tarek.news.utils.ViewsUtils.getValueFromPreferencesByKey;
 
 public class MainActivity extends SectionActivity {
 
+    @BindString(R.string.sections_list_key)
+    String sectionKey;
+    @BindString(R.string.sections_list_default_value)
+    String sectionDefaultValue;
+
     @Override
     protected String getSectionId() {
-        return "world";
+        String sectionId = getValueFromPreferencesByKey(this, sectionKey, sectionDefaultValue);
+        return null == sectionId ? getString(R.string.sections_list_default_value) : sectionId;
     }
 
     @Override
     protected String getSectionTitle() {
-        return "World news";
+        return getString(R.string.main_label);
     }
 
     @Override // do nothing to avoid showing back arrow in the tool bar

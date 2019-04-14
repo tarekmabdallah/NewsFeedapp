@@ -1,5 +1,7 @@
 package com.example.tarek.news.models.sections;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -72,16 +74,17 @@ public class Section {
 		return activeSponsorships;
 	}
 
+	@NonNull
 	@Override
  	public String toString(){
 		return 
 			"Section{" +
-			"editions = '" + editions + '\'' + 
-			",apiUrl = '" + apiUrl + '\'' + 
-			",webUrl = '" + webUrl + '\'' + 
-			",webTitle = '" + webTitle + '\'' + 
-			",id = '" + id + '\'' + 
-			",activeSponsorships = '" + activeSponsorships + '\'' + 
+			"editions : '" + editions + '\'' +
+			",apiUrl : '" + apiUrl + '\'' +
+			",webUrl : '" + webUrl + '\'' +
+			",webTitle : '" + webTitle + '\'' +
+			",id : '" + id + '\'' +
+			",activeSponsorships : '" + activeSponsorships + '\'' +
 			"}";
 		}
 }

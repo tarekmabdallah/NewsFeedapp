@@ -1,5 +1,7 @@
 package com.example.tarek.news.models.sections;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 public class ResponseSections{
@@ -15,11 +17,12 @@ public class ResponseSections{
 		return response;
 	}
 
+	@NonNull
 	@Override
  	public String toString(){
-		return 
-			"ResponseSections{" + 
-			"response = '" + response + '\'' + 
+		return
+			"ResponseSections{" +
+			"response = '" + response + '\'' +
 			"}";
 		}
 }

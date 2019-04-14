@@ -1,10 +1,12 @@
 package com.example.tarek.news.views.sections;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.tarek.news.R;
+import com.example.tarek.news.data.sp.SharedPreferencesHelper;
 import com.example.tarek.news.models.sections.ResponseSections;
 import com.example.tarek.news.models.sections.Section;
 import com.example.tarek.news.views.bases.BaseDataLoaderFragment;
@@ -59,17 +61,21 @@ public class SectionsFragment extends BaseDataLoaderFragment {
     }
 
     @Override
-    protected void whenDataFetchedGetResponse(Object response) {
+    protected void whenDataFetchedGetResponse(Object body) {
         sectionsAdapter.clear();
-        if (response instanceof ResponseSections) {
-            ResponseSections responseSections = (ResponseSections) response;
+        if (body instanceof ResponseSections) {
+            ResponseSections responseSections = (ResponseSections) body;
             sectionList = responseSections.getResponse().getResults();
             if (sectionList != null && !sectionList.isEmpty()) {
-                for (Section section: sectionList) {
-                    sectionsAdapter.add(section.getWebTitle());
-                }
+                saveSectionsListsInSP(activity, responseSections);
+                for (Section section: sectionList) sectionsAdapter.add(section.getWebTitle());
             } else handleNoDataFromResponse();
         }
+    }
+
+    public static void saveSectionsListsInSP(Context context, ResponseSections responseSections){
+        SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(context);
+        sharedPreferencesHelper.saveResponseSections(responseSections);
     }
 
     public static SectionsFragment getInstance() {

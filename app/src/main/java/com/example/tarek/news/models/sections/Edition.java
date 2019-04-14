@@ -1,5 +1,7 @@
 package com.example.tarek.news.models.sections;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Edition {
@@ -59,15 +61,16 @@ public class Edition {
 		return id;
 	}
 
+	@NonNull
 	@Override
  	public String toString(){
 		return 
 			"Edition{" +
-			"code = '" + code + '\'' + 
-			",apiUrl = '" + apiUrl + '\'' + 
-			",webUrl = '" + webUrl + '\'' + 
-			",webTitle = '" + webTitle + '\'' + 
-			",id = '" + id + '\'' + 
+			"code : '" + code + '\'' +
+			",apiUrl : '" + apiUrl + '\'' +
+			",webUrl : '" + webUrl + '\'' +
+			",webTitle : '" + webTitle + '\'' +
+			",id : '" + id + '\'' +
 			"}";
 		}
 }

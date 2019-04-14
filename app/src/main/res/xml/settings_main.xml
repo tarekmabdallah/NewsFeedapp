@@ -16,19 +16,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:title="@string/tag_list_label"
-        android:entries="@array/tag_labels_order_by"
-        android:entryValues="@array/tag_values_order_by"
-        android:defaultValue="@string/tag_list_ordered_by_section_sport_default_value"
-        android:key="@string/tag_list_key" />
-
+        android:title="@string/sections_list_label"
+        android:defaultValue="@string/sections_list_default_value"
+        android:key="@string/sections_list_key" />
 
     <ListPreference
-        android:title="@string/date_list_label"
-        android:entries="@array/date_labels_order_by"
-        android:entryValues="@array/date_values_order_by"
-        android:defaultValue="@string/date_list_2018_default_value"
-        android:key="@string/date_list_key" />
-
+        android:title="@string/ordering_list_label"
+        android:entries="@array/ordering_list_labels"
+        android:entryValues="@array/ordering_list_values"
+        android:defaultValue="@string/ordering_list_default_value"
+        android:key="@string/ordering_list_key" />
 
 </PreferenceScreen>

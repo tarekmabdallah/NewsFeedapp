@@ -35,6 +35,7 @@ import static com.example.tarek.news.utils.ViewsUtils.commitFragment;
 import static com.example.tarek.news.utils.ViewsUtils.showShortToastMsg;
 import static com.example.tarek.news.views.search.SearchActivity.openSearchActivity;
 import static com.example.tarek.news.views.sections.SectionsActivity.openSectionsActivity;
+import static com.example.tarek.news.views.settings.SettingsActivity.openSettingsActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -42,10 +43,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     // TODO: 07-Apr-19 to use paging
     // TODO: 07-Apr-19 to use Fb sdk for logging
     // TODO: 07-Apr-19 to use firebase for crash analytics and messing
-    // TODO: 07-Apr-19 to use the rest APIs
     // TODO: 07-Apr-19 to use dragger 2 and RxJava
-    // TODO: 07-Apr-19 to update the UI
-    // TODO: 4/11/2019 add rotating func.
+    // TODO: 07-Apr-19 to update the UI (Responsive UI)
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,9 +88,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.item_settings)
-//            startActivity(openSettingsActivity(this));
-            showShortToastMsg(this, "sorry, not ready now");
+        if (id == R.id.item_settings) startActivity(openSettingsActivity(this));
+//            showShortToastMsg(this, "sorry, not ready now");
         else if (id == R.id.item_search) startActivity(openSearchActivity(this));
         else if (id == R.id.item_sections) startActivity(openSectionsActivity(this));
         else if (item.getItemId() == android.R.id.home) finish();

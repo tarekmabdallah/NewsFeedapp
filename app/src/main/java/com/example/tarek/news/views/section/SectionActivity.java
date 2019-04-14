@@ -4,15 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.tarek.news.R;
+import com.example.tarek.news.data.sp.SharedPreferencesHelper;
 import com.example.tarek.news.views.bases.BaseActivity;
 import com.example.tarek.news.views.section.articlesFragment.ArticlesFragment;
 
 import static com.example.tarek.news.utils.Constants.SECTION_KEYWORD;
 import static com.example.tarek.news.utils.Constants.TITLE_KEYWORD;
+import static com.example.tarek.news.utils.ViewsUtils.restartActivity;
 
 public class SectionActivity extends BaseActivity {
 
-    private ArticlesFragment fragment;
+    protected ArticlesFragment fragment;
 
     @Override
     protected int getLayoutResId() {
@@ -27,6 +29,16 @@ public class SectionActivity extends BaseActivity {
     @Override
     protected void setActivityWhenSaveInstanceStateNull() {
         setFragmentToCommit(fragment, R.id.fragment_articles_container);
+    }
+
+    @Override
+    protected void setUI() {
+        SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
+        boolean isSPUpdated = sharedPreferencesHelper.getIsSPUpdated();
+        if (isSPUpdated) {
+            sharedPreferencesHelper.saveIsSPUpdated(false);
+            restartActivity(this);
+        }
     }
 
     protected String getSectionId(){

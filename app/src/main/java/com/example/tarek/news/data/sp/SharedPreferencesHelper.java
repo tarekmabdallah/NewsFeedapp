@@ -19,11 +19,17 @@ package com.example.tarek.news.data.sp;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.tarek.news.models.sections.ResponseSections;
+import com.example.tarek.news.utils.GsonObject;
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
+import static com.example.tarek.news.utils.Constants.IS_SP_UPDATED;
 import static com.example.tarek.news.utils.Constants.SEARCH_HISTORY_KEYWORD;
+import static com.example.tarek.news.utils.Constants.SECTIONS_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.convertListToString;
 import static com.example.tarek.news.utils.ViewsUtils.convertStringToList;
 
@@ -55,5 +61,24 @@ public class SharedPreferencesHelper {
         return convertStringToList(sharedPreferences.getString(SEARCH_HISTORY_KEYWORD, EMPTY_STRING));
     }
 
+    public void saveResponseSections(ResponseSections responseSections){
+        Gson gson = GsonObject.getGsonInstance();
+        String responseSectionsString = gson.toJson(responseSections);
+        sharedPreferences.edit().putString(SECTIONS_KEYWORD, responseSectionsString).apply();
+    }
 
+    /**
+     * @return string of ResponseSections .. it may be EMPTY_STRING , then sectionsAPI will be called
+     */
+    public String getResponseSections(){
+        return sharedPreferences.getString(SECTIONS_KEYWORD, EMPTY_STRING);
+    }
+
+    public void saveIsSPUpdated(boolean updated){
+        sharedPreferences.edit().putBoolean(IS_SP_UPDATED, updated).apply();
+    }
+
+    public boolean getIsSPUpdated(){
+        return sharedPreferences.getBoolean(IS_SP_UPDATED, false);
+    }
 }

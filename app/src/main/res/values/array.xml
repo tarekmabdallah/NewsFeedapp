@@ -15,33 +15,16 @@
    -->
 <resources>
 
-    <string-array name="tag_labels_order_by">
-        <item>@string/tag_list_ordered_by_section_world_label</item>
-        <item>@string/tag_list_ordered_by_section_sport_label</item>
-        <item>@string/tag_list_ordered_by_section_football_label</item>
+    <string-array name="ordering_list_labels">
+        <item>@string/newest_label</item>
+        <item>@string/oldest_label</item>
+        <item>@string/relevance_label</item>
     </string-array>
 
-    <string-array name="tag_values_order_by">
-        <item>@string/tag_list_ordered_by_section_world_default_value</item>
-        <item>@string/tag_list_ordered_by_section_sport_default_value</item>
-        <item>@string/tag_list_ordered_by_section_sport_football_value</item>
+    <string-array name="ordering_list_values">
+        <item>@string/newest_value</item>
+        <item>@string/oldest_value</item>
+        <item>@string/relevance_value</item>
     </string-array>
-
-
-    <string-array name="date_labels_order_by">
-        <item>@string/date_list_2018_label</item>
-        <item>@string/date_list_2017_label</item>
-        <item>@string/date_list_2016_label</item>
-        <item>@string/date_list_2015_label</item>
-    </string-array>
-
-    <string-array name="date_values_order_by">
-        <item>@string/date_list_2018_default_value</item>
-        <item>@string/date_list_2017_default_value</item>
-        <item>@string/date_list_2016_default_value</item>
-        <item>@string/date_list_2015_default_value</item>
-    </string-array>
-
-
 
 </resources>
