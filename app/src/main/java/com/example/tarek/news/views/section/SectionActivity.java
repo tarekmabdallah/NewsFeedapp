@@ -25,7 +25,7 @@ public class SectionActivity extends BaseActivity {
     }
 
     @Override
-    protected void setUI() {
+    protected void setActivityWhenSaveInstanceStateNull() {
         setFragmentToCommit(fragment, R.id.fragment_articles_container);
     }
 

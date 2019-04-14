@@ -57,6 +57,7 @@ public abstract class BaseFragment extends Fragment implements DataFetcherCallba
         } else {
             reSetActivityWithSaveInstanceState(savedInstanceState);
         }
+        initiateValuesAfterCheckSaveInstanceState();
     }
 
     @Override
@@ -104,7 +105,12 @@ public abstract class BaseFragment extends Fragment implements DataFetcherCallba
     protected void initiateValues() {
     }
 
+    /**
+     * to init some values after check if SaveInstanceState is null or not
+     */
+    protected void initiateValuesAfterCheckSaveInstanceState(){
 
+    }
     /**
      * override it to set the  UI
      * it is called in onResume() to recalled each time the activity resumed

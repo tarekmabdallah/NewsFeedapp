@@ -62,6 +62,11 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
+    protected String getSectionTitle() {
+        return getString(R.string.search_label);
+    }
+
+    @Override
     protected int[] getMenuItemIdsToHide() {
         return new int[]{R.id.item_search};
     }

@@ -18,6 +18,8 @@
 
 package com.example.tarek.news.views.section.articlesFragment;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -32,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.example.tarek.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
 import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openArticleHtmlInWebViewActivity;
 
@@ -53,8 +56,18 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     @Override
     protected void initiateValues() {
         super.initiateValues();
-
         setArticlesRecyclerView();
+    }
+
+    @Override
+    protected void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
+        sectionId = savedInstanceState.getString(SECTION_ID_KEYWORD);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(SECTION_ID_KEYWORD, sectionId);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

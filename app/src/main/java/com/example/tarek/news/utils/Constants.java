@@ -59,6 +59,7 @@ public class Constants {
     public static final String ARTICLES_LIST_KEYWORD = "ARTICLE_HTML_KEYWORD";
     public static final String URL_KEYWORD = "URL_KEYWORD";
     public static final String SECTION_KEYWORD = "SECTION_KEYWORD";
+    public static final String SECTION_ID_KEYWORD = "SECTION_ID_KEYWORD";
 
     public static final String EMAIL_INTENT = "mailto:";
     public static final String CALL_INTENT = "tel:";

@@ -20,6 +20,10 @@ public abstract class BaseDataLoaderFragment extends BaseFragment {
     protected void initiateValues() {
         apiServices = APIClient.getInstance(activity).create(APIServices.class);
         queries = getQueriesMap();
+    }
+
+    @Override
+    protected void initiateValuesAfterCheckSaveInstanceState() {
         call = getCall();
     }
 

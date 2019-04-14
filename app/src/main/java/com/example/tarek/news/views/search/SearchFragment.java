@@ -8,9 +8,11 @@ public class SearchFragment extends ArticlesFragment implements onClickItemListe
 
     @Override
     public void onClickItem(String searchKeyword) {
-        adapter.clear();
-        queries.put(QUERY_Q_KEYWORD, searchKeyword);
-        loadData();
+        if (null != adapter) adapter.clear();
+        if (null != queries) {
+            queries.put(QUERY_Q_KEYWORD, searchKeyword);
+            loadData();
+        }
     }
 
     public static SearchFragment getInstance(String sectionId) {
