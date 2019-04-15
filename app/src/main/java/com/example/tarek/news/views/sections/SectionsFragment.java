@@ -2,8 +2,6 @@ package com.example.tarek.news.views.sections;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -13,7 +11,6 @@ import com.example.tarek.news.models.sections.ResponseSections;
 import com.example.tarek.news.models.sections.Section;
 import com.example.tarek.news.views.bases.BaseDataLoaderFragment;
 
-import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,6 +51,11 @@ public class SectionsFragment extends BaseDataLoaderFragment {
     }
 
     @Override
+    protected int getAdapterCount() {
+        return sectionsAdapter.getCount();
+    }
+
+    @Override
     protected String getSectionId() {
         return SECTIONS_KEYWORD;
     }
@@ -72,8 +74,8 @@ public class SectionsFragment extends BaseDataLoaderFragment {
             @Override
             public void onSelectItem(int position) {
                 Section section = sectionList.get(position);
-//                sectionsLabel.setText(section.getWebTitle());
-//                sectionsAdapter.notifyDataSetChanged();
+                sectionsLabel.setText(section.getWebTitle());
+                sectionsAdapter.notifyDataSetChanged();
                 openSectionActivity(activity, section.getId(), section.getWebTitle(), false);
             }
         };
@@ -85,7 +87,7 @@ public class SectionsFragment extends BaseDataLoaderFragment {
         countriesLabel = countriesSpinnerLayout.findViewById(R.id.spinner_label);
         countriesLabel.setText(activity.getString(R.string.countries_news_label));
         final List<String> countriesList = Arrays.asList(activity.getResources().getStringArray(R.array.countries_array));
-        SpinnerAdapter countriesAdapter = new SpinnerAdapter(activity);
+        final SpinnerAdapter countriesAdapter = new SpinnerAdapter(activity);
         countriesAdapter.addAll(countriesList);
         SpinnerOnItemClickedListener spinnerOnItemClickedListener = new SpinnerOnItemClickedListener() {
             @Override
@@ -93,8 +95,8 @@ public class SectionsFragment extends BaseDataLoaderFragment {
                 String countryName = countriesList.get(position);
                 String sectionId = countryName.toLowerCase().replaceAll(SPACE_REGEX, DASH);
                 String title = countryName + SPACE + activity.getString(R.string.news_label);
-//                countriesLabel.setText(countryName);
-//                countriesAdapter.notifyDataSetChanged();
+                countriesLabel.setText(countryName);
+                countriesAdapter.notifyDataSetChanged();
                 openSectionActivity(activity, sectionId, title, true);
             }
         };

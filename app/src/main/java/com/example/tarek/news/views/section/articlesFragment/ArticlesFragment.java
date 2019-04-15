@@ -36,7 +36,6 @@ import retrofit2.Call;
 
 import static com.example.tarek.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.example.tarek.news.utils.Constants.SECTION_ID_KEYWORD;
-import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
 import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openArticleHtmlInWebViewActivity;
 
@@ -61,6 +60,11 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     }
 
     @Override
+    protected int getAdapterCount() {
+        return 0;
+    }
+
+    @Override
     protected Call getCall() {
         boolean isCountrySection = activity.getIntent().getBooleanExtra(IS_COUNTRY_SECTION, false);
         if (isCountrySection) return apiServices.getCountrySection(getSectionId(), queries);
@@ -70,11 +74,6 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     @Override
     public String getSectionId() {
         return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
-    }
-
-    @Override
-    protected void setUI() {
-        if (ZERO >= adapter.getItemCount()) super.setUI();
     }
 
     private void setArticlesRecyclerView() {

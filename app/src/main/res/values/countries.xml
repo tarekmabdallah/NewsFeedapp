@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- used as country labels and convert it to lower case and replace all spaces to dash (-) to be used as countries ids, should not be translated -->
     <string-array name="countries_array">
         <item>Afghanistan</item>
         <item>Albania</item>

@@ -8,6 +8,7 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.example.tarek.news.apis.APIClient.getResponse;
+import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
 
 public abstract class BaseDataLoaderFragment extends BaseFragment {
@@ -26,6 +27,13 @@ public abstract class BaseDataLoaderFragment extends BaseFragment {
     protected void initiateValuesAfterCheckSaveInstanceState() {
         call = getCall();
     }
+
+    @Override
+    protected void setUI() {
+        if (ZERO >= getAdapterCount()) super.setUI(); // to check if the data loaded before so don't reload it again onResume (after return back to the activity/fragment)
+    }
+
+    protected abstract int getAdapterCount();
 
     protected Call getCall(){
         return apiServices.getArticlesBySection(getSectionId(), queries);
