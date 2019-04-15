@@ -106,18 +106,12 @@ public class APIClient {
                 if (response.isSuccessful())
                     dataFetcherCallback.onDataFetched(response.body());
                 else {
-                    if (code == 401) // "UNAUTHENTICATED"
+                    if (code >= 400 && code < 500) {
                         throwable = new Throwable(message);
-                    else if (code == 403) // incorrect credentials
-                        throwable = new Throwable("incorrect credentials " + message);
-                    else if (code == 422) // "Unprocessable Entity" // in pay mob that means that the order id is duplicated and this id is sent before
-                        throwable = new Throwable("Unprocessable Entity" + response.errorBody());
-                    else if (code >= 400 && code < 500) {
-                        throwable = new Throwable("CLIENT ERROR " + code + response.errorBody());
                     } else if (code >= 500 && code < 600) //Internal Server Error "SERVER ERROR "
                         throwable = new Throwable(message);
                     else
-                        throwable = new Throwable("FATAL ERROR\nUnexpected response " + message);
+                        throwable = new Throwable("FATAL ERROR\nUnexpected response\n" + message);
                     dataFetcherCallback.onFailure(throwable, errorImageResId);
                 }
             }

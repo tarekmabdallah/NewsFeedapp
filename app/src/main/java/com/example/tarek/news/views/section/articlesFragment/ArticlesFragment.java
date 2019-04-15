@@ -18,8 +18,6 @@
 
 package com.example.tarek.news.views.section.articlesFragment;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -38,6 +36,7 @@ import retrofit2.Call;
 
 import static com.example.tarek.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.example.tarek.news.utils.Constants.SECTION_ID_KEYWORD;
+import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
 import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openArticleHtmlInWebViewActivity;
 
@@ -71,6 +70,11 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     @Override
     public String getSectionId() {
         return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
+    }
+
+    @Override
+    protected void setUI() {
+        if (ZERO >= adapter.getItemCount()) super.setUI();
     }
 
     private void setArticlesRecyclerView() {
