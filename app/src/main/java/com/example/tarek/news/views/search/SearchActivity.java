@@ -183,6 +183,7 @@ public class SearchActivity extends BaseActivity {
         if (isValidString(searchKeyword)) {
             onSearchForKeyWordListener.onClickItem(searchKeyword);
             makeViewVisible(fragmentContainer);
+            searchView.setFocusable(false);
         } else makeViewVisible(searchHistoryListView);
     }
 
