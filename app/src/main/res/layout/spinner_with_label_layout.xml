@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/spinner_label"
+        style="@style/text_view_with_spinner_layout_style"
+        android:paddingTop="@dimen/space8"
+        android:paddingBottom="@dimen/space8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/sections_label"/>
+
+    <Spinner
+        android:id="@+id/spinner"
+        style="@style/spinner_with_label_TV_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/spinner_label"
+        app:layout_constraintStart_toStartOf="@id/spinner_label"
+        app:layout_constraintTop_toTopOf="@id/spinner_label"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_label"/>
+
+</android.support.constraint.ConstraintLayout>

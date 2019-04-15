@@ -24,6 +24,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.tarek.news.R;
+import com.example.tarek.news.models.countryNews.ResponseCountryNews;
 import com.example.tarek.news.models.section.ResponseSection;
 import com.example.tarek.news.models.section.articles.Article;
 import com.example.tarek.news.views.bases.BaseDataLoaderFragment;
@@ -33,7 +34,9 @@ import com.example.tarek.news.views.section.articlesFragment.adapter.OnArticleCl
 import java.util.List;
 
 import butterknife.BindView;
+import retrofit2.Call;
 
+import static com.example.tarek.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.example.tarek.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
 import static com.example.tarek.news.views.webViewActivity.WebViewActivity.openArticleHtmlInWebViewActivity;
@@ -46,7 +49,6 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
 
     protected ArticleAdapter adapter  ;
     protected List<Article> articles ;
-    protected String sectionId;
 
     @Override
     protected int getLayoutResId() {
@@ -60,19 +62,15 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     }
 
     @Override
-    protected void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
-        sectionId = savedInstanceState.getString(SECTION_ID_KEYWORD);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(SECTION_ID_KEYWORD, sectionId);
-        super.onSaveInstanceState(outState);
+    protected Call getCall() {
+        boolean isCountrySection = activity.getIntent().getBooleanExtra(IS_COUNTRY_SECTION, false);
+        if (isCountrySection) return apiServices.getCountrySection(getSectionId(), queries);
+        return super.getCall();
     }
 
     @Override
     public String getSectionId() {
-        return sectionId;
+        return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
     }
 
     private void setArticlesRecyclerView() {
@@ -91,7 +89,7 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
                 String sectionName = article.getSectionName();
                 String activityTitle = activity.getTitle().toString();
                 if (!activityTitle.equals(sectionName))
-                    openSectionActivity(activity, article.getSectionId(), article.getSectionName());
+                    openSectionActivity(activity, article.getSectionId(), article.getSectionName(), false);
             }
         };
         adapter = new ArticleAdapter(activity);
@@ -106,20 +104,17 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     protected void whenDataFetchedGetResponse(Object response) {
         if (response instanceof ResponseSection) {
             ResponseSection section = (ResponseSection) response;
-            articles = section.getResponse().getItems();
-            if (articles != null && !articles.isEmpty()) {
-                adapter.swapList(articles);
-            } else handleNoDataFromResponse();
+            articles = section.getResponse().getResults();
+        }else if (response instanceof ResponseCountryNews){
+            ResponseCountryNews section = (ResponseCountryNews) response;
+            articles = section.getResponse().getResults();
         }
+        if (articles != null && !articles.isEmpty()) {
+            adapter.swapList(articles);
+        } else handleNoDataFromResponse();
     }
 
-    public void setSectionId(String sectionId) {
-        this.sectionId = sectionId;
-    }
-
-    public static ArticlesFragment getInstance(String sectionId) {
-        ArticlesFragment fragment =  new ArticlesFragment();
-        fragment.setSectionId(sectionId);
-        return fragment;
+    public static ArticlesFragment getInstance() {
+        return new ArticlesFragment();
     }
 }

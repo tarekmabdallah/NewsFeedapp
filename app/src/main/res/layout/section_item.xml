@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<TextView style="@style/list_item_style"
+<TextView style="@style/section_item_style"
     android:id="@+id/section_title"
     tools:text="@string/app_name"
     xmlns:tools="http://schemas.android.com/tools"

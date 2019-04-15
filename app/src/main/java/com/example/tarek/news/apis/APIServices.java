@@ -16,6 +16,7 @@
 
 package com.example.tarek.news.apis;
 
+import com.example.tarek.news.models.countryNews.ResponseCountryNews;
 import com.example.tarek.news.models.section.ResponseSection;
 import com.example.tarek.news.models.sections.ResponseSections;
 
@@ -38,6 +39,10 @@ public interface APIServices {
     Call<ResponseSection> getArticlesBySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
 
     @Headers({HEADER_API_KEY})
-    @GET("{section}") // used for it's different response
+    @GET("{section}") // used for it's different response to get sections names
     Call<ResponseSections> getSections(@Path("section") String section, @QueryMap Map<String, Object> queries);
+
+    @Headers({HEADER_API_KEY})
+    @GET("world/{section}") // to get country news / section
+    Call<ResponseCountryNews> getCountrySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
 }

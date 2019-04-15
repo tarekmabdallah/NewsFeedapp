@@ -74,7 +74,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void initiateValues() {
         super.initiateValues();
-        fragment = SearchFragment.getInstance(SEARCH_KEYWORD);
+        fragment = SearchFragment.getInstance();
         onSearchForKeyWordListener = fragment;
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
         setSearchHistoryListView();

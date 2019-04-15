@@ -19,9 +19,16 @@ package com.example.tarek.news.views.main;
 import com.example.tarek.news.R;
 import com.example.tarek.news.views.section.SectionActivity;
 
+import static com.example.tarek.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.getValueFromPreferencesByKey;
 
 public class MainActivity extends SectionActivity {
+
+    @Override
+    protected void initiateValues() {
+        super.initiateValues();
+        getIntent().putExtra(SECTION_ID_KEYWORD, getSectionId());
+    }
 
     @Override
     protected String getSectionId() {

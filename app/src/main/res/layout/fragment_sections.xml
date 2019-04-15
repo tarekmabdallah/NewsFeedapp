@@ -20,14 +20,21 @@
     android:layout_height="match_parent"
     tools:activity=".views.main.MainActivity">
 
-    <ListView
-        android:id="@+id/list_view"
+    <include
+        android:id="@+id/sections_spinner_layout"
+        layout="@layout/spinner_with_label_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null"
-        android:dividerHeight="@dimen/space8"
-        android:padding="@dimen/space8">
-    </ListView>
+        android:layout_margin="@dimen/space16"
+        android:layout_alignParentTop="true"/>
+
+    <include
+        android:id="@+id/countries_spinner_layout"
+        layout="@layout/spinner_with_label_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space16"
+        android:layout_below="@id/sections_spinner_layout"/>
 
     <include
         layout="@layout/progress_bar_no_data_tv_layout"

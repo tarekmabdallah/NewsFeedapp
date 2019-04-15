@@ -34,6 +34,7 @@ public class Constants {
     public static final String EMPTY_STRING = "";
     public static final String COMMA = ",";
     public static final String SPACE = " ";
+    public static final String DASH = "-";
     public static final String NEW_LINE = "\n";
     public static final String QUERY_Q_KEYWORD = "q";
     public static final String QUERY_API_KEY_KEYWORD = "api-key";
@@ -65,6 +66,7 @@ public class Constants {
     public static final String SECTION_KEYWORD = "SECTION_KEYWORD";
     public static final String SECTION_ID_KEYWORD = "SECTION_ID_KEYWORD";
     public static final String IS_SP_UPDATED = "IS_SP_UPDATED";
+    public static final String IS_COUNTRY_SECTION = "IS_COUNTRY_SECTION";
 
     public static final String EMAIL_INTENT = "mailto:";
     public static final String CALL_INTENT = "tel:";

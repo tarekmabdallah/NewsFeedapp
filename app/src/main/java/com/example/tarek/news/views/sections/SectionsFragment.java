@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.tarek.news.R;
 import com.example.tarek.news.data.sp.SharedPreferencesHelper;
@@ -11,20 +13,32 @@ import com.example.tarek.news.models.sections.ResponseSections;
 import com.example.tarek.news.models.sections.Section;
 import com.example.tarek.news.views.bases.BaseDataLoaderFragment;
 
+import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import retrofit2.Call;
 
+import static com.example.tarek.news.utils.Constants.DASH;
 import static com.example.tarek.news.utils.Constants.SECTIONS_KEYWORD;
+import static com.example.tarek.news.utils.Constants.SPACE;
+import static com.example.tarek.news.utils.Constants.SPACE_REGEX;
+import static com.example.tarek.news.utils.ViewsUtils.setSpinnerAdapter;
 import static com.example.tarek.news.views.section.SectionActivity.openSectionActivity;
 
 public class SectionsFragment extends BaseDataLoaderFragment {
 
-    @BindView(R.id.list_view)
-    ListView listView;
+    @BindView(R.id.sections_spinner_layout)
+    View sectionsSpinnerLayout;
+    Spinner sectionsSpinner;
+    TextView sectionsLabel;
+    @BindView(R.id.countries_spinner_layout)
+    View countriesSpinnerLayout;
+    Spinner countriesSpinner;
+    TextView countriesLabel;
 
-    private SectionsAdapter sectionsAdapter;
+    private SpinnerAdapter sectionsAdapter;
     private List<Section> sectionList;
 
     @Override
@@ -35,7 +49,8 @@ public class SectionsFragment extends BaseDataLoaderFragment {
     @Override
     protected void initiateValues() {
         super.initiateValues();
-        setListView();
+        setSectionsSpinner();
+        setCountriesSpinner();
     }
 
     @Override
@@ -48,16 +63,42 @@ public class SectionsFragment extends BaseDataLoaderFragment {
         return apiServices.getSections(getSectionId(), queries);
     }
 
-    private void setListView() {
-        sectionsAdapter = new SectionsAdapter(activity);
-        listView.setAdapter(sectionsAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void setSectionsSpinner() {
+        sectionsSpinner = sectionsSpinnerLayout.findViewById(R.id.spinner);
+        sectionsLabel = sectionsSpinnerLayout.findViewById(R.id.spinner_label);
+        sectionsAdapter = new SpinnerAdapter(activity);
+        sectionsLabel.setText(activity.getString(R.string.sections_label));
+        SpinnerOnItemClickedListener spinnerOnItemClickedListener = new SpinnerOnItemClickedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onSelectItem(int position) {
                 Section section = sectionList.get(position);
-                openSectionActivity(activity, section.getId(), section.getWebTitle());
+//                sectionsLabel.setText(section.getWebTitle());
+//                sectionsAdapter.notifyDataSetChanged();
+                openSectionActivity(activity, section.getId(), section.getWebTitle(), false);
             }
-        });
+        };
+        setSpinnerAdapter(sectionsSpinner, sectionsAdapter,spinnerOnItemClickedListener, sectionsLabel);
+    }
+
+    private void setCountriesSpinner() {
+        countriesSpinner = countriesSpinnerLayout.findViewById(R.id.spinner);
+        countriesLabel = countriesSpinnerLayout.findViewById(R.id.spinner_label);
+        countriesLabel.setText(activity.getString(R.string.countries_news_label));
+        final List<String> countriesList = Arrays.asList(activity.getResources().getStringArray(R.array.countries_array));
+        SpinnerAdapter countriesAdapter = new SpinnerAdapter(activity);
+        countriesAdapter.addAll(countriesList);
+        SpinnerOnItemClickedListener spinnerOnItemClickedListener = new SpinnerOnItemClickedListener() {
+            @Override
+            public void onSelectItem(int position) {
+                String countryName = countriesList.get(position);
+                String sectionId = countryName.toLowerCase().replaceAll(SPACE_REGEX, DASH);
+                String title = countryName + SPACE + activity.getString(R.string.news_label);
+//                countriesLabel.setText(countryName);
+//                countriesAdapter.notifyDataSetChanged();
+                openSectionActivity(activity, sectionId, title, true);
+            }
+        };
+        setSpinnerAdapter(countriesSpinner, countriesAdapter,spinnerOnItemClickedListener, countriesLabel);
     }
 
     @Override

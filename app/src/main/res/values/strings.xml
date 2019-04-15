@@ -33,7 +33,7 @@
 
     <string name="order_date_list_label">Order Date</string>
     <string name="order_date_list_key" translatable="false">order_date</string>
-    <string name="order_date_list_default_value" translatable="false">@string/newest_value</string>
+    <string name="order_date_list_default_value" translatable="false">@string/published_value</string>
 
     <string name="newest_label">Newest</string>
     <string name="oldest_label">Oldest</string>
@@ -59,7 +59,8 @@
 
     <string name="no_connection">Sorry no internet connection\nplease check your connection\nand try again later</string>
     <string name="no_news_found">Currently there are no stories for you.\nYou can always come later\nand check for all new stories.</string>
-
+    <string name="news_label">News</string>
+    <string name="countries_news_label">Countries news</string>
 
 
 </resources>

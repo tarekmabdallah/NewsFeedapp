@@ -8,6 +8,8 @@ import com.example.tarek.news.data.sp.SharedPreferencesHelper;
 import com.example.tarek.news.views.bases.BaseActivity;
 import com.example.tarek.news.views.section.articlesFragment.ArticlesFragment;
 
+import static com.example.tarek.news.utils.Constants.IS_COUNTRY_SECTION;
+import static com.example.tarek.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.example.tarek.news.utils.Constants.SECTION_KEYWORD;
 import static com.example.tarek.news.utils.Constants.TITLE_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.restartActivity;
@@ -23,7 +25,7 @@ public class SectionActivity extends BaseActivity {
 
     @Override
     protected void initiateValues() {
-        fragment = ArticlesFragment.getInstance(getSectionId());
+        fragment = ArticlesFragment.getInstance();
     }
 
     @Override
@@ -42,7 +44,7 @@ public class SectionActivity extends BaseActivity {
     }
 
     protected String getSectionId(){
-        return String.valueOf(getValueFromIntent(SECTION_KEYWORD));
+        return String.valueOf(getValueFromIntent(SECTION_ID_KEYWORD));
     }
 
     @Override
@@ -50,10 +52,11 @@ public class SectionActivity extends BaseActivity {
         return String.valueOf(getValueFromIntent(TITLE_KEYWORD));
     }
 
-    public static void openSectionActivity(Context context, String sectionId, String sectionTitle){
+    public static void openSectionActivity(Context context, String sectionId, String sectionTitle, boolean isCountrySection){
         Intent openSectionActivity = new Intent(context, SectionActivity.class);
-        openSectionActivity.putExtra(SECTION_KEYWORD, sectionId);
+        openSectionActivity.putExtra(SECTION_ID_KEYWORD, sectionId);
         openSectionActivity.putExtra(TITLE_KEYWORD, sectionTitle);
+        openSectionActivity.putExtra(IS_COUNTRY_SECTION, isCountrySection);
         context.startActivity(openSectionActivity);
     }
 }

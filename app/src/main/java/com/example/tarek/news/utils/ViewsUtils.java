@@ -35,12 +35,16 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tarek.news.R;
+import com.example.tarek.news.views.sections.SpinnerAdapter;
+import com.example.tarek.news.views.sections.SpinnerOnItemClickedListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -515,5 +519,26 @@ public class ViewsUtils {
         } catch (ActivityNotFoundException e) {
             showShortToastMsg(context, context.getString(R.string.no_browser_msg));
         }
+    }
+
+    /**
+     * to control almost spinners in the app
+     * @param spinner to set it's adapter
+     * @param dataAdapter which will display the data and to control it's DropDownViewResource
+     * @param spinnerOnItemClickedListener the run a soporific code when an item clicked
+     * @param label as the spinner is invisible, and when the label is clicked it will trigger the spinner
+     */
+    public static void setSpinnerAdapter (final Spinner spinner, ArrayAdapter dataAdapter, SpinnerOnItemClickedListener spinnerOnItemClickedListener, TextView label){
+        if (dataAdapter instanceof SpinnerAdapter){
+            ((SpinnerAdapter) dataAdapter).setSpinnerOnItemClickedListener(spinnerOnItemClickedListener);
+        }
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+        label.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner.performClick();
+            }
+        });
     }
 }
