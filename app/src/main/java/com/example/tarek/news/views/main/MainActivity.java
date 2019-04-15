@@ -24,21 +24,22 @@ import static com.example.tarek.news.utils.ViewsUtils.getValueFromPreferencesByK
 
 public class MainActivity extends SectionActivity {
 
+    private boolean isDefaultSection; // is it world news ?
+
     @Override
     protected void initiateValues() {
         super.initiateValues();
-        getIntent().putExtra(SECTION_ID_KEYWORD, getSectionId());
-    }
-
-    @Override
-    protected String getSectionId() {
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
-        return null == sectionId ? getString(R.string.sections_list_default_value) : sectionId;
+        isDefaultSection = null == sectionId;
+        if (isDefaultSection) sectionId = getString(R.string.sections_list_default_value);
+        getIntent().putExtra(SECTION_ID_KEYWORD, sectionId);
     }
 
     @Override
     protected String getSectionTitle() {
-        return getString(R.string.main_label);
+        String sectionName =  getString(R.string.world_news_label); // TODO: 4/15/2019 to get selected name not id from SP even if the user return to sny activity either MainActivity
+        if (!isDefaultSection) sectionName = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value); // temp solution
+        return getString(R.string.main_label) + String.format("(%s)", sectionName);
     }
 
     @Override // do nothing to avoid showing back arrow in the tool bar

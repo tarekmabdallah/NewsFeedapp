@@ -120,12 +120,12 @@ public class SettingsActivity extends BaseActivityNoMenu {
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-            sharedPreferencesHelper.saveIsSPUpdated(true);
             preference.setSummary(getLatestChoicesFromPreference(preference, newValue));
             return true;
         }
 
         private CharSequence getLatestChoicesFromPreference (Preference preference, Object newValue){
+            sharedPreferencesHelper.saveIsSPUpdated(true);
             String value = newValue.toString();
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;

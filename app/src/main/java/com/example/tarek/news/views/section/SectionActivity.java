@@ -10,7 +10,6 @@ import com.example.tarek.news.views.section.articlesFragment.ArticlesFragment;
 
 import static com.example.tarek.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.example.tarek.news.utils.Constants.SECTION_ID_KEYWORD;
-import static com.example.tarek.news.utils.Constants.SECTION_KEYWORD;
 import static com.example.tarek.news.utils.Constants.TITLE_KEYWORD;
 import static com.example.tarek.news.utils.ViewsUtils.restartActivity;
 
@@ -41,10 +40,6 @@ public class SectionActivity extends BaseActivity {
             sharedPreferencesHelper.saveIsSPUpdated(false);
             restartActivity(this);
         }
-    }
-
-    protected String getSectionId(){
-        return String.valueOf(getValueFromIntent(SECTION_ID_KEYWORD));
     }
 
     @Override

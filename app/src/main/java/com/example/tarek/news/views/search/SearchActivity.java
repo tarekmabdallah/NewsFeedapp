@@ -33,7 +33,6 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.example.tarek.news.utils.Constants.FIVE;
-import static com.example.tarek.news.utils.Constants.SEARCH_KEYWORD;
 import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.ViewsUtils.isValidString;
 import static com.example.tarek.news.utils.ViewsUtils.makeViewGone;
@@ -195,5 +194,4 @@ public class SearchActivity extends BaseActivity {
         Intent openSearchActivity = new Intent(context, SearchActivity.class);
         context.startActivity(openSearchActivity);
     }
-
 }
