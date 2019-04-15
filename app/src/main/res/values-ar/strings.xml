@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~
+  ~ Copyright 2019 tarekmabdallah91@gmail.com
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~   you may not use this file except in compliance with the License.
+  ~   You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  -->
+
+<resources>
+    <string name="app_name">News app</string>
+    <string name="search_label">بحث</string>
+    <string name="sections_label">أقسام</string>
+    <string name="article_details_label">التفاصيل</string>
+    <string name="error_label">خطأ:</string>
+    <string name="main_label">الرئيسية</string>
+    <string name="settings_label">الاعدادات</string>
+    <string name="sections_list_label">القسم الرئيسي</string>
+    <string name="order_by_list_label">"ترتيب حسب المحتوي"</string>
+    <string name="order_date_list_label">ترتب حسب التاريخ</string>
+    <string name="newest_label">الاحدث</string>
+    <string name="oldest_label">الاقدم</string>
+    <string name="relevance_label">العلاقة</string>
+    <string name="published_label">النشر</string>
+    <string name="newspaper_edition_label">الطبع</string>
+    <string name="last_modified_label">آخر تعديل</string>
+    <string name="required_msg">مطلوب</string>
+    <string name="special_chars_msg">من فضلك قم بحذف اي رموز خاصة</string>
+    <string name="password_requirements_msg">يجب ان تحتوي كلمة المرور علي احرف انجليزية كبيرة وصغيرة ورموز وارقام</string>
+    <string name="password_length_msg">يجب ان تحتوي كلمة المرور علي اكثر من 6 احرف</string>
+    <string name="no_items_msg">عفوا, لايوجد بيانات لهذا القسم الان</string>
+    <string name="no_browser_msg">عفوا, لايوجد مستعرض انترنت لفتح الصفحة</string>
+    <string name="no_connection">عفوا, لايوجد اتصال بالانترنت برجاء تفقد الاتصال والمحاولة مرة اخري</string>
+    <string name="no_news_found">عفوا, لايوجد مقالات لهذا القسم الان</string>
+    <string name="news_label">أخبار</string>
+    <string name="countries_news_label">الأخبار حسب الدول</string>
+    <string name="world_news_label">أخبار العالم</string>
+</resources>

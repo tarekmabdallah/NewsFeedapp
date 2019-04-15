@@ -42,6 +42,7 @@ public class Constants {
     public static final String QUERY_TAGS_KEYWORD = "show-tags";
     public static final String CONTRIBUTOR_KEYWORD = "contributor";
 
+    public static final String QUERY_LANGUAGE_KEYWORD = "lang";
     public static final String QUERY_PAGE_SIZE_KEYWORD = "page-size";
     public static final String QUERY_ORDER_BY_KEYWORD = "order-by";
     public static final String QUERY_ORDER_date_KEYWORD = "order-date";

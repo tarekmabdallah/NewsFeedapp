@@ -61,7 +61,7 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
 
     @Override
     protected int getAdapterCount() {
-        return 0;
+        return adapter.getItemCount();
     }
 
     @Override

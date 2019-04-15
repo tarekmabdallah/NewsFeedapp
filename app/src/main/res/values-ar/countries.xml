@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~
+  ~ Copyright 2019 tarekmabdallah91@gmail.com
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~   you may not use this file except in compliance with the License.
+  ~   You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  -->
+
+<resources>
+
+    <string-array name="countries_labels">
+        <item>افغانستان</item>
+        <item>البانيا</item>
+        <item>الجزائر</item>
+        <item>اندورا</item>
+        <item>انجولا</item>
+        <item>انجويلا</item>
+        <item>انتراكتيكا</item>
+        <item>انتيجوا و بربودا</item>
+        <item>الارجنتين</item>
+        <item>ارمينيا</item>
+        <item>استراليا</item>
+        <item>استريا</item>
+        <item>ازربيجان</item>
+        <item>البحرين</item>
+        <item>بنجلادش</item>
+        <item>باربادوس</item>
+        <item>بيلاروسيا</item>
+        <item>بلجيكا</item>
+        <item>بيليز</item>
+        <item>بينين</item>
+        <item>بيرمودا</item>
+        <item>بوليفيا</item>
+        <item>البوسنة والهرسك</item>
+        <item>بوتسوانا</item>
+        <item>البرازيل</item>
+        <item>جزر فيرجن البريطانية</item>
+        <item>بروناي</item>
+        <item>بلغاريا</item>
+        <item>بوركينا فاسو</item>
+        <item>بوروندي</item>
+        <item>كامبوديا</item>
+        <item>الكاميرون</item>
+        <item>كندا</item>
+        <item>الرأس الأخضر</item>
+        <item>جمهورية إفريقيا الوسطى</item>
+        <item>تشاد</item>
+        <item>تشيلي</item>
+        <item>الصين</item>
+        <item>كولومبيا</item>
+        <item>جزر القمر</item>
+        <item>الكونغو</item>
+        <item>جزر كوك</item>
+        <item>كوستاريكا</item>
+        <item>كرواتيا</item>
+        <item>كوبا</item>
+        <item>قبرص</item>
+        <item>التشيك</item>
+        <item>الدانمارك</item>
+        <item>جيبوتي</item>
+        <item>تيمور الشرقية</item>
+        <item>الاكوادور</item>
+        <item>مصر</item>
+        <item>السلفادور</item>
+        <item>غينيا الاستوائية</item>
+        <item>ارتريا</item>
+        <item>استونيا</item>
+        <item>اثيوبيا</item>
+        <item>فنلندا</item>
+        <item>فرنسا</item>
+        <item>غينيا الفرنسية</item>
+        <item>بولينيزيا الفرنسية</item>
+        <item>الجابون</item>
+        <item>جورجيا</item>
+        <item>المانيا</item>
+        <item>غانا</item>
+        <item>جبل طارق</item>
+        <item>اليونان</item>
+        <item>جرينلاند</item>
+        <item>غرينادا</item>
+        <item>غوادلوب</item>
+        <item>غوام</item>
+        <item>جواتيمالا</item>
+        <item>غينيا</item>
+        <item>غينيا بيساو</item>
+        <item>غويانا</item>
+        <item>هايتي</item>
+        <item>هندوراس</item>
+        <item>هونج كونج</item>
+        <item>المجر</item>
+        <item>ايسلندا</item>
+        <item>الهند</item>
+        <item>اندونيسيا</item>
+        <item>ايران</item>
+        <item>العراق</item>
+        <item>ايرلاندا</item>
+        <item>فلسطين</item>
+        <item>ايطاليا</item>
+        <item>جامايكا</item>
+        <item>اليابان</item>
+        <item>الاردن</item>
+        <item>كازاخستان</item>
+        <item>كينيا</item>
+        <item>كيريباس</item>
+        <item>الكويت</item>
+        <item>قرغيزستان</item>
+        <item>لاوس</item>
+        <item>لاتفيا</item>
+        <item>لبنان</item>
+        <item>ليسوتو</item>
+        <item>ليبيريا</item>
+        <item>ليبيا</item>
+        <item>ليختنشتاين</item>
+        <item>ليتوانيا</item>
+        <item>لوكسمبورغ</item>
+        <item>ماكاو</item>
+        <item>مدغشقر</item>
+        <item>مالاوي</item>
+        <item>ماليزيا</item>
+        <item>مالديفز</item>
+        <item>مالي</item>
+        <item>مالطا</item>
+        <item>المكسيك</item>
+        <item>ولايات ميكرونيسيا المتحدة</item>
+        <item>مولدوفا</item>
+        <item>موناكو</item>
+        <item>منغوليا</item>
+        <item>الجبل الأسود</item>
+        <item>مونتسرات</item>
+        <item>المغرب</item>
+        <item>موزمبيق</item>
+        <item>ميانمار (بورما)</item>
+        <item>ناميبيا</item>
+        <item>ناورو</item>
+        <item>نيبال</item>
+        <item>هولندا</item>
+        <item>جزر الأنتيل الهولندية</item>
+        <item>كاليدونيا الجديدة</item>
+        <item>نيوزيلندا</item>
+        <item>نيكاراجوا</item>
+        <item>النيجر</item>
+        <item>نيجيريا</item>
+        <item>نييوي</item>
+        <item>جزيرة نورفولك</item>
+        <item>كوريا الشمالية</item>
+        <item>جزر ماريانا الشمالية</item>
+        <item>النرويج</item>
+        <item>عمان</item>
+        <item>باكستان</item>
+        <item>بالاو</item>
+        <item>بنما</item>
+        <item>باراغواي</item>
+        <item>بيرو</item>
+        <item>الفلبين</item>
+        <item>جزر بيتكيرن</item>
+        <item>بولندا</item>
+        <item>البرتغال</item>
+        <item>بورتوريكو</item>
+        <item>قطر</item>
+        <item>ريونيون</item>
+        <item>رومانيا</item>
+        <item>روسيا</item>
+        <item>رواندا</item>
+        <item>سانت هيلانة</item>
+        <item>سانت لوسيا</item>
+        <item>ساموا</item>
+        <item>سان مارينو</item>
+        <item>السعودية</item>
+        <item>السنغال</item>
+        <item>صربيا</item>
+        <item>سيشيل</item>
+        <item>سيراليون</item>
+        <item>سنغافورة</item>
+        <item>سلوفاكيا</item>
+        <item>سلوفينيا</item>
+        <item>جزر سليمان</item>
+        <item>الصومال</item>
+        <item>جنوب أفريقيا</item>
+        <item>كوريا الجنوبية</item>
+        <item>جنوب السودان</item>
+        <item>إسبانيا</item>
+        <item>سريلانكا</item>
+        <item>السودان</item>
+        <item>سورينام</item>
+        <item>سوازيلاند</item>
+        <item>السويد</item>
+        <item>سويسرا</item>
+        <item>سوريا</item>
+        <item>تايوان</item>
+        <item>طاجيكستان</item>
+        <item>تنزانيا</item>
+        <item>تايلاند</item>
+        <item>توجو</item>
+        <item>ترينيداد وتوباغو</item>
+        <item>تونس</item>
+        <item>تركيا</item>
+        <item>تركمانستان</item>
+        <item>أوغندا</item>
+        <item>أوكرانيا</item>
+        <item>الإمارات العربية المتحدة</item>
+        <item>المملكة المتحدة</item>
+        <item>الولايات المتحدة</item>
+        <item>أوروغواي</item>
+        <item>أوزبكستان</item>
+        <item>فانواتو</item>
+        <item>الفاتيكان</item>
+        <item>فنزويلا</item>
+        <item>فيتنام</item>
+        <item>اليَمَن</item>
+        <item>يوغوسلافيا</item>
+        <item>زامبيا</item>
+        <item>زيمبابوي</item>
+    </string-array>
+
+</resources>

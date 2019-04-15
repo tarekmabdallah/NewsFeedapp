@@ -86,14 +86,15 @@ public class SectionsFragment extends BaseDataLoaderFragment {
         countriesSpinner = countriesSpinnerLayout.findViewById(R.id.spinner);
         countriesLabel = countriesSpinnerLayout.findViewById(R.id.spinner_label);
         countriesLabel.setText(activity.getString(R.string.countries_news_label));
-        final List<String> countriesList = Arrays.asList(activity.getResources().getStringArray(R.array.countries_array));
+        final List<String> countriesNamesList = Arrays.asList(activity.getResources().getStringArray(R.array.countries_labels));
+        final List<String> countriesIdsList = Arrays.asList(activity.getResources().getStringArray(R.array.countries_ids));
         final SpinnerAdapter countriesAdapter = new SpinnerAdapter(activity);
-        countriesAdapter.addAll(countriesList);
+        countriesAdapter.addAll(countriesNamesList);
         SpinnerOnItemClickedListener spinnerOnItemClickedListener = new SpinnerOnItemClickedListener() {
             @Override
             public void onSelectItem(int position) {
-                String countryName = countriesList.get(position);
-                String sectionId = countryName.toLowerCase().replaceAll(SPACE_REGEX, DASH);
+                String countryName = countriesNamesList.get(position);
+                String sectionId = countriesIdsList.get(position).toLowerCase().replaceAll(SPACE_REGEX, DASH);
                 String title = countryName + SPACE + activity.getString(R.string.news_label);
                 countriesLabel.setText(countryName);
                 countriesAdapter.notifyDataSetChanged();

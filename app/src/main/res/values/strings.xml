@@ -21,7 +21,7 @@
     <string name="error_label">Error:</string>
     <string name="main_label">Main</string>
     <string name="settings_label">Settings</string>
-    <string name="world_news_label" translatable="false">World news</string>
+    <string name="world_news_label">World news</string>
     <string name="world_id" translatable="false">world</string>
 
     <string name="sections_list_label">Main section</string>
@@ -39,21 +39,21 @@
     <string name="newest_label">Newest</string>
     <string name="oldest_label">Oldest</string>
     <string name="relevance_label">Relevance</string>
-    <string name="newest_value">newest</string>
-    <string name="oldest_value">oldest</string>
-    <string name="relevance_value">relevance</string>
+    <string name="newest_value" translatable="false">newest</string>
+    <string name="oldest_value" translatable="false">oldest</string>
+    <string name="relevance_value" translatable="false">relevance</string>
 
     <string name="published_label">Published</string>
     <string name="newspaper_edition_label">Newspaper edition</string>
     <string name="last_modified_label">Last modified</string>
-    <string name="published_value">published</string>
-    <string name="newspaper_edition_value">newspaper-edition</string>
-    <string name="last_modified_value">last-modified</string>
+    <string name="published_value" translatable="false">published</string>
+    <string name="newspaper_edition_value" translatable="false">newspaper-edition</string>
+    <string name="last_modified_value" translatable="false">last-modified</string>
 
-    <string name="throwable">throwable</string>
+    <string name="throwable" translatable="false">throwable</string>
     <string name="required_msg">required !</string>
     <string name="special_chars_msg">Please, remove any special chars</string>
-    <string name="password_requirements_msg">password must have ,,,</string>
+    <string name="password_requirements_msg">password must have English capital, small letters, special chars and numbers ,,,</string>
     <string name="password_length_msg">Password must be more than 6 letters</string>
     <string name="no_items_msg">Sorry, no Items for this page</string>
     <string name="no_browser_msg">Sorry, You don\'t have a browser app or any app can open this page</string>
