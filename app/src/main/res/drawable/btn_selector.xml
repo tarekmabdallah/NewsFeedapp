@@ -19,5 +19,5 @@
     <item android:drawable="@drawable/selected_btn_background" android:state_selected="true" />
     <item android:drawable="@drawable/selected_btn_background" android:state_pressed="true" />
     <item android:drawable="@drawable/selected_btn_background" android:state_focused="true" />
-    <item android:drawable="@drawable/default_item_background" />
+    <item android:drawable="@drawable/default_btn_background" />
 </selector>

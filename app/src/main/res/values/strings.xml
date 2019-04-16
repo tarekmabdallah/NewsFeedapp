@@ -66,5 +66,6 @@
     <string name="countries_news_label">Countries news</string>
     <string name="from_date_label">From date:</string>
     <string name="to_date_label">To date:</string>
+    <string name="clear_dates">Clear dates</string>
 
 </resources>

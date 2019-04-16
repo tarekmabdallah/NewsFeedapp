@@ -24,6 +24,35 @@
         <item name="android:windowBackground">@color/background_app</item>
     </style>
 
+    <style name="icons_style">
+        <item name="android:layout_width">@dimen/icons_size</item>
+        <item name="android:layout_height">@dimen/icons_size</item>
+    </style>
+
+    <style name="medium_icons_style">
+        <item name="android:layout_width">@dimen/medium_icons_size</item>
+        <item name="android:layout_height">@dimen/medium_icons_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="btn_style" parent="text_style">
+        <item name="android:background">@drawable/btn_selector</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">@dimen/space8</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Holo.Medium</item>
+        <item name="android:padding">@dimen/space4</item>
+    </style>
+
     <style name="details_text_style" parent="small_text_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -41,28 +70,6 @@
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="text_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/text_color</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Holo.Medium</item>
-        <item name="android:layout_margin">@dimen/space4</item>
-        <item name="android:padding">@dimen/space4</item>
-    </style>
-
-    <style name="icons_style">
-        <item name="android:layout_width">@dimen/icons_size</item>
-        <item name="android:layout_height">@dimen/icons_size</item>
-    </style>
-
-    <style name="medium_icons_style">
-    <item name="android:layout_width">@dimen/medium_icons_size</item>
-    <item name="android:layout_height">@dimen/medium_icons_size</item>
-    <item name="android:gravity">center</item>
-    <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="large_text_style" parent="text_style">

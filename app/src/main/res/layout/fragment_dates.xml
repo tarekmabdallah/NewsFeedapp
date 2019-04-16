@@ -26,6 +26,7 @@
         android:id="@+id/from_date_label"
         style="@style/text_view_with_spinner_layout_style"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space16"
         android:layout_margin="@dimen/space16"
         android:layout_alignParentTop="true"
         android:text="@string/from_date_label" />
@@ -34,8 +35,18 @@
         android:id="@+id/to_date_label"
         style="@style/text_view_with_spinner_layout_style"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space16"
         android:layout_margin="@dimen/space16"
         android:layout_below="@id/from_date_label"
         android:text="@string/to_date_label" />
+
+    <TextView
+        android:id="@+id/clear_dates_btn"
+        style="@style/btn_style"
+        android:layout_width="wrap_content"
+        android:text="@string/clear_dates"
+        android:layout_marginTop="@dimen/space16"
+        android:layout_margin="@dimen/space16"
+        android:layout_below="@id/to_date_label" />
 
 </RelativeLayout>

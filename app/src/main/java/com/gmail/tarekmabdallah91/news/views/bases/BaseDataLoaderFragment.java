@@ -105,7 +105,7 @@ public abstract class BaseDataLoaderFragment extends BaseFragment implements Dat
     @OnClick(R.id.msg_iv)
     void onClickMsgIV(){
         String errorMsg = getTextFromEditText(errorTV);
-        if (getString(R.string.no_connection).equals(errorMsg)) setUI();
+        if (activity.getString(R.string.no_connection).equals(errorMsg)) setUI();
     }
 
     @OnClick(R.id.msg_tv)
@@ -117,15 +117,15 @@ public abstract class BaseDataLoaderFragment extends BaseFragment implements Dat
      * called when there response has empty list
      */
     protected void handleNoDataFromResponse() {
-        Throwable noDataThrowable = new Throwable(getString(R.string.no_news_found));
-        onFailure(noDataThrowable, R.drawable.ic_no_news);
+        Throwable noDataThrowable = new Throwable(activity.getString(R.string.no_news_found));
+        onFailure(noDataThrowable, android.R.drawable.stat_notify_error);
     }
 
     /**
      * if there is not internet connection before calling the api and refresh after 1 second
      */
     protected void handleCaseNoConnection() {
-        Throwable noInternetConnectionThrowable = new Throwable(getString(R.string.no_connection));
+        Throwable noInternetConnectionThrowable = new Throwable(activity.getString(R.string.no_connection));
         onFailure(noInternetConnectionThrowable, android.R.drawable.stat_notify_sync);
     }
 }

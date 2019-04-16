@@ -13,7 +13,6 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.DASH;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.SPACE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SPACE_REGEX;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.setSpinnerAdapter;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
@@ -74,10 +73,9 @@ public class SectionsFragment extends BaseFragment {
     private void setSpinnerOnItemClickedListener (int position, boolean isContrySection , List<String> labels, List<String> ids, TextView labelTV, SpinnerAdapter adapter){
         String countryName = labels.get(position);
         String sectionId = ids.get(position).toLowerCase().replaceAll(SPACE_REGEX, DASH);
-        String title = countryName + SPACE + activity.getString(R.string.news_label);
         labelTV.setText(countryName);
         adapter.notifyDataSetChanged();
-        openSectionActivity(activity, sectionId, title, isContrySection);
+        openSectionActivity(activity, sectionId, countryName, isContrySection);
     }
 
     public static SectionsFragment getInstance() {
