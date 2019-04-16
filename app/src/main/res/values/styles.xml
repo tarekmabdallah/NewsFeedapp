@@ -113,4 +113,11 @@
         <item name="android:dropDownSelector">@color/white</item>
     </style>
 
+    <style name="NumberPickerStyle">
+        <item name="android:textSize">@dimen/date_picker_text_size</item>
+        <item name="android:textColorPrimary">@color/text_color</item>
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/dark_gray</item>
+    </style>
+
+
 </resources>

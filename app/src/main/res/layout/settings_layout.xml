@@ -13,10 +13,20 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<fragment android:name="com.example.tarek.news.views.settings.SettingsActivity$ArticlePreferenceFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settings_fragment"
-    tools:activity="com.example.tarek.news.views.settings.SettingsActivity"/>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <fragment android:name="com.gmail.tarekmabdallah91.news.views.settings.ArticlePreferenceFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/preferences_settings_fragment"
+        android:layout_alignParentTop="true"/>
+
+    <fragment android:name="com.gmail.tarekmabdallah91.news.views.settings.DatesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/date_settings_fragment"
+        android:layout_below="@id/preferences_settings_fragment"/>
+
+</RelativeLayout>

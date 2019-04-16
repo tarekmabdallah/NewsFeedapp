@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~
   ~ Copyright 2019 tarekmabdallah91@gmail.com
@@ -20,17 +19,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:activity="com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity">
+    android:layout_height="wrap_content"
+    tools:context="com.gmail.tarekmabdallah91.news.views.settings.DatesFragment">
 
-    <WebView
-        android:id="@+id/webView"
+    <TextView
+        android:id="@+id/from_date_label"
+        style="@style/text_view_with_spinner_layout_style"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"/>
+        android:layout_margin="@dimen/space16"
+        android:layout_alignParentTop="true"
+        android:text="@string/from_date_label" />
 
-    <include
-        layout="@layout/progress_bar_no_data_tv_layout"
-        tools:visibility="gone" />
+    <TextView
+        android:id="@+id/to_date_label"
+        style="@style/text_view_with_spinner_layout_style"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/space16"
+        android:layout_below="@id/from_date_label"
+        android:text="@string/to_date_label" />
 
 </RelativeLayout>

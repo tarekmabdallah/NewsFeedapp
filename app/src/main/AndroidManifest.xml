@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.tarek.news">
+    package="com.gmail.tarekmabdallah91.news">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,20 +15,20 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".views.main.MainActivity"
+            android:name="com.gmail.tarekmabdallah91.news.views.main.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.settings.SettingsActivity"/>
-        <activity android:name=".views.search.SearchActivity"
+        <activity android:name="com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity"/>
+        <activity android:name="com.gmail.tarekmabdallah91.news.views.search.SearchActivity"
             android:windowSoftInputMode="stateHidden|adjustPan|adjustResize"/>
-        <activity android:name=".views.section.SectionActivity" />
-        <activity android:name=".views.webViewActivity.WebViewActivity"
+        <activity android:name="com.gmail.tarekmabdallah91.news.views.section.SectionActivity" />
+        <activity android:name="com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".views.sections.SectionsActivity" />
+        <activity android:name="com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity" />
     </application>
 
 

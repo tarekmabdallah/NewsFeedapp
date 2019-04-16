@@ -29,5 +29,5 @@
     <dimen name="medium_icons_size">16dp</dimen>
 
     <dimen name="radius_scale">4dp</dimen>
-
+    <dimen name="date_picker_text_size">18sp</dimen>
 </resources>

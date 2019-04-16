@@ -31,7 +31,7 @@
     <string name="newest_label">الاحدث</string>
     <string name="oldest_label">الاقدم</string>
     <string name="relevance_label">العلاقة</string>
-    <string name="published_label">النشر</string>
+    <string name="published_label">اخر نشر</string>
     <string name="newspaper_edition_label">الطبع</string>
     <string name="last_modified_label">آخر تعديل</string>
     <string name="required_msg">مطلوب</string>
@@ -45,4 +45,7 @@
     <string name="news_label">أخبار</string>
     <string name="countries_news_label">الأخبار حسب الدول</string>
     <string name="world_news_label">أخبار العالم</string>
+    <string name="first_publication_label">اول نشر</string>
+    <string name="from_date_label">من تاريخ</string>
+    <string name="to_date_label">الي تاريخ</string>
 </resources>

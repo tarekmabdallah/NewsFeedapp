@@ -44,9 +44,11 @@
     <string name="relevance_value" translatable="false">relevance</string>
 
     <string name="published_label">Published</string>
+    <string name="first_publication_label">First publication</string>
     <string name="newspaper_edition_label">Newspaper edition</string>
     <string name="last_modified_label">Last modified</string>
     <string name="published_value" translatable="false">published</string>
+    <string name="first_publication_value" translatable="false">first-publication</string>
     <string name="newspaper_edition_value" translatable="false">newspaper-edition</string>
     <string name="last_modified_value" translatable="false">last-modified</string>
 
@@ -62,6 +64,7 @@
     <string name="no_news_found">Currently there are no stories for you.\nYou can always come later\nand check for all new stories.</string>
     <string name="news_label">News</string>
     <string name="countries_news_label">Countries news</string>
-
+    <string name="from_date_label">From date:</string>
+    <string name="to_date_label">To date:</string>
 
 </resources>
