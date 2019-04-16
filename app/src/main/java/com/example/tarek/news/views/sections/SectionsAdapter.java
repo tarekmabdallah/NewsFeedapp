@@ -40,7 +40,7 @@ public class SectionsAdapter extends SearchHistoryAdapter {
         Context context = parent.getContext();
         SectionViewHolder holder;
         if (null == convertView){
-            convertView = LayoutInflater.from(context).inflate(R.layout.section_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_section, parent, false);
             holder = new SectionViewHolder();
             holder.sectionTitle = convertView.findViewById(R.id.section_title);
             makeTypeFaceLabelStyle(holder.sectionTitle);

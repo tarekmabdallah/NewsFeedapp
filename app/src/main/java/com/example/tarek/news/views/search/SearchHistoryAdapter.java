@@ -50,7 +50,7 @@ public class SearchHistoryAdapter extends ArrayAdapter<String> {
         View root = convertView;
         final ListItemViewHolder listItemViewHolder ;
         if (null == root){
-            root = LayoutInflater.from(context).inflate(R.layout.search_history_list_item, parent, false);
+            root = LayoutInflater.from(context).inflate(R.layout.item_search_history_list, parent, false);
             listItemViewHolder = new ListItemViewHolder();
             listItemViewHolder.removeItem = root.findViewById(R.id.delete_icon);
             listItemViewHolder.textView = root.findViewById(R.id.search_item);

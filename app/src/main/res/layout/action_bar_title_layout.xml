@@ -25,9 +25,9 @@
 <!-- to custom title bar Text view in Action bar -->
     <TextView
         android:id="@+id/action_bar_title"
-        style="@style/medium_text_style"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:textColor="@color/white"
         android:gravity="start"
         android:ellipsize="end"

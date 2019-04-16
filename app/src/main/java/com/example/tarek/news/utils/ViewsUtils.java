@@ -439,7 +439,7 @@ public class ViewsUtils {
      */
     public static void showShortToastMsg(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-        Log.d(context.getPackageName(), "MITCHA_LOG : " + msg);
+        Log.d(context.getPackageName(), context.getString(R.string.app_name) + msg);
     }
 
     /**

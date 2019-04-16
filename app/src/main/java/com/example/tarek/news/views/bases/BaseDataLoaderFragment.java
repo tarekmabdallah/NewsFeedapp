@@ -88,7 +88,7 @@ public abstract class BaseDataLoaderFragment extends BaseFragment implements Dat
      */
     protected void handleNoDataFromResponse() {
         Throwable noDataThrowable = new Throwable(getString(R.string.no_news_found));
-        onFailure(noDataThrowable, R.drawable.icons8_empty_box);
+        onFailure(noDataThrowable, R.drawable.ic_no_news);
     }
 
     /**

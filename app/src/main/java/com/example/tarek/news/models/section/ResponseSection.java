@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
 public class ResponseSection {
 
     @SerializedName("response")
-    private Response response;
+    private CommonResponse response;
 
-    public Response getResponse() {
+    public CommonResponse getResponse() {
         return response;
     }
 
-    public void setResponse(Response response) {
+    public void setResponse(CommonResponse response) {
         this.response = response;
     }
 

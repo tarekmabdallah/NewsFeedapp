@@ -42,6 +42,8 @@ public class MainActivity extends SectionActivity {
         return getString(R.string.main_label) + String.format("(%s)", sectionName);
     }
 
-    @Override // do nothing to avoid showing back arrow in the tool bar
-    protected void setActionBar() {}
+    @Override // to avoid showing back arrow in the tool bar in MainActivity
+    protected void setActionBar() {
+        setTitle(getActivityTitle());
+    }
 }

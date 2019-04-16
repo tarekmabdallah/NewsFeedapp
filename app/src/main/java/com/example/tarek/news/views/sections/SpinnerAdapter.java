@@ -45,7 +45,7 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         View root = convertView;
         ItemSpinnerViewHolder itemSpinnerViewHolder;
         if (null == root){
-            root = LayoutInflater.from(context).inflate(R.layout.section_item, parent, false);
+            root = LayoutInflater.from(context).inflate(R.layout.item_section, parent, false);
             itemSpinnerViewHolder = new ItemSpinnerViewHolder();
             itemSpinnerViewHolder.item = root.findViewById(R.id.section_title);
             root.setTag(itemSpinnerViewHolder);

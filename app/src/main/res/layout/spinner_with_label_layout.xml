@@ -8,8 +8,6 @@
     <TextView
         android:id="@+id/spinner_label"
         style="@style/text_view_with_spinner_layout_style"
-        android:paddingTop="@dimen/space8"
-        android:paddingBottom="@dimen/space8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -53,7 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initiateValues();
         setActionBar();
-        setTitle(getActivityTitle());
         if (null == savedInstanceState) {
             setActivityWhenSaveInstanceStateNull();
         } else {
@@ -68,7 +67,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setCustomView(R.layout.action_bar_title_layout);
-            ((TextView) findViewById(R.id.action_bar_title)).setText(getActivityTitle());
+            TextView titleTV = findViewById(R.id.action_bar_title);
+            titleTV.setText(getActivityTitle());
         }
     }
 
