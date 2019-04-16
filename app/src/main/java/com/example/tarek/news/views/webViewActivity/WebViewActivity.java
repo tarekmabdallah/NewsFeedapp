@@ -30,13 +30,13 @@ import static com.example.tarek.news.utils.Constants.URL_KEYWORD;
 public class WebViewActivity extends BaseActivityNoMenu {
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_web_view;
+    protected String getActivityTitle() {
+        return getString(R.string.article_details_label);
     }
 
     @Override
-    protected void initiateValues() {
-        setTitle(getString(R.string.article_details_label));
+    protected int getLayoutResId() {
+        return R.layout.activity_web_view;
     }
 
     public static void openArticleUrlInWebViewActivity(Context context, String articleUrl){

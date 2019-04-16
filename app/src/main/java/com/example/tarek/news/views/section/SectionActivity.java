@@ -43,7 +43,7 @@ public class SectionActivity extends BaseActivity {
     }
 
     @Override
-    protected String getSectionTitle(){
+    protected String getActivityTitle(){
         return String.valueOf(getValueFromIntent(TITLE_KEYWORD));
     }
 

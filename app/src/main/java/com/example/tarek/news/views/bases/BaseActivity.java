@@ -24,12 +24,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.tarek.news.R;
 
 import butterknife.ButterKnife;
 
-import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
 import static com.example.tarek.news.utils.Constants.ZERO;
 import static com.example.tarek.news.utils.ViewsUtils.commitFragment;
 import static com.example.tarek.news.utils.ViewsUtils.showShortToastMsg;
@@ -53,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initiateValues();
         setActionBar();
-        setTitle(getSectionTitle());
+        setTitle(getActivityTitle());
         if (null == savedInstanceState) {
             setActivityWhenSaveInstanceStateNull();
         } else {
@@ -66,12 +66,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (null != actionBar){
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(R.layout.action_bar_title_layout);
+            ((TextView) findViewById(R.id.action_bar_title)).setText(getActivityTitle());
         }
     }
 
-    protected String getSectionTitle(){
-        return EMPTY_STRING;
-    }
+    protected abstract String getActivityTitle();
 
     @Override
     protected void onResume() {
@@ -146,16 +147,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * to be override to call the api
      */
-    protected void callAPi() {
-
-    }
+    protected void callAPi() {}
 
     /**
      * called after hiding the loading indicator (progress bar)
      */
-    protected void whenDataFetchedGetResponse(Object response) {
-
-    }
+    protected void whenDataFetchedGetResponse(Object response) {}
 
     /**
      * override it to getIntent and call it where you need it

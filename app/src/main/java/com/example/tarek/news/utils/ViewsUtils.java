@@ -492,9 +492,7 @@ public class ViewsUtils {
     public static Map<String, Object> getQueriesMap(Context context) {
         String orderBy = getValueFromPreferencesByKey(context, R.string.order_by_list_key, R.string.order_by_list_default_value);
         String orderDate = getValueFromPreferencesByKey(context, R.string.order_date_list_key, R.string.order_date_list_default_value);
-        String lang = Locale.getDefault().getDisplayLanguage().substring(ZERO, TWO).toLowerCase(); // to be like ar or en
-        final String EN = "en", AR = "ar";
-        if (!EN.equals(lang)) lang = AR;
+        String lang = Locale.getDefault().getLanguage();//  like ar or en
         Map<String, Object> queries = new HashMap<>();
         queries.put(QUERY_SHOW_FIELDS_KEYWORD, ARTICLE_FIELDS);
         queries.put(QUERY_PAGE_SIZE_KEYWORD, PAGE_SIZE);

@@ -61,7 +61,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    protected String getSectionTitle() {
+    protected String getActivityTitle() {
         return getString(R.string.search_label);
     }
 

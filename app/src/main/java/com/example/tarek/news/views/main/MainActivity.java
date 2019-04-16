@@ -36,7 +36,7 @@ public class MainActivity extends SectionActivity {
     }
 
     @Override
-    protected String getSectionTitle() {
+    protected String getActivityTitle() {
         String sectionName =  getString(R.string.world_news_label); // TODO: 4/15/2019 to get selected name not id from SP even if the user return to sny activity either MainActivity
         if (!isDefaultSection) sectionName = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value); // temp solution
         return getString(R.string.main_label) + String.format("(%s)", sectionName);

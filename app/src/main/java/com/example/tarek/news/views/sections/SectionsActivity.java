@@ -40,7 +40,7 @@ public class SectionsActivity extends BaseActivity {
         setFragmentToCommit(sectionsFragment, R.id.fragment_sections_container);
     }
 
-    protected String getSectionTitle() {
+    protected String getActivityTitle() {
         return getString(R.string.sections_label);
     }
 

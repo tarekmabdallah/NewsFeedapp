@@ -28,29 +28,14 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import com.example.tarek.news.R;
-import com.example.tarek.news.apis.APIClient;
-import com.example.tarek.news.apis.APIServices;
-import com.example.tarek.news.apis.DataFetcherCallback;
 import com.example.tarek.news.data.sp.SharedPreferencesHelper;
-import com.example.tarek.news.models.sections.ResponseSections;
-import com.example.tarek.news.models.sections.Section;
-import com.example.tarek.news.utils.GsonObject;
 import com.example.tarek.news.views.bases.BaseActivityNoMenu;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
 
 import static com.example.tarek.news.utils.Constants.EMPTY_STRING;
-import static com.example.tarek.news.utils.Constants.SECTIONS_KEYWORD;
 import static com.example.tarek.news.utils.Constants.ZERO;
-import static com.example.tarek.news.utils.ViewsUtils.getQueriesMap;
-import static com.example.tarek.news.utils.ViewsUtils.showProgressBar;
-import static com.example.tarek.news.utils.ViewsUtils.showShortToastMsg;
-import static com.example.tarek.news.views.sections.SectionsFragment.saveSectionsListsInSP;
 
 public class SettingsActivity extends BaseActivityNoMenu {
 
@@ -60,45 +45,32 @@ public class SettingsActivity extends BaseActivityNoMenu {
     }
 
     @Override
-    protected String getSectionTitle() {
+    protected String getActivityTitle() {
         return getString(R.string.settings_label);
     }
 
-    public static class ArticlePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, DataFetcherCallback {
+    public static class ArticlePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-        private SharedPreferencesHelper sharedPreferencesHelper;
-        private List<String> sectionsTitles, sectionsIds;
         private Activity activity;
 
-        /**
-         * check if the sharedPreferences has responseSections or not, if not we will call the api to get it and save it.
-         */
-        protected void initiateValues() {
-            activity = getActivity();
-            sharedPreferencesHelper = SharedPreferencesHelper.getInstance(activity);
-            String responseSectionsString = sharedPreferencesHelper.getResponseSections();
-            if (EMPTY_STRING.equals(responseSectionsString)){
-                showProgressBar(activity, true);
-                APIServices apiServices = APIClient.getInstance(activity).create(APIServices.class);
-                Map <String, Object> queries = getQueriesMap(activity);
-                Call getSections = apiServices.getSections(SECTIONS_KEYWORD, queries);
-                APIClient.getResponse(getSections, this);
-            }else {
-                Gson gson = GsonObject.getGsonInstance();
-                ResponseSections responseSections = gson.fromJson(responseSectionsString, ResponseSections.class);
-                setSectionsLists(responseSections.getResponse().getResults());
-                setPreferencesViews();
-            }
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            activity = (Activity) context;
         }
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
-            initiateValues();
+            setPreferencesViews();
         }
 
         private void setPreferencesViews(){
+            List<String> sectionsTitles, sectionsIds;
+            sectionsTitles = Arrays.asList(activity.getResources().getStringArray(R.array.sections_labels));
+            sectionsIds = Arrays.asList(activity.getResources().getStringArray(R.array.sections_ids));
+
             ListPreference sectionsPreference = (ListPreference) findPreference(getString(R.string.sections_list_key));
             sectionsPreference.setEntries(sectionsTitles.toArray(new CharSequence[ZERO]));
             sectionsPreference.setEntryValues(sectionsIds.toArray(new CharSequence[ZERO]));
@@ -125,6 +97,7 @@ public class SettingsActivity extends BaseActivityNoMenu {
         }
 
         private CharSequence getLatestChoicesFromPreference (Preference preference, Object newValue){
+            SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(activity);
             sharedPreferencesHelper.saveIsSPUpdated(true);
             String value = newValue.toString();
             if (preference instanceof ListPreference) {
@@ -136,36 +109,6 @@ public class SettingsActivity extends BaseActivityNoMenu {
                 }
             }
             return EMPTY_STRING;
-        }
-
-        @Override
-        public void onDataFetched(Object body) {
-            showProgressBar(activity, false);
-            if (body instanceof ResponseSections) {
-                ResponseSections responseSections = (ResponseSections) body;
-                List sectionList = responseSections.getResponse().getResults();
-                if (sectionList != null && !sectionList.isEmpty()){
-                    saveSectionsListsInSP(activity, responseSections);
-                    setSectionsLists(responseSections.getResponse().getResults());
-                    setPreferencesViews();
-                }
-            }
-        }
-
-        @Override
-        public void onFailure(Throwable t, int errorImageResId) {
-            showProgressBar(activity, false);
-            showShortToastMsg(activity, t.getMessage());
-            activity.finish();
-        }
-
-        private void setSectionsLists(List<Section> sections){
-            sectionsTitles = new ArrayList<>();
-            sectionsIds = new ArrayList<>();
-            for(Section section: sections){
-                sectionsTitles.add(section.getWebTitle());
-                sectionsIds.add(section.getId());
-            }
         }
     }
 

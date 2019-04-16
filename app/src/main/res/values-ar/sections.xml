@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~
+  ~ Copyright 2019 tarekmabdallah91@gmail.com
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~   you may not use this file except in compliance with the License.
+  ~   You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  -->
+
+<resources>
+
+    <string-array name="sections_labels">
+        <item>عن الجارديان</item>
+        <item>حيوانات المزرعة</item>
+        <item>فن و تصميم</item>
+        <item>اخبار استراليا</item>
+        <item>اعمال افضل</item>
+        <item>كتب</item>
+        <item>تجارة واعمال</item>
+        <item>معاملات الشركات</item>
+        <item>اخبار كارديف</item>
+        <item>كتب اطفال</item>
+        <item>المدن</item>
+        <item>أراء</item>
+        <item>مجتمعي</item>
+        <item>الكلمات المتقاطعة</item>
+        <item>ثقافة</item>
+        <item>الشبكة الثقافية</item>
+        <item>شبكة المهنيين الثقافية</item>
+        <item>اخبار ادنبره</item>
+        <item>تعليم</item>
+        <item>شبكة مؤسسة الجارديان</item>
+        <item>البيئة</item>
+        <item>خاص</item>
+        <item>موضة وازياء</item>
+        <item>افلام</item>
+        <item>غذاء</item>
+        <item>كرة القدم</item>
+        <item>العاب</item>
+        <item>التنمية العالمية</item>
+        <item>شبكة محترفي التنمية العالمية</item>
+        <item>حوسبة الجارديان الحكومية</item>
+        <item>الجارديان المهنية</item>
+        <item>شبكة محترفي الرعاية الصحية</item>
+        <item>مساعدة</item>
+        <item>شبكة التعليم العالي</item>
+        <item>شبكة الاسكان</item>
+        <item>عدم المساواة</item>
+        <item>معلومات</item>
+        <item>وظائف</item>
+        <item>اخبار قاتين</item>
+        <item>القانون</item>
+        <item>اخبار مدينة ليدز</item>
+        <item>الحياة والأناقة</item>
+        <item>محلي (انجلترا)</item>
+        <item>شبكة القادة المحلية</item>
+        <item>الإعلام</item>
+        <item>شبكة الوسائط الاعلامية</item>
+        <item>العضوية</item>
+        <item>اموال</item>
+        <item>موسيقي</item>
+        <item>اخبار</item>
+        <item>سياسة</item>
+        <item>شبكة القادة العامة</item>
+        <item>علوم</item>
+        <item>بحث</item>
+        <item>شبكة الجارديان للمشروعات الصغيرة</item>
+        <item>شبكة الرعاية الاجتماعية</item>
+        <item>شبكة المؤسسات الاجتماعية</item>
+        <item>المجتمع</item>
+        <item>مجتمع المحترفين</item>
+        <item>رياضة</item>
+        <item>المسرح</item>
+        <item>شبكة المعلمين</item>
+        <item>تكنولوجيا</item>
+        <item>من الجارديان</item>
+        <item>من المراقبين</item>
+        <item>السفر</item>
+        <item>عروض عطلة الجارديان</item>
+        <item>التلفزيون و الراديو</item>
+        <item>اخبار المملكة المتحدة</item>
+        <item>اخبار الولايات المتحدة الامريكية</item>
+        <item>شبكة القطاع التطوعي</item>
+        <item>الطقس</item>
+        <item>المرأة في القيادة</item>
+        <item>العمل في التنمية</item>
+        <item>اخبار العالم</item>
+    </string-array>
+
+</resources>
