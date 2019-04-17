@@ -40,6 +40,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 public class ArticlePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     private Activity activity;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     public void onAttach(Context context) {
@@ -51,6 +52,7 @@ public class ArticlePreferenceFragment extends PreferenceFragment implements Pre
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings_main);
+        sharedPreferencesHelper = SharedPreferencesHelper.getInstance(activity);
         setPreferencesViews();
     }
 
@@ -80,12 +82,14 @@ public class ArticlePreferenceFragment extends PreferenceFragment implements Pre
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        preference.setSummary(getLatestChoicesFromPreference(preference, newValue));
+        String label = String.valueOf(getLatestChoicesFromPreference(preference, newValue));
+        preference.setSummary(label);
+        if (getString(R.string.sections_list_key).equals(preference.getKey()))
+            sharedPreferencesHelper.saveMainSection(label);
         return true;
     }
 
     private CharSequence getLatestChoicesFromPreference (Preference preference, Object newValue){
-        SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(activity);
         sharedPreferencesHelper.saveIsSPUpdated(true);
         String value = newValue.toString();
         if (preference instanceof ListPreference) {

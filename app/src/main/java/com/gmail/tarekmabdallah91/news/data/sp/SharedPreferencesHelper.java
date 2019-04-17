@@ -24,6 +24,7 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_SP_UPDATED;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.MAIN_SECTION_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_FROM_DATE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_TO_DATE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SEARCH_HISTORY_KEYWORD;
@@ -80,5 +81,13 @@ public class SharedPreferencesHelper {
 
     public String getToDate(){
         return sharedPreferences.getString(QUERY_TO_DATE_KEYWORD, EMPTY_STRING);
+    }
+
+    public void saveMainSection(String mainSection){
+        sharedPreferences.edit().putString(MAIN_SECTION_KEYWORD, mainSection).apply();
+    }
+
+    public String getMainSection(){
+        return sharedPreferences.getString(MAIN_SECTION_KEYWORD, EMPTY_STRING);
     }
 }

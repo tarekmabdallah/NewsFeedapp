@@ -16,9 +16,13 @@
 
 package com.gmail.tarekmabdallah91.news.views.main;
 
+import android.support.v7.app.ActionBar;
+
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
 import com.gmail.tarekmabdallah91.news.views.section.SectionActivity;
 
+import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getValueFromPreferencesByKey;
 
@@ -29,6 +33,7 @@ public class MainActivity extends SectionActivity {
     @Override
     protected void initiateValues() {
         super.initiateValues();
+        // get section id to be used in calling tha API
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
         isDefaultSection = null == sectionId;
         if (isDefaultSection) sectionId = getString(R.string.sections_list_default_value);
@@ -37,13 +42,18 @@ public class MainActivity extends SectionActivity {
 
     @Override
     protected String getActivityTitle() {
-        String sectionName =  getString(R.string.world_news_label); // TODO: 4/15/2019 to get selected name not id from SP even if the user return to sny activity either MainActivity
-        if (!isDefaultSection) sectionName = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value); // temp solution
-        return getString(R.string.main_label) + String.format("(%s)", sectionName);
+        return getString(R.string.main_label);
     }
 
     @Override // to avoid showing back arrow in the tool bar in MainActivity
     protected void setActionBar() {
-        setTitle(getActivityTitle());
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar){
+            actionBar.setTitle(getActivityTitle());
+            SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
+            String sectionName = sharedPreferencesHelper.getMainSection();
+            if (EMPTY_STRING.equals(sectionName)) sectionName =  getString(R.string.world_news_label);
+            actionBar.setSubtitle(sectionName);
+        }
     }
 }

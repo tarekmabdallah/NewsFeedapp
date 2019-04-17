@@ -21,6 +21,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -42,7 +44,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.data.room.news.ArticlesRoomHelper;
+import com.gmail.tarekmabdallah91.news.data.room.news.RetrieveArticleData;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
+import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.sections.SpinnerAdapter;
 import com.gmail.tarekmabdallah91.news.views.sections.SpinnerOnItemClickedListener;
 import com.squareup.picasso.Picasso;
@@ -67,6 +72,7 @@ import static android.view.View.VISIBLE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLE_FIELDS;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.COMMA;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.INVALID;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_FROM_DATE_KEYWORD;
@@ -83,7 +89,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.VALID_EMAIL_ADDRES
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceLabelStyle;
 
-public class ViewsUtils {
+public final class ViewsUtils {
     /**
      * @return true if it was empty
      */
@@ -366,6 +372,56 @@ public class ViewsUtils {
     }
 
     /**
+     * change the state of the FAB as the state of the item if it was added to the FavList or not
+     * @param fabLayout to change it's color background
+     * @param fab  to change it's icon
+     * @param isWishList - to get it's state and set the UI
+     */
+    @SuppressLint("NewApi")
+    public static void setFabIcon(View fabLayout, ImageView fab, boolean isWishList) {
+        Context context = fab.getContext();
+        if (isWishList) {
+            fab.setImageDrawable(ContextCompat.getDrawable(context, android.R.drawable.star_big_off));
+        } else {
+//            fabLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.black)));
+            fab.setImageDrawable(ContextCompat.getDrawable(context, android.R.drawable.star_big_on));
+        }
+        fab.setTag(isWishList);
+        fabLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
+    }
+
+    /**
+     * to check if the opened item's details is in the wishList / fav list in local db
+     */
+    public static void checkIfFoundInWishListDb(final View addToWishListFabLayout, final ImageView addToWishListFab, final String id) {
+        final Context context = addToWishListFab.getContext();
+        final ArticlesRoomHelper articlesRoomHelper = ArticlesRoomHelper.getInstance(context);
+        RetrieveArticleData retrieveWishListData = new RetrieveArticleData() {
+
+            @Override
+            public void onComplete(List<Article> articlesList) {
+                int rowId = isItemInWishList(articlesList, id);
+                boolean isFoundInDb = INVALID < rowId;
+                setFabIcon(addToWishListFabLayout, addToWishListFab, isFoundInDb);
+            }
+        };
+        articlesRoomHelper.getArticlesList(retrieveWishListData);
+    }
+
+    /**
+     * search for the item in FavList in db by @param id
+     * @return rowId if founded or -1 if not
+     */
+    private static int isItemInWishList(List<Article> articlesList, String id) {
+        if (null != articlesList && !articlesList.isEmpty()) {
+            for (Article article : articlesList)
+                if (id.equals(article.getId())) return article.getRowIdDb();
+        }
+        return INVALID;
+    }
+
+
+    /**
      * to control showing toast msg in all the app
      */
     private static void showToastMsgOnFailLoadingData(Context context, String msg) {
@@ -474,7 +530,7 @@ public class ViewsUtils {
      * to get the current time with this pattern "yyyy-MM-dd,hh:mm:ss" 2019-04-16
      */
     @SuppressLint("SimpleDateFormat")
-    static String getCurrentTime() {
+    public static String getCurrentTime() {
         Date time = new java.util.Date(System.currentTimeMillis());
         SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dayFormat.format(time);
@@ -523,6 +579,11 @@ public class ViewsUtils {
         }
     }
 
+    public static void appendStringToTextView (TextView label, String defaultText, String textToAppend){
+        label.setText(defaultText);
+        label.append(textToAppend);
+    }
+
     /**
      * to control almost spinners in the app
      * @param spinner to set it's adapter
@@ -536,6 +597,7 @@ public class ViewsUtils {
         }
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+        makeTypeFaceLabelStyle(label);
         label.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

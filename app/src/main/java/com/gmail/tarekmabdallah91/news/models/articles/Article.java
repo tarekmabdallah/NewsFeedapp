@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package com.gmail.tarekmabdallah91.news.models.section.articles;
+package com.gmail.tarekmabdallah91.news.models.articles;
 
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "favArticles")
 public class Article implements Parcelable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int rowIdDb;
 
     @SerializedName("sectionName")
     private String sectionName;
@@ -57,8 +64,11 @@ public class Article implements Parcelable {
     @SerializedName("type")
     private String type;
 
+    @Embedded
     @SerializedName("fields")
     private Fields fields;
+
+    public Article(){}
 
     private Article(Parcel in) {
         sectionName = in.readString();
@@ -181,6 +191,14 @@ public class Article implements Parcelable {
 
     public Fields getFields() {
         return fields;
+    }
+
+    public void setRowIdDb(int rowIdDb) {
+        this.rowIdDb = rowIdDb;
+    }
+
+    public int getRowIdDb() {
+        return rowIdDb;
     }
 
     @NonNull

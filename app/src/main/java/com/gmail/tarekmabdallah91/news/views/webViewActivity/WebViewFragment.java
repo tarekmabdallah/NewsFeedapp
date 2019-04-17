@@ -26,22 +26,31 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.data.room.news.ArticlesRoomHelper;
+import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLES_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLE_HTML_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.CALL_INTENT;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMAIL_INTENT;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.FIVE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.HTML_TEXT;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TEXT_PLAIN;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.URL_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.UTF8;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.checkIfFoundInWishListDb;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.setFabIcon;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showProgressBar;
 
 public class WebViewFragment extends BaseFragment {
@@ -50,9 +59,15 @@ public class WebViewFragment extends BaseFragment {
     WebView webView;
     @BindView(R.id.progress_bar)
     View progressBar;
+    @BindView(R.id.fab_iv)
+    ImageView addToFavouriteListFab;
+    @BindView(R.id.fab_layout_id)
+    RelativeLayout addToFavouriteListFabLayout;
 
     private String url;
     private String textHtml;
+    private boolean isFavorited;
+    private Article article;
 
     @Override
     protected int getLayoutResId() {
@@ -61,21 +76,44 @@ public class WebViewFragment extends BaseFragment {
 
     @Override
     protected void initiateValues() {
-        getComingIntent();
         setWebView();
     }
 
     protected void getComingIntent() {
         Intent comingIntent = activity.getIntent();
-        url = comingIntent.getStringExtra(URL_KEYWORD);
-        textHtml = comingIntent.getStringExtra(ARTICLE_HTML_KEYWORD);
+        article = comingIntent.getParcelableExtra(ARTICLES_KEYWORD);
+        if (null != article){
+            url = article.getWebUrl();
+            textHtml = article.getFields().getBody();
+        }else {
+            url = comingIntent.getStringExtra(URL_KEYWORD);
+            if (!isUrl(url)) textHtml = comingIntent.getStringExtra(ARTICLE_HTML_KEYWORD);
+        }
+        isFavorited = comingIntent.getBooleanExtra(IS_FAVOURITE_LIST, false);
+        if (isFavorited) setFabIcon(addToFavouriteListFabLayout, addToFavouriteListFab, isFavorited);
+        else checkIfFoundInWishListDb(addToFavouriteListFabLayout, addToFavouriteListFab, article.getId());
     }
 
     @Override
     protected void setUI() {
-        if (null != url) webView.loadUrl(url);
-        else if (null != textHtml) webView.loadData(textHtml, HTML_TEXT, UTF8);
+        getComingIntent();
+        if (null != textHtml) webView.loadData(textHtml, HTML_TEXT, UTF8);
+        else if (null != url) webView.loadUrl(url);
         else showToastMsg(getString(R.string.error_label));
+    }
+
+    @OnClick(R.id.fab_layout_id)
+    void onClickFavFabBtn() {
+        ArticlesRoomHelper articlesRoomHelper = ArticlesRoomHelper.getInstance(activity);
+        isFavorited = !((boolean) addToFavouriteListFab.getTag());
+        if (isFavorited) {
+            articlesRoomHelper.insertArticle(article);
+            showToastMsg(activity.getString(R.string.added_successfully_msg));
+        } else {
+            articlesRoomHelper.deleteArticle(article);
+            showToastMsg(activity.getString(R.string.removed_successfully_msg));
+        }
+        setFabIcon(addToFavouriteListFabLayout, addToFavouriteListFab, isFavorited);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -95,10 +133,10 @@ public class WebViewFragment extends BaseFragment {
                     sendEmailIntent(activity, email);
                 } else if (url.contains(CALL_INTENT)){
                     callMobileIntent(url);
-                } else if (url.substring(ZERO,FIVE).equals("https")) {
+                } else if (isUrl(url)) {
                     view.loadUrl(url); // load any normal url
                 }else {
-                    showToastMsg("Sorry can not open this link");
+                    showToastMsg(getString(R.string.not_valid_url_msg));
                 }
                 return true;
             }
@@ -123,6 +161,11 @@ public class WebViewFragment extends BaseFragment {
         emailIntent.setType(TEXT_PLAIN);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
         context.startActivity(emailIntent);
+    }
+
+    private boolean isUrl (String urlOrHtml){
+        final String HTTPS = "https";
+        return urlOrHtml.substring(ZERO,FIVE).equals(HTTPS);
     }
 
     private void callMobileIntent (String mobileNumber){

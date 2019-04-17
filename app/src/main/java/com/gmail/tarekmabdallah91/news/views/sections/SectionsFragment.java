@@ -5,16 +5,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.data.room.news.ArticlesRoomHelper;
+import com.gmail.tarekmabdallah91.news.data.room.news.RetrieveArticleData;
+import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.DASH;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SPACE_REGEX;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceLabelStyle;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.appendStringToTextView;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.setSpinnerAdapter;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showView;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
 
 public class SectionsFragment extends BaseFragment {
@@ -23,6 +33,14 @@ public class SectionsFragment extends BaseFragment {
     View sectionsSpinnerLayout;
     @BindView(R.id.countries_spinner_layout)
     View countriesSpinnerLayout;
+    @BindView(R.id.favourite_list_label)
+    TextView favouriteListLabel;
+
+    @BindString(R.string.favourite_list_label)
+    String favouriteListMsg;
+
+    private RetrieveArticleData retrieveArticleData;
+    private ArticlesRoomHelper articlesRoomHelper;
 
     @Override
     protected int getLayoutResId() {
@@ -34,6 +52,30 @@ public class SectionsFragment extends BaseFragment {
         super.initiateValues();
         setSectionsSpinner();
         setCountriesSpinner();
+        setRetrieveArticleData();
+        articlesRoomHelper = ArticlesRoomHelper.getInstance(activity);
+        makeTypeFaceLabelStyle(favouriteListLabel);
+    }
+
+    @Override
+    protected void setUI() {
+        articlesRoomHelper.getArticlesList(retrieveArticleData);
+    }
+
+    @OnClick(R.id.favourite_list_label)
+    void onClickFavListLabel(){
+        openSectionActivity(activity, IS_FAVOURITE_LIST, activity.getString(R.string.favourite_list_label), false);
+    }
+
+    public void setRetrieveArticleData() {
+        retrieveArticleData = new RetrieveArticleData() {
+            @Override
+            public void onComplete(List<Article> articlesListInDb) {
+                int articlesCountInDb = articlesListInDb.size();
+                showView(favouriteListLabel, ZERO < articlesCountInDb);
+                appendStringToTextView(favouriteListLabel, favouriteListMsg, String.valueOf(articlesCountInDb));
+            }
+        };
     }
 
     private void setSectionsSpinner() {

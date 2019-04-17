@@ -49,4 +49,9 @@
     <string name="from_date_label">من تاريخ</string>
     <string name="to_date_label">الي تاريخ</string>
     <string name="clear_dates">مسح التاريخ</string>
+    <string name="removed_successfully_msg">تم الحذف بنجاح</string>
+    <string name="added_successfully_msg">تمت الاضافة بنجاح</string>
+    <string name="not_valid_url_msg">عفوا, لايمكن فتح هذا الرابط</string>
+    <string name="favourite_list_label">قائمة المفضلة</string>
+    <string name="today_label">اليوم</string>
 </resources>

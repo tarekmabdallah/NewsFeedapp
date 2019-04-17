@@ -1,7 +1,8 @@
-package com.gmail.tarekmabdallah91.news.models.section.articles;
+package com.gmail.tarekmabdallah91.news.models.articles;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -88,7 +89,9 @@ public class Fields implements Parcelable {
 	@SerializedName("legallySensitive")
 	private String legallySensitive;
 
-	protected Fields(Parcel in) {
+	public Fields(){}
+
+	private Fields(Parcel in) {
 		wordcount = in.readString();
 		shouldHideAdverts = in.readString();
 		shouldHideReaderRevenue = in.readString();
@@ -346,6 +349,7 @@ public class Fields implements Parcelable {
 		return legallySensitive;
 	}
 
+	@NonNull
 	@Override
  	public String toString(){
 		return 

@@ -18,13 +18,17 @@
 
 package com.gmail.tarekmabdallah91.news.views.section.articlesFragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.data.room.news.ArticlesViewModel;
+import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
 import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
-import com.gmail.tarekmabdallah91.news.models.section.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseDataLoaderFragment;
 import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter.ArticleAdapter;
 import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter.OnArticleClickListener;
@@ -35,9 +39,11 @@ import butterknife.BindView;
 import retrofit2.Call;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showProgressBar;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
-import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity.openArticleHtmlInWebViewActivity;
+import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity.openArticleWebViewActivity;
 
 
 public class ArticlesFragment extends BaseDataLoaderFragment {
@@ -57,6 +63,7 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     protected void initiateValues() {
         super.initiateValues();
         setArticlesRecyclerView();
+        if (IS_FAVOURITE_LIST.equals(getSectionId())) setViewModel();
     }
 
     @Override
@@ -72,6 +79,11 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     }
 
     @Override
+    protected void setUI() {
+        if (!IS_FAVOURITE_LIST.equals(getSectionId())) super.setUI(); // to load the data if the section is not Favourite list in db
+    }
+
+    @Override
     public String getSectionId() {
         return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
     }
@@ -82,8 +94,7 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
             @Override
             public void onClickArticle(int position) {
                 Article article = articles.get(position);
-               // openArticleUrlInWebViewActivity(activity, article.getWebUrl());
-                openArticleHtmlInWebViewActivity(activity, article.getFields().getBody());
+                openArticleWebViewActivity(activity, article);
             }
 
             @Override
@@ -95,7 +106,7 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
                     openSectionActivity(activity, article.getSectionId(), article.getSectionName(), false);
             }
         };
-        adapter = new ArticleAdapter(activity);
+        adapter = new ArticleAdapter();
         adapter.setOnArticleClickListener(onArticleClickListener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         articlesRecyclerView.setLayoutManager(layoutManager);
@@ -115,6 +126,20 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
         if (articles != null && !articles.isEmpty()) {
             adapter.swapList(articles);
         } else handleNoDataFromResponse();
+    }
+
+    private void setViewModel() {
+        showProgressBar(progressBar,true);
+        ArticlesViewModel viewModel = ViewModelProviders.of(this).get(ArticlesViewModel.class);
+        viewModel.getData().observe(this, new Observer<List<Article>>() {
+
+            @Override
+            public void onChanged(@Nullable List<Article> articlesInDb) {
+                articles = articlesInDb;
+                adapter.swapList(articlesInDb);
+                showProgressBar(progressBar,false);
+            }
+        });
     }
 
     public static ArticlesFragment getInstance() {

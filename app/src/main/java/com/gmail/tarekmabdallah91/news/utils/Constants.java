@@ -37,10 +37,6 @@ public class Constants {
     public static final String DASH = "-";
     public static final String NEW_LINE = "\n";
 
-    // to get the tags which contains the author name use this query and this value
-
-    public static final String CONTRIBUTOR_KEYWORD = "contributor";
-
     private static final String QUERY_API_KEY_KEYWORD = "api-key";
     public static final String QUERY_FROM_DATE_KEYWORD = "from-date";
     public static final String QUERY_TO_DATE_KEYWORD = "to-date";
@@ -53,7 +49,7 @@ public class Constants {
     static final String ARTICLE_FIELDS = "byline,thumbnail,trailText,headline,trailText,byline,bodyText,body,wordcount"; // CAN ALSO USE "all" to get all fields, "trailText,headline,standfirst,byline,main,body"
 
     // TODO: you can put your API key in gradle.properties like THE_GUARDIAN_API_KEY = "put_your_key_here"
-    static final String API_KEY = BuildConfig.ApiKey;
+    private static final String API_KEY = BuildConfig.ApiKey;
 
     // HEADER'S DATA
     public static final String HEADER_FORMAT = "format: json";
@@ -65,12 +61,14 @@ public class Constants {
     public static final String SEARCH_HISTORY_KEYWORD = "search history";
     public static final String TITLE_KEYWORD = "TITLE_KEYWORD";
     public static final String ARTICLE_HTML_KEYWORD = "ARTICLE_HTML_KEYWORD";
-    public static final String ARTICLES_LIST_KEYWORD = "ARTICLE_HTML_KEYWORD";
+    public static final String ARTICLES_LIST_KEYWORD = "ARTICLES_LIST_KEYWORD";
+    public static final String ARTICLES_KEYWORD = "ARTICLES_KEYWORD";
     public static final String URL_KEYWORD = "URL_KEYWORD";
-    public static final String SECTION_KEYWORD = "SECTION_KEYWORD";
+    public static final String MAIN_SECTION_KEYWORD = "MAIN_SECTION_KEYWORD";
     public static final String SECTION_ID_KEYWORD = "SECTION_ID_KEYWORD";
     public static final String IS_SP_UPDATED = "IS_SP_UPDATED";
     public static final String IS_COUNTRY_SECTION = "IS_COUNTRY_SECTION";
+    public static final String IS_FAVOURITE_LIST = "IS_FAVOURITE_LIST";
 
     public static final String EMAIL_INTENT = "mailto:";
     public static final String CALL_INTENT = "tel:";

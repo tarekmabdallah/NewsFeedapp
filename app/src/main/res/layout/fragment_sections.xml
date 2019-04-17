@@ -36,6 +36,14 @@
         android:layout_margin="@dimen/space16"
         android:layout_below="@id/sections_spinner_layout"/>
 
+    <TextView
+        android:id="@+id/favourite_list_label"
+        style="@style/text_view_with_spinner_layout_style"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/space16"
+        android:layout_below="@id/countries_spinner_layout"
+        android:text="@string/favourite_list_label" />
+
     <include
         layout="@layout/progress_bar_no_data_tv_layout"
         tools:visibility="gone" />

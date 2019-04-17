@@ -16,8 +16,6 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg
 
 public abstract class BaseFragment extends Fragment {
 
-
-
     protected Activity activity;
 
     @Override

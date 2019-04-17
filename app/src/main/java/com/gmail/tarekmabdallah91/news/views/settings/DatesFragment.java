@@ -39,6 +39,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceBtnStyle;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTextStyle;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.appendStringToTextView;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showView;
 
 public class DatesFragment extends BaseFragment {
@@ -136,8 +137,5 @@ public class DatesFragment extends BaseFragment {
                 .show();
     }
 
-    private void appendStringToTextView (TextView label, String defaultText, String textToAppend){
-        label.setText(defaultText);
-        label.append(textToAppend);
-    }
+
 }

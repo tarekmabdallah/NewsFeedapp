@@ -1,6 +1,6 @@
 package com.gmail.tarekmabdallah91.news.models.section;
 
-import com.gmail.tarekmabdallah91.news.models.section.articles.Article;
+import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

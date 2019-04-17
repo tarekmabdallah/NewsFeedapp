@@ -67,5 +67,10 @@
     <string name="from_date_label">From date:</string>
     <string name="to_date_label">To date:</string>
     <string name="clear_dates">Clear dates</string>
+    <string name="removed_successfully_msg">Removed successfully</string>
+    <string name="added_successfully_msg">Added successfully</string>
+    <string name="not_valid_url_msg">Sorry can not open this link</string>
+    <string name="favourite_list_label">Favourite articles</string>
+    <string name="today_label">Today</string>
 
 </resources>

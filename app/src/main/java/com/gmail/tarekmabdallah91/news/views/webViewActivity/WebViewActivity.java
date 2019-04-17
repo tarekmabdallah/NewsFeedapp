@@ -22,9 +22,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivityNoMenu;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLE_HTML_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLES_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.URL_KEYWORD;
 
 public class WebViewActivity extends BaseActivityNoMenu {
@@ -39,15 +40,15 @@ public class WebViewActivity extends BaseActivityNoMenu {
         return R.layout.activity_web_view;
     }
 
-    public static void openArticleUrlInWebViewActivity(Context context, String articleUrl){
+    public static void openUrlOrHtmlInWebViewActivity(Context context, String urlOrHtml){
         Intent openWebViewActivityArticle =
-                new Intent(context, WebViewActivity.class).putExtra(URL_KEYWORD, articleUrl);
+                new Intent(context, WebViewActivity.class).putExtra(URL_KEYWORD, urlOrHtml);
         context.startActivity(openWebViewActivityArticle);
     }
 
-    public static void openArticleHtmlInWebViewActivity(Context context, String articleHtml){
+    public static void openArticleWebViewActivity(Context context, Article article){
         Intent openWebViewActivityArticle =
-                new Intent(context, WebViewActivity.class).putExtra(ARTICLE_HTML_KEYWORD, articleHtml);
+                new Intent(context, WebViewActivity.class).putExtra(ARTICLES_KEYWORD, article);
         context.startActivity(openWebViewActivityArticle);
     }
 }
