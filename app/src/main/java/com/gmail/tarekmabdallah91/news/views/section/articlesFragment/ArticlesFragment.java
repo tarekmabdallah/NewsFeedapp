@@ -20,6 +20,7 @@ package com.gmail.tarekmabdallah91.news.views.section.articlesFragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,8 +28,8 @@ import android.support.v7.widget.RecyclerView;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.room.news.ArticlesViewModel;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
-import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
-import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
+import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
+import com.gmail.tarekmabdallah91.news.paging.ItemViewModel;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseDataLoaderFragment;
 import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter.ArticleAdapter;
 import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter.OnArticleClickListener;
@@ -36,9 +37,7 @@ import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter.On
 import java.util.List;
 
 import butterknife.BindView;
-import retrofit2.Call;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showProgressBar;
@@ -51,7 +50,8 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     @BindView(R.id.articles_recycler_view)
     RecyclerView articlesRecyclerView;
 
-    protected ArticleAdapter adapter  ;
+    protected ArticleAdapter articleAdapter;
+    protected ItemAdapter itemAdapter ;
     protected List<Article> articles ;
 
     @Override
@@ -63,24 +63,32 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     protected void initiateValues() {
         super.initiateValues();
         setArticlesRecyclerView();
-        if (IS_FAVOURITE_LIST.equals(getSectionId())) setViewModel();
-    }
+        OnArticleClickListener onArticleClickListener = new OnArticleClickListener() {
 
-    @Override
-    protected int getAdapterCount() {
-        return adapter.getItemCount();
-    }
+            @Override
+            public void onClickArticle(Article article) {
+                openArticleWebViewActivity(activity, article);
+            }
 
-    @Override
-    protected Call getCall() {
-        boolean isCountrySection = activity.getIntent().getBooleanExtra(IS_COUNTRY_SECTION, false);
-        if (isCountrySection) return apiServices.getCountrySection(getSectionId(), queries);
-        return super.getCall();
-    }
-
-    @Override
-    protected void setUI() {
-        if (!IS_FAVOURITE_LIST.equals(getSectionId())) super.setUI(); // to load the data if the section is not Favourite list in db
+            @Override
+            public void onClickArticleSection(Article article) {
+                String sectionName = article.getSectionName();
+                String activityTitle = activity.getTitle().toString();
+                if (!activityTitle.equals(sectionName))
+                    openSectionActivity(activity, article.getSectionId(), article.getSectionName(), false);
+            }
+        };
+        if (IS_FAVOURITE_LIST.equals(getSectionId())) {
+            articleAdapter = new ArticleAdapter();
+            articleAdapter.setOnArticleClickListener(onArticleClickListener);
+            articlesRecyclerView.setAdapter(articleAdapter);
+            setViewModel();
+        } else {
+            itemAdapter = new ItemAdapter();
+            itemAdapter.setOnArticleClickListener(onArticleClickListener);
+            articlesRecyclerView.setAdapter(itemAdapter);
+            setPagingViewModel(null);
+        }
     }
 
     @Override
@@ -89,43 +97,22 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
     }
 
     private void setArticlesRecyclerView() {
-        OnArticleClickListener onArticleClickListener = new OnArticleClickListener() {
-
-            @Override
-            public void onClickArticle(int position) {
-                Article article = articles.get(position);
-                openArticleWebViewActivity(activity, article);
-            }
-
-            @Override
-            public void onClickArticleSection(int position) {
-                Article article = articles.get(position);
-                String sectionName = article.getSectionName();
-                String activityTitle = activity.getTitle().toString();
-                if (!activityTitle.equals(sectionName))
-                    openSectionActivity(activity, article.getSectionId(), article.getSectionName(), false);
-            }
-        };
-        adapter = new ArticleAdapter();
-        adapter.setOnArticleClickListener(onArticleClickListener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         articlesRecyclerView.setLayoutManager(layoutManager);
         articlesRecyclerView.setHasFixedSize(true);
-        articlesRecyclerView.setAdapter(adapter);
     }
 
-    @Override
-    protected void whenDataFetchedGetResponse(Object response) {
-        if (response instanceof ResponseSection) {
-            ResponseSection section = (ResponseSection) response;
-            articles = section.getResponse().getResults();
-        }else if (response instanceof ResponseCountryNews){
-            ResponseCountryNews section = (ResponseCountryNews) response;
-            articles = section.getResponse().getResults();
-        }
-        if (articles != null && !articles.isEmpty()) {
-            adapter.swapList(articles);
-        } else handleNoDataFromResponse();
+    protected void setPagingViewModel(String searchKeyword){
+        ItemViewModel itemViewModel =  new ItemViewModel(activity, getSectionId(), searchKeyword);
+        showProgressBar(progressBar, true);
+        itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Article>>() {
+            @Override
+            public void onChanged(@Nullable PagedList<Article> items) {
+                showToastMsg("loading...");
+                itemAdapter.submitList(items);
+                showProgressBar(progressBar, false);
+            }
+        });
     }
 
     private void setViewModel() {
@@ -136,7 +123,7 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
             @Override
             public void onChanged(@Nullable List<Article> articlesInDb) {
                 articles = articlesInDb;
-                adapter.swapList(articlesInDb);
+                articleAdapter.swapList(articlesInDb);
                 showProgressBar(progressBar,false);
             }
         });

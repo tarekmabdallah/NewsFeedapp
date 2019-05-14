@@ -78,11 +78,13 @@ public class SearchActivity extends BaseActivity {
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
         setSearchHistoryListView();
         setSearchView();
+        setFragmentToCommit(fragment, R.id.fragment_articles_container);
     }
 
     @Override
     protected void setActivityWhenSaveInstanceStateNull() {
-        setFragmentToCommit(fragment, R.id.fragment_articles_container);
+//         moved to initiateValues till find solution to keep data after rotating this fragment
+//        setFragmentToCommit(fragment, R.id.fragment_articles_container);
     }
 
     @Override

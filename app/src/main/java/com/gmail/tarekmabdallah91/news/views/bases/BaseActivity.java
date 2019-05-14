@@ -39,7 +39,6 @@ import static com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity.op
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    // TODO: 07-Apr-19 to save some articles using Room db
     // TODO: 07-Apr-19 to use paging
     // TODO: 07-Apr-19 to use Fb sdk for logging
     // TODO: 07-Apr-19 to use firebase for crash analytics and messing

@@ -132,4 +132,8 @@ public class APIClient {
         Log.d(URL_KEYWORD, url.toString());
     }
 
+    public static APIServices getAPIServices (Context context){
+        return APIClient.getInstance(context).create(APIServices.class);
+    }
+
 }

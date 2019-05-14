@@ -43,6 +43,7 @@ public class Constants {
     public static final String QUERY_Q_KEYWORD = "q";
     static final String QUERY_LANGUAGE_KEYWORD = "lang";
     static final String QUERY_PAGE_SIZE_KEYWORD = "page-size";
+    static final String QUERY_PAGE_KEYWORD = "page";
     static final String QUERY_ORDER_BY_KEYWORD = "order-by";
     static final String QUERY_ORDER_date_KEYWORD = "order-date";
     static final String QUERY_SHOW_FIELDS_KEYWORD = "show-fields";
@@ -52,8 +53,6 @@ public class Constants {
     private static final String API_KEY = BuildConfig.ApiKey;
 
     // HEADER'S DATA
-    public static final String HEADER_FORMAT = "format: json";
-    public static final String HEADER_LANG = "Accept-Language: en-US";
     public static final String HEADER_API_KEY = QUERY_API_KEY_KEYWORD + ": " + API_KEY;
 
     public static final String SECTIONS_KEYWORD = "sections"; // used in API as section id "sections"
@@ -83,13 +82,12 @@ public class Constants {
     public static final int THREE = 3;
     public static final int FOUR = 4;
     public static final int FIVE = 5;
-    public static final int PAGE_SIZE = 20;
+    public static final int PAGE_SIZE = 10;
 
     // these all methods used to set Font to the TextViews / EditTexts
     private static Typeface buttonTypeFace(Context context) {
         return Font.VelinoSansMedium(context);
     }
-
 
     public static Typeface productNameTypeFace(Context context) {
         return Font.VelinoSansLight(context);

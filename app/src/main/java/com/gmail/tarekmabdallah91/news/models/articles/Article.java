@@ -22,6 +22,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -96,6 +97,27 @@ public class Article implements Parcelable {
             return new Article[size];
         }
     };
+
+    public static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.getId().equals(newItem.getId());
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        Article article = (Article) obj;
+        return article.getId().equals(this.id);
+    }
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;

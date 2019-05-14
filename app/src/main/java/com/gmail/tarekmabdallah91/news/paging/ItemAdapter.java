@@ -1,21 +1,24 @@
 /*
-Copyright 2019 tarekmabdallah91@gmail.com
+ *
+ * Copyright 2019 tarekmabdallah91@gmail.com
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+package com.gmail.tarekmabdallah91.news.paging;
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter;
-
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -28,34 +31,42 @@ import android.widget.TextView;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.articles.Fields;
-
-import java.util.List;
+import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter.OnArticleClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.gmail.tarekmabdallah91.news.models.articles.Article.DIFF_CALLBACK;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getCurrentTime;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.loadImage;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
+public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleViewHolder>{
 
     private Context context;
-    private List<Article> articles;
     private OnArticleClickListener listener;
+
+    public ItemAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    public void setOnArticleClickListener(OnArticleClickListener listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
-    public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
-        context = parent.getContext();
+    public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        this.context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_article, parent, false);
         return new ArticleViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
-        final Article currentArticle = articles.get(position);
+        Article currentArticle = getItem(position);
         if (currentArticle != null) {
             holder.articleTitle.setText(currentArticle.getWebTitle());
             holder.articleDate.setText(getDate(currentArticle.getWebPublicationDate()));
@@ -65,27 +76,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 loadImage(fields.getThumbnail(), holder.articleImage);
             }
             holder.articleSection.setText(currentArticle.getSectionName());
+        }else{
+            showShortToastMsg(context, "Item is null");
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return null == articles ? ZERO : articles.size();
-    }
-
-    public void swapList (List<Article> articles) {
-        this.articles = articles;
-        notifyDataSetChanged();
-    }
-
-    public void clear(){
-        articles.clear();
-        notifyDataSetChanged();
-    }
-
-
-    public void setOnArticleClickListener(OnArticleClickListener listener) {
-        this.listener = listener;
     }
 
     private String getDate(String inputDate){
@@ -116,7 +109,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    listener.onClickArticle(articles.get(position));
+                    listener.onClickArticle(getItem(position));
                 }
             };
             itemView.setOnClickListener(onArticleClickListener);
@@ -125,7 +118,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         @OnClick(R.id.section)
         void onClickSectionTV (){
             int position = getAdapterPosition();
-            listener.onClickArticleSection(articles.get(position));
+            listener.onClickArticleSection(getItem(position));
         }
     }
+
 }

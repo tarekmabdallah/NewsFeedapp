@@ -79,6 +79,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_FROM_DATE_KE
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_LANGUAGE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_ORDER_BY_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_ORDER_date_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_PAGE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_PAGE_SIZE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_SHOW_FIELDS_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_TO_DATE_KEYWORD;
@@ -539,7 +540,7 @@ public final class ViewsUtils {
     /**
      * @return map contains QUERY_SHOW_FIELDS_KEYWORD to get articles fields
      */
-    public static Map<String, Object> getQueriesMap(Context context) {
+    public static Map<String, Object> getQueriesMap(Context context, int pageNumber) {
         SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(context);
         String fromDate = sharedPreferencesHelper.getFromDate();
         String toDate = sharedPreferencesHelper.getToDate();
@@ -552,6 +553,7 @@ public final class ViewsUtils {
         queries.put(QUERY_ORDER_BY_KEYWORD, orderBy);
         queries.put(QUERY_ORDER_date_KEYWORD, orderDate);
         queries.put(QUERY_LANGUAGE_KEYWORD, lang);
+        if (ZERO < pageNumber) queries.put(QUERY_PAGE_KEYWORD, pageNumber);
         if (!EMPTY_STRING.equals(fromDate)) queries.put(QUERY_FROM_DATE_KEYWORD, fromDate);
         if (!EMPTY_STRING.equals(toDate)) queries.put(QUERY_TO_DATE_KEYWORD, toDate);
         return queries;
@@ -586,7 +588,7 @@ public final class ViewsUtils {
 
     /**
      * to control almost spinners in the app
-     * @param spinner to set it's adapter
+     * @param spinner to set it's articleAdapter
      * @param dataAdapter which will display the data and to control it's DropDownViewResource
      * @param spinnerOnItemClickedListener the run a soporific code when an item clicked
      * @param label as the spinner is invisible, and when the label is clicked it will trigger the spinner

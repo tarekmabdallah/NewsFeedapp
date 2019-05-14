@@ -24,7 +24,7 @@
         android:id="@+id/articles_recycler_view"
         android:layout_margin="@dimen/space2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
     <include
         layout="@layout/progress_bar_no_data_tv_layout"
