@@ -18,6 +18,7 @@
 
 package com.gmail.tarekmabdallah91.news.paging;
 
+import android.app.Activity;
 import android.arch.paging.PageKeyedDataSource;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -26,17 +27,21 @@ import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
 import com.gmail.tarekmabdallah91.news.apis.DataFetcherCallback;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
 import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 
 import static com.gmail.tarekmabdallah91.news.apis.APIClient.getResponse;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 
@@ -44,11 +49,14 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
     private Context context;
     private String sectionId, searchKeyword;
+    private boolean isCountrySection;
 
     ItemDataSource(Context context, String sectionId, String searchKeyword){
         this.context = context;
         this.sectionId = sectionId;
         this.searchKeyword = searchKeyword;
+        Activity activity = (Activity) context;
+        isCountrySection = activity.getIntent().getBooleanExtra(IS_COUNTRY_SECTION,false);
     }
 
     //this will be called once to load the initial data
@@ -57,8 +65,14 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
         DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
             @Override
             public void onDataFetched(Object body) {
-                ResponseSection responseSection = (ResponseSection) body;
-                List<Article> articles = responseSection.getResponse().getResults();
+                List<Article> articles = new ArrayList<>();
+                if (body instanceof ResponseSection){
+                    ResponseSection responseSection = (ResponseSection) body;
+                    articles = responseSection.getResponse().getResults();
+                }else if (body instanceof ResponseCountryNews){
+                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
+                    articles = responseCountryNews.getResponse().getResults();
+                }
                 callback.onResult(articles, null , TWO );
             }
 
@@ -76,8 +90,14 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
         DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
             @Override
             public void onDataFetched(Object body) {
-                ResponseSection responseSection = (ResponseSection) body;
-                List<Article> articles = responseSection.getResponse().getResults();
+                List<Article> articles = new ArrayList<>();
+                if (body instanceof ResponseSection){
+                    ResponseSection responseSection = (ResponseSection) body;
+                    articles = responseSection.getResponse().getResults();
+                }else if (body instanceof ResponseCountryNews){
+                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
+                    articles = responseCountryNews.getResponse().getResults();
+                }
                 Integer adjacentKey = (params.key > ONE) ? params.key - ONE : null;
                 callback.onResult(articles, adjacentKey );
             }
@@ -96,12 +116,19 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
         DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
             @Override
             public void onDataFetched(Object body) {
-                ResponseSection responseSection = (ResponseSection) body;
-                if (responseSection != null) {
-                    Integer key = responseSection.getResponse().getPages() > params.key ? params.key + ONE : null;
-                    List<Article> articles = responseSection.getResponse().getResults();
-                    callback.onResult(articles, key);
+                List<Article> articles = new ArrayList<>();
+                int pagesNumber = ZERO;
+                if (body instanceof ResponseSection){
+                    ResponseSection responseSection = (ResponseSection) body;
+                    pagesNumber = responseSection.getResponse().getPages();
+                    articles = responseSection.getResponse().getResults();
+                }else if (body instanceof ResponseCountryNews){
+                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
+                    pagesNumber = responseCountryNews.getResponse().getPages();
+                    articles = responseCountryNews.getResponse().getResults();
                 }
+                Integer key = pagesNumber > params.key ? params.key + ONE : null;
+                callback.onResult(articles, key);
             }
 
             @Override
@@ -112,10 +139,11 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
         getResponse(getCall(params.key), dataFetcherCallback);
     }
 
-    private Call<ResponseSection> getCall (int pageNumber){
+    private Call getCall (int pageNumber){
         APIServices apiServices = APIClient.getAPIServices(context);
         Map<String, Object> queries = getQueriesMap(context, pageNumber);
         if (null != searchKeyword) queries.put(QUERY_Q_KEYWORD, searchKeyword);
-        return apiServices.getArticlesBySection(sectionId, queries);
+        if (isCountrySection) return apiServices.getCountrySection(sectionId, queries);
+        else return apiServices.getArticlesBySection(sectionId, queries);
     }
 }

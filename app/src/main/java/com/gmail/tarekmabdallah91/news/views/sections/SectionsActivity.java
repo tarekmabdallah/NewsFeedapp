@@ -22,6 +22,9 @@ import android.content.Intent;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivity;
 
+/**
+ * to view the 3 options of sections like countries, sections or db articles
+ */
 public class SectionsActivity extends BaseActivity {
 
     @Override

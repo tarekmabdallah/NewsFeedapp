@@ -1,5 +1,6 @@
 package com.gmail.tarekmabdallah91.news.views.sections;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -73,7 +74,8 @@ public class SectionsFragment extends BaseFragment {
             public void onComplete(List<Article> articlesListInDb) {
                 int articlesCountInDb = articlesListInDb.size();
                 showView(favouriteListLabel, ZERO < articlesCountInDb);
-                appendStringToTextView(favouriteListLabel, favouriteListMsg, String.valueOf(articlesCountInDb));
+                @SuppressLint("DefaultLocale") String articlesCount = String.format("\t( %d )", articlesCountInDb);
+                appendStringToTextView(favouriteListLabel, favouriteListMsg, articlesCount);
             }
         };
     }

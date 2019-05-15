@@ -21,6 +21,7 @@ package com.gmail.tarekmabdallah91.news.paging;
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,8 @@ import android.widget.TextView;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.articles.Fields;
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.adapter.OnArticleClickListener;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,14 +48,11 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg
 public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleViewHolder>{
 
     private Context context;
+    private List<Article> articles;
     private OnArticleClickListener listener;
 
     public ItemAdapter() {
         super(DIFF_CALLBACK);
-    }
-
-    public void setOnArticleClickListener(OnArticleClickListener listener) {
-        this.listener = listener;
     }
 
     @NonNull
@@ -81,12 +80,45 @@ public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleVi
         }
     }
 
+    @Nullable
+    @Override
+    protected Article getItem(int position) {
+        try {
+            return super.getItem(position);
+        }catch (IndexOutOfBoundsException e){
+            return articles.get(position);
+        }
+    }
+
     private String getDate(String inputDate){
         String t = "T";
         String date = inputDate.split(t)[ZERO];
         String today = getCurrentTime();
         if (today.equals(date)) date = context.getString(R.string.today_label);
         return date;
+    }
+
+    /**
+     * when articles list is not null means that it shows articles from Db, so get it's size
+     * when articles is null means that it shows pagedList loaded from tha API, so get super.getItemCount()
+     */
+    @Override
+    public int getItemCount() {
+        return null == articles ? super.getItemCount() : articles.size();
+    }
+
+    public void swapList (List<Article> articles) {
+        this.articles = articles;
+        notifyDataSetChanged();
+    }
+
+    public void clear(){
+        articles.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setOnArticleClickListener(OnArticleClickListener listener) {
+        this.listener = listener;
     }
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {

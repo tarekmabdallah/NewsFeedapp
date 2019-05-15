@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 
 import java.util.List;
@@ -33,12 +32,10 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 public final class ArticlesRoomHelper {
 
     private ArticlesDb articlesDb;
-    private SharedPreferencesHelper preferenceHelper;
     private static ArticlesRoomHelper articlesRoomHelper;
 
     private ArticlesRoomHelper(Context context) {
         articlesDb = ArticlesDb.getCartDbInstance(context);
-        preferenceHelper = SharedPreferencesHelper.getInstance(context);
     }
 
     public static ArticlesRoomHelper getInstance(Context context) {
@@ -81,7 +78,7 @@ public final class ArticlesRoomHelper {
         }).start();
     }
 
-    public void deleteArticleById(final int id) {
+    public void deleteArticleById(final String id) {
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -11,7 +11,7 @@ public class SearchFragment extends ArticlesFragment implements onClickItemListe
 
     @Override
     public void onClickItem(String searchKeyword) {
-        if (null != articleAdapter) articleAdapter.clear();
+        if (null != itemAdapter) itemAdapter.clear();
         super.setPagingViewModel(searchKeyword);
     }
 

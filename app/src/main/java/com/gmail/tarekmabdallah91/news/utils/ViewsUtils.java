@@ -382,10 +382,9 @@ public final class ViewsUtils {
     public static void setFabIcon(View fabLayout, ImageView fab, boolean isWishList) {
         Context context = fab.getContext();
         if (isWishList) {
-            fab.setImageDrawable(ContextCompat.getDrawable(context, android.R.drawable.star_big_off));
-        } else {
-//            fabLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.black)));
             fab.setImageDrawable(ContextCompat.getDrawable(context, android.R.drawable.star_big_on));
+        } else {
+            fab.setImageDrawable(ContextCompat.getDrawable(context, android.R.drawable.star_big_off));
         }
         fab.setTag(isWishList);
         fabLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));

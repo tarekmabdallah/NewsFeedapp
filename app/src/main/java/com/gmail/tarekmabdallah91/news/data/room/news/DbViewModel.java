@@ -26,11 +26,11 @@ import com.gmail.tarekmabdallah91.news.models.articles.Article;
 
 import java.util.List;
 
-final public class ArticlesViewModel extends AndroidViewModel {
+final public class DbViewModel extends AndroidViewModel {
 
     private final LiveData<List<Article>> data;
 
-    public ArticlesViewModel(Application application) {
+    public DbViewModel(Application application) {
         super(application);
         ArticlesDb database = ArticlesDb.getCartDbInstance(this.getApplication());
         data = database.articleDao().getArticlesList();

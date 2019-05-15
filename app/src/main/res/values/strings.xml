@@ -72,5 +72,7 @@
     <string name="not_valid_url_msg">Sorry can not open this link</string>
     <string name="favourite_list_label">Favourite articles</string>
     <string name="today_label">Today</string>
+    <string name="loading_msg">loading...</string>
+    <string name="empty_db_msg">Empty database !</string>
 
 </resources>

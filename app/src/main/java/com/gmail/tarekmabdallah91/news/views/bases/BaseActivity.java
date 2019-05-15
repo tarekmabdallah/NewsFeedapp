@@ -39,10 +39,9 @@ import static com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity.op
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    // TODO: 07-Apr-19 to use paging
     // TODO: 07-Apr-19 to use Fb sdk for logging
     // TODO: 07-Apr-19 to use firebase for crash analytics and messing
-    // TODO: 07-Apr-19 to use dragger 2 and RxJava
+    // TODO: 07-Apr-19 to use dagger 2 and RxJava
     // TODO: 07-Apr-19 to update the UI (Responsive UI)
 
     @Override

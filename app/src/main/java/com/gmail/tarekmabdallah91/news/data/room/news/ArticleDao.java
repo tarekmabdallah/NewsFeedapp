@@ -41,10 +41,10 @@ public interface ArticleDao {
     LiveData<List<Article>> getArticlesList();
 
     @Delete
-    void deleteArticleFromDb (Article cartEntity);
+    void deleteArticleFromDb (Article article);
 
-    @Query("DELETE FROM favArticles WHERE `id` = :id")
-    void deleteArticleById(int id);
+    @Query("DELETE FROM favArticles WHERE `id` = :id") // this id is the article id in API (String) not the int rowIdInDb
+    void deleteArticleById(String id);
 
     @Query("DELETE FROM favArticles")
     void clearArticlesDb();

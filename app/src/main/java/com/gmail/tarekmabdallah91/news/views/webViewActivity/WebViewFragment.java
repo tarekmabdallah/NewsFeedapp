@@ -44,7 +44,6 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.EMAIL_INTENT;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.FIVE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.HTML_TEXT;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TEXT_PLAIN;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.URL_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.UTF8;
@@ -66,7 +65,6 @@ public class WebViewFragment extends BaseFragment {
 
     private String url;
     private String textHtml;
-    private boolean isFavorited;
     private Article article;
 
     @Override
@@ -89,9 +87,7 @@ public class WebViewFragment extends BaseFragment {
             url = comingIntent.getStringExtra(URL_KEYWORD);
             if (!isUrl(url)) textHtml = comingIntent.getStringExtra(ARTICLE_HTML_KEYWORD);
         }
-        isFavorited = comingIntent.getBooleanExtra(IS_FAVOURITE_LIST, false);
-        if (isFavorited) setFabIcon(addToFavouriteListFabLayout, addToFavouriteListFab, isFavorited);
-        else checkIfFoundInWishListDb(addToFavouriteListFabLayout, addToFavouriteListFab, article.getId());
+        checkIfFoundInWishListDb(addToFavouriteListFabLayout, addToFavouriteListFab, article.getId());
     }
 
     @Override
@@ -105,12 +101,12 @@ public class WebViewFragment extends BaseFragment {
     @OnClick(R.id.fab_layout_id)
     void onClickFavFabBtn() {
         ArticlesRoomHelper articlesRoomHelper = ArticlesRoomHelper.getInstance(activity);
-        isFavorited = !((boolean) addToFavouriteListFab.getTag());
+        boolean isFavorited = !((boolean) addToFavouriteListFab.getTag());
         if (isFavorited) {
             articlesRoomHelper.insertArticle(article);
             showToastMsg(activity.getString(R.string.added_successfully_msg));
         } else {
-            articlesRoomHelper.deleteArticle(article);
+            articlesRoomHelper.deleteArticleById(article.getId());
             showToastMsg(activity.getString(R.string.removed_successfully_msg));
         }
         setFabIcon(addToFavouriteListFabLayout, addToFavouriteListFab, isFavorited);
