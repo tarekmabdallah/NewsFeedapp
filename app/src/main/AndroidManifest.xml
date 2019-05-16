@@ -31,5 +31,4 @@
         <activity android:name="com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity" />
     </application>
 
-
 </manifest>

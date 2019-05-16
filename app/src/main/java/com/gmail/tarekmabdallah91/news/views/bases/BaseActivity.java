@@ -16,7 +16,6 @@
 
 package com.gmail.tarekmabdallah91.news.views.bases;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -31,7 +30,6 @@ import com.gmail.tarekmabdallah91.news.R;
 import butterknife.ButterKnife;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.commitFragment;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 import static com.gmail.tarekmabdallah91.news.views.search.SearchActivity.openSearchActivity;
 import static com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity.openSectionsActivity;
@@ -142,34 +140,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void setUI() {
     }
 
-    /**
-     * to be override to call the api
-     */
-    protected void callAPi() {}
-
-    /**
-     * called after hiding the loading indicator (progress bar)
-     */
-    protected void whenDataFetchedGetResponse(Object response) {}
-
-    /**
-     * override it to getIntent and call it where you need it
-     */
-    protected void getComingIntent() {
-
-    }
-
-    /**
-     * to @return value from intent by @param key
-     */
-    protected Object getValueFromIntent(String key) {
-        Intent comingIntent = getIntent();
-        return comingIntent.getStringExtra(key);
-    }
-
     protected void setFragmentToCommit (BaseFragment fragment, int containerId){
         FragmentManager fm = getSupportFragmentManager();
-        commitFragment(fm, containerId, fragment);
+        fm.beginTransaction().replace(containerId, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName()).commit();
     }
 
     /**

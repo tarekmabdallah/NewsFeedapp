@@ -6,12 +6,10 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.SEARCH_KEYWORD;
 
 public class SearchFragment extends ArticlesFragment implements onClickItemListener {
     // TODO: 5/15/2019  to keep data after rotating this screen
-    @Override // empty to do nothing here till we want to call super func.
-    protected void setPagingViewModel(String searchKeyword) {}
 
     @Override
     public void onClickItem(String searchKeyword) {
-        if (null != itemAdapter) itemAdapter.clear();
+        if (null != itemAdapter) itemAdapter.submitList(null);
         super.setPagingViewModel(searchKeyword);
     }
 
@@ -23,6 +21,9 @@ public class SearchFragment extends ArticlesFragment implements onClickItemListe
     public static SearchFragment getInstance() {
         return new SearchFragment();
     }
+
+    @Override // empty to do nothing here till we want to call super func.
+    protected void setPagingViewModel(String searchKeyword) {}
 
     @Override // not used here
     public void removeItem(String item) {}

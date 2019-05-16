@@ -18,48 +18,53 @@
 
 package com.gmail.tarekmabdallah91.news.paging;
 
+import android.app.Activity;
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.content.Context;
 
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import static com.gmail.tarekmabdallah91.news.utils.Constants.FIVE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
 
 public class ItemViewModel extends ViewModel {
 
     private LiveData<PagedList<Article>> itemPagedList;
-//    private LiveData<NetworkState> networkState;
+    private LiveData<NetworkState> networkState;
 
-    public ItemViewModel(Context context, String sectionId) {
-        init(context, sectionId, null);
+    public ItemViewModel(Activity activity, String sectionId, String searchKeyword) {
+        init(activity, sectionId, searchKeyword);
     }
 
-    public ItemViewModel(Context context, String sectionId, String searchKeyword) {
-        init(context, sectionId, searchKeyword);
-    }
-
-    private void init(Context context, String sectionId, String searchKeyword) {
-       // Executor executor = Executors.newFixedThreadPool(5);
-        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory(context, sectionId, searchKeyword);
-//        Function function = new Function<ItemDataSource, LiveData<NetworkState>>() {
-//            @Override
-//            public LiveData<NetworkState> apply(ItemDataSource dataSource) {
-//                return dataSource.getNetworkState();
-//            }
-//        };
-//        networkState = Transformations.switchMap(itemDataSourceFactory.getItemLiveDataSource(), function);
+    private void init(Activity activity, String sectionId, String searchKeyword) {
+        Executor executor = Executors.newFixedThreadPool(FIVE);
+        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory(activity, sectionId, searchKeyword);
+        Function functionNetworkState = new Function<ItemDataSource, MutableLiveData>() {
+            @Override
+            public MutableLiveData apply(ItemDataSource dataSource) {
+                return dataSource.getNetworkState();
+            }
+        };
+        networkState = Transformations.switchMap(itemDataSourceFactory.getItemLiveDataSource(), functionNetworkState);
 
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(true)
-                        .setInitialLoadSizeHint(PAGE_SIZE)
+                        .setInitialLoadSizeHint(PAGE_SIZE/TWO)
                         .setPageSize(PAGE_SIZE).build();
 
         itemPagedList = (new LivePagedListBuilder(itemDataSourceFactory, pagedListConfig))
-                //.setFetchExecutor(executor)
+                .setFetchExecutor(executor)
                 .build();
     }
 
@@ -67,7 +72,7 @@ public class ItemViewModel extends ViewModel {
         return itemPagedList;
     }
 
-//    public LiveData<NetworkState> getNetworkState() {
-//        return networkState;
-//    }
+    public LiveData<NetworkState> getNetworkState() {
+        return networkState;
+    }
 }

@@ -19,16 +19,18 @@
 package com.gmail.tarekmabdallah91.news.paging;
 
 import android.app.Activity;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
-import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
 import com.gmail.tarekmabdallah91.news.apis.DataFetcherCallback;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
 import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
+import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,25 +45,29 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
 
 public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
-    private Context context;
+    private Activity activity;
     private String sectionId, searchKeyword;
+    private MutableLiveData<NetworkState> networkState;
     private boolean isCountrySection;
+    private Throwable noConnectionThrowable;
 
-    ItemDataSource(Context context, String sectionId, String searchKeyword){
-        this.context = context;
+    ItemDataSource(Activity activity, String sectionId, String searchKeyword){
+        this.activity = activity;
         this.sectionId = sectionId;
         this.searchKeyword = searchKeyword;
-        Activity activity = (Activity) context;
         isCountrySection = activity.getIntent().getBooleanExtra(IS_COUNTRY_SECTION,false);
+        networkState = new MutableLiveData<>();
+        noConnectionThrowable = new Throwable(activity.getString(R.string.no_connection));
     }
 
     //this will be called once to load the initial data
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, Article> callback) {
+        networkState.postValue(NetworkState.LOADING);
         DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
             @Override
             public void onDataFetched(Object body) {
@@ -73,15 +79,16 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
                     ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
                     articles = responseCountryNews.getResponse().getResults();
                 }
+                networkState.postValue(NetworkState.LOADED);
                 callback.onResult(articles, null , TWO );
             }
 
             @Override
             public void onFailure(Throwable t, int errorImageResId) {
-                showShortToastMsg(context, t.getMessage());
+                handelFailureCase(t);
             }
         };
-        getResponse(getCall(ONE), dataFetcherCallback);
+        callApi(getCall(ONE), dataFetcherCallback);
     }
 
     //this will load the previous page
@@ -99,15 +106,16 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
                     articles = responseCountryNews.getResponse().getResults();
                 }
                 Integer adjacentKey = (params.key > ONE) ? params.key - ONE : null;
+                networkState.postValue(NetworkState.LOADED);
                 callback.onResult(articles, adjacentKey );
             }
 
             @Override
             public void onFailure(Throwable t, int errorImageResId) {
-                showShortToastMsg(context, t.getMessage());
+                handelFailureCase(t);
             }
         };
-        getResponse(getCall(params.key), dataFetcherCallback);
+        callApi(getCall(params.key), dataFetcherCallback);
     }
 
     //this will load the next page
@@ -128,22 +136,41 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
                     articles = responseCountryNews.getResponse().getResults();
                 }
                 Integer key = pagesNumber > params.key ? params.key + ONE : null;
+                networkState.postValue(NetworkState.LOADED);
                 callback.onResult(articles, key);
             }
 
             @Override
             public void onFailure(Throwable t, int errorImageResId) {
-                showShortToastMsg(context, t.getMessage());
+                handelFailureCase(t);
             }
         };
-        getResponse(getCall(params.key), dataFetcherCallback);
+        callApi(getCall(params.key), dataFetcherCallback);
     }
 
     private Call getCall (int pageNumber){
-        APIServices apiServices = APIClient.getAPIServices(context);
-        Map<String, Object> queries = getQueriesMap(context, pageNumber);
+        APIServices apiServices = APIClient.getAPIServices(activity);
+        Map<String, Object> queries = getQueriesMap(activity, pageNumber);
         if (null != searchKeyword) queries.put(QUERY_Q_KEYWORD, searchKeyword);
         if (isCountrySection) return apiServices.getCountrySection(sectionId, queries);
         else return apiServices.getArticlesBySection(sectionId, queries);
+    }
+
+    MutableLiveData getNetworkState() {
+        return networkState;
+    }
+
+    private void handelFailureCase(Throwable t){
+        networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
+    }
+
+    /**
+     * to handle calling the APIs and get its response
+     * @param call to call the API
+     * @param dataFetcherCallback to handle success or failure cases
+     */
+    private void callApi(Call call, DataFetcherCallback dataFetcherCallback){
+        if (isConnected(activity))getResponse(call, dataFetcherCallback);
+        else handelFailureCase(noConnectionThrowable);
     }
 }

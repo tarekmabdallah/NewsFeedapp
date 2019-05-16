@@ -44,7 +44,8 @@ public class SectionActivity extends BaseActivity {
 
     @Override
     protected String getActivityTitle(){
-        return String.valueOf(getValueFromIntent(TITLE_KEYWORD));
+        Intent comingIntent = getIntent();
+        return comingIntent.getStringExtra(TITLE_KEYWORD);
     }
 
     public static void openSectionActivity(Context context, String sectionId, String sectionTitle, boolean isCountrySection){

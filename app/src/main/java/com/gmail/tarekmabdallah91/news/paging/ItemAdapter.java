@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.articles.Fields;
+import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 
 import java.util.List;
 
@@ -40,16 +41,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.gmail.tarekmabdallah91.news.models.articles.Article.DIFF_CALLBACK;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getCurrentTime;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getTextFromEditText;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.loadImage;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showFailureMsg;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showProgressBar;
 
-public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleViewHolder>{
+public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder>{
 
     private Context context;
     private List<Article> articles;
     private OnArticleClickListener listener;
+    private NetworkState networkState;
+    private ListItemClickListener itemClickListener;
 
     public ItemAdapter() {
         super(DIFF_CALLBACK);
@@ -57,32 +63,34 @@ public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleVi
 
     @NonNull
     @Override
-    public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_article, parent, false);
-        return new ArticleViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view;
+        if (viewType == R.layout.item_article) {
+            view = layoutInflater.inflate(R.layout.item_article, parent, false);
+            return new ArticleViewHolder(view);
+        } else {
+            view = layoutInflater.inflate(R.layout.progress_bar_no_data_tv_layout, parent, false);
+            return new NetworkStateItemViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
-        Article currentArticle = getItem(position);
-        if (currentArticle != null) {
-            holder.articleTitle.setText(currentArticle.getWebTitle());
-            holder.articleDate.setText(getDate(currentArticle.getWebPublicationDate()));
-            Fields fields = currentArticle.getFields();
-            if (null != fields) {
-                holder.articleAuthor.setText(fields.getAuthorName());
-                loadImage(fields.getThumbnail(), holder.articleImage);
-            }
-            holder.articleSection.setText(currentArticle.getSectionName());
-        }else{
-            showShortToastMsg(context, "Item is null");
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case R.layout.item_article:
+                ((ArticleViewHolder) holder).bindTo(getItem(position));
+                break;
+            case R.layout.progress_bar_no_data_tv_layout:
+                ((NetworkStateItemViewHolder) holder).bindView(networkState);
+                break;
         }
     }
 
     @Nullable
     @Override
-    protected Article getItem(int position) {
+    protected Article getItem (int position) {
         try {
             return super.getItem(position);
         }catch (IndexOutOfBoundsException e){
@@ -90,12 +98,42 @@ public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleVi
         }
     }
 
-    private String getDate(String inputDate){
+    private String getDate (String inputDate){
         String t = "T";
         String date = inputDate.split(t)[ZERO];
         String today = getCurrentTime();
         if (today.equals(date)) date = context.getString(R.string.today_label);
         return date;
+    }
+
+    public boolean hasExtraRow() {
+        return networkState != null && networkState != NetworkState.LOADED;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (hasExtraRow() && position == getItemCount() - 1) {
+            return R.layout.progress_bar_no_data_tv_layout;
+        } else {
+            return R.layout.item_article;
+
+        }
+    }
+
+    public void setNetworkState(NetworkState newNetworkState) {
+        NetworkState previousState = this.networkState;
+        boolean previousExtraRow = hasExtraRow();
+        this.networkState = newNetworkState;
+        boolean newExtraRow = hasExtraRow();
+        if (previousExtraRow != newExtraRow) {
+            if (previousExtraRow) {
+                notifyItemRemoved(getItemCount());
+            } else {
+                notifyItemInserted(getItemCount());
+            }
+        } else if (newExtraRow && previousState != newNetworkState) {
+            notifyItemChanged(getItemCount() - ONE);
+        }
     }
 
     /**
@@ -112,13 +150,12 @@ public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleVi
         notifyDataSetChanged();
     }
 
-    public void clear(){
-        articles.clear();
-        notifyDataSetChanged();
-    }
-
     public void setOnArticleClickListener(OnArticleClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setItemClickListener(ListItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {
@@ -152,6 +189,64 @@ public class ItemAdapter extends PagedListAdapter<Article, ItemAdapter.ArticleVi
             int position = getAdapterPosition();
             listener.onClickArticleSection(getItem(position));
         }
+
+        public void bindTo(Article currentArticle) {
+            articleTitle.setText(currentArticle.getWebTitle());
+            articleDate.setText(getDate(currentArticle.getWebPublicationDate()));
+            Fields fields = currentArticle.getFields();
+            if (null != fields) {
+                articleAuthor.setText(fields.getAuthorName());
+                loadImage(fields.getThumbnail(), articleImage);
+            }
+            articleSection.setText(currentArticle.getSectionName());
+        }
     }
 
+    public class NetworkStateItemViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.msg_iv)
+        protected ImageView errorIV;
+        @BindView(R.id.progress_bar)
+        protected View progressBar;
+        @BindView(R.id.msg_tv)
+        protected TextView errorTV;
+        @BindView(R.id.msg_layout)
+        protected View errorLayout;
+
+        NetworkStateItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        void bindView(NetworkState networkState) {
+            if (networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING) {
+                showProgressBar(progressBar, true);
+            } else {
+                showProgressBar(progressBar, false);
+            }
+
+            if (networkState != null && networkState.getStatus() == NetworkState.Status.FAILED) {
+                showProgressBar(progressBar, true);
+                showFailureMsg(new Throwable(networkState.getMsg()),
+                        android.R.drawable.ic_dialog_alert, errorLayout, progressBar, errorTV, errorIV);
+            } else {
+                showProgressBar(progressBar, false);
+            }
+        }
+
+        /**
+         * to reload data if the user click on the error image and it was because failure in internet connection
+         */
+        @OnClick(R.id.msg_iv)
+        void onClickMsgIV(){
+            String errorMsg = getTextFromEditText(errorTV);
+            if (context.getString(R.string.no_connection).equals(errorMsg))
+                itemClickListener.onRetryClick();
+        }
+
+        @OnClick(R.id.msg_tv)
+        void onClickMsgTV(){
+            onClickMsgIV();
+        }
+    }
 }

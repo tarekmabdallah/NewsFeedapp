@@ -18,18 +18,18 @@
 
 package com.gmail.tarekmabdallah91.news.paging;
 
+import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
-import android.content.Context;
 
 public class ItemDataSourceFactory  extends DataSource.Factory {
 
     private MutableLiveData<ItemDataSource> itemLiveDataSource ;
-    private Context context;
+    private Activity activity;
     private String sectionId, searchKeyword;
 
-    ItemDataSourceFactory(Context context, String sectionId, String searchKeyword){
-        this.context = context;
+    ItemDataSourceFactory(Activity activity, String sectionId, String searchKeyword){
+        this.activity = activity;
         this.sectionId = sectionId;
         this.searchKeyword = searchKeyword;
         this.itemLiveDataSource = new MutableLiveData<>();
@@ -37,7 +37,7 @@ public class ItemDataSourceFactory  extends DataSource.Factory {
 
     @Override
     public DataSource create() {
-        ItemDataSource itemDataSource = new ItemDataSource(context, sectionId, searchKeyword);
+        ItemDataSource itemDataSource = new ItemDataSource(activity, sectionId, searchKeyword);
         itemLiveDataSource.postValue(itemDataSource);
         return itemDataSource;
     }

@@ -72,7 +72,6 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initiateValues() {
-        super.initiateValues();
         fragment = SearchFragment.getInstance();
         onSearchForKeyWordListener = fragment;
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
@@ -117,6 +116,10 @@ public class SearchActivity extends BaseActivity {
     private void updateSearchHistory(String keyword, boolean isToAdd){
         if (isToAdd){
             if (!searchHistoryList.contains(keyword))searchHistoryList.add(keyword);
+            else{ // move it to the 1st position
+                searchHistoryList.remove(keyword);
+                searchHistoryList.add(keyword);
+            }
             if (searchHistoryList.size() > FIVE) searchHistoryList.remove(ZERO);
         }else {
             searchHistoryList.remove(keyword);

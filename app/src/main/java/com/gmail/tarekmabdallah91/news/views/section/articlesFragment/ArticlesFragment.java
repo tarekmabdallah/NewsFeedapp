@@ -24,14 +24,17 @@ import android.arch.paging.PagedList;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ProgressBar;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.room.news.DbViewModel;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
 import com.gmail.tarekmabdallah91.news.paging.ItemViewModel;
+import com.gmail.tarekmabdallah91.news.paging.ListItemClickListener;
 import com.gmail.tarekmabdallah91.news.paging.OnArticleClickListener;
-import com.gmail.tarekmabdallah91.news.views.bases.BaseDataLoaderFragment;
+import com.gmail.tarekmabdallah91.news.utils.NetworkState;
+import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
 import java.util.List;
 
@@ -39,16 +42,17 @@ import butterknife.BindView;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showFailureMsg;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showProgressBar;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
 import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity.openArticleWebViewActivity;
 
 
-public class ArticlesFragment extends BaseDataLoaderFragment {
+public class ArticlesFragment extends BaseFragment {
 
     @BindView(R.id.articles_recycler_view)
     RecyclerView articlesRecyclerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     protected ItemAdapter itemAdapter ;
 
@@ -59,45 +63,46 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
 
     @Override
     protected void initiateValues() {
-        super.initiateValues();
         setItemAdapter();
         setArticlesRecyclerView();
         if (IS_FAVOURITE_LIST.equals(getSectionId())) setDbViewModel();
         else setPagingViewModel(null);
     }
 
-    @Override
-    public String getSectionId() {
+    protected String getSectionId() {
         return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
     }
 
     protected void setPagingViewModel(String searchKeyword){
+        observeNetworkState(new NetworkState(NetworkState.Status.RUNNING,
+                activity.getString(R.string.loading_msg))); // to be shown firstly till some data get loaded
         ItemViewModel itemViewModel =  new ItemViewModel(activity, getSectionId(), searchKeyword);
-        showProgressBar(progressBar, true);
         itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Article>>() {
             @Override
             public void onChanged(@Nullable PagedList<Article> items) {
-                showToastMsg(activity.getString(R.string.loading_msg));
                 itemAdapter.submitList(items);
-                showProgressBar(progressBar, false);
+                observeNetworkState(NetworkState.LOADED);
+            }
+        });
+
+        itemViewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
+            @Override
+            public void onChanged(@Nullable NetworkState networkState) {
+                observeNetworkState(networkState);
             }
         });
     }
 
     private void setDbViewModel() {
-        showProgressBar(progressBar,true);
         DbViewModel viewModel = ViewModelProviders.of(this).get(DbViewModel.class);
         viewModel.getData().observe(this, new Observer<List<Article>>() {
 
             @Override
             public void onChanged(@Nullable List<Article> articlesInDb) {
-                if (null != articlesInDb && !articlesInDb.isEmpty()){
+                if (null != articlesInDb && !articlesInDb.isEmpty())
                     itemAdapter.swapList(articlesInDb);
-                    showProgressBar(progressBar,false);
-                }else {
-                    showFailureMsg(new Throwable(activity.getString(R.string.empty_db_msg)),
-                            android.R.drawable.ic_dialog_alert, errorLayout, progressBar, errorTV, errorIV);
-                }
+                else observeNetworkState(new NetworkState(NetworkState.Status.FAILED,
+                            activity.getString(R.string.empty_db_msg)));
             }
         });
     }
@@ -120,6 +125,13 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
             }
         };
         itemAdapter.setOnArticleClickListener(onArticleClickListener);
+        ListItemClickListener listItemClickListener = new ListItemClickListener() {
+            @Override
+            public void onRetryClick() {
+                restartActivity(activity);
+            }
+        };
+        itemAdapter.setItemClickListener(listItemClickListener);
     }
 
     private void setArticlesRecyclerView() {
@@ -127,6 +139,11 @@ public class ArticlesFragment extends BaseDataLoaderFragment {
         articlesRecyclerView.setLayoutManager(layoutManager);
         articlesRecyclerView.setHasFixedSize(true);
         articlesRecyclerView.setAdapter(itemAdapter);
+    }
+
+    private void observeNetworkState(@Nullable NetworkState networkState){
+        itemAdapter.setNetworkState(networkState);
+        //if (itemAdapter.hasExtraRow()) showToastMsg(activity.getString(R.string.loading_msg));
     }
 
     public static ArticlesFragment getInstance() {

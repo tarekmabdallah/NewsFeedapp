@@ -17,6 +17,7 @@
 package com.gmail.tarekmabdallah91.news.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +29,6 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -330,7 +330,7 @@ public final class ViewsUtils {
     /**
      * to restart the current activity
      */
-    public static void restartActivity(AppCompatActivity activity) {
+    public static void restartActivity(Activity activity) {
         Intent intent = activity.getIntent();
         activity.finish();
         activity.startActivity(intent);
@@ -563,10 +563,6 @@ public final class ViewsUtils {
         String defaultValue = context.getString(defaultValueStringId);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(key, defaultValue);
-    }
-
-    public static void commitFragment (FragmentManager fragmentManager, int containerId, Fragment fragment){
-        fragmentManager.beginTransaction().replace(containerId, fragment).commit();
     }
 
     public static void openUrlInWebBrowser(Context context, String url){
