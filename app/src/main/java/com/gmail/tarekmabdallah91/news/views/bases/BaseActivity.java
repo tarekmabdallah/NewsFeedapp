@@ -142,8 +142,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setFragmentToCommit (BaseFragment fragment, int containerId){
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(containerId, fragment)
-                .addToBackStack(fragment.getClass().getSimpleName()).commit();
+        fm.beginTransaction().replace(containerId, fragment).commit();
     }
 
     /**

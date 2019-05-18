@@ -47,7 +47,7 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getCurrentTime;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getTextFromEditText;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.loadImage;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showFailureMsg;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showProgressBar;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
 
 public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder>{
 
@@ -219,18 +219,10 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
         }
 
         void bindView(NetworkState networkState) {
-            if (networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING) {
-                showProgressBar(progressBar, true);
-            } else {
-                showProgressBar(progressBar, false);
-            }
-
+            showNormalProgressBar(progressBar,(networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING));
             if (networkState != null && networkState.getStatus() == NetworkState.Status.FAILED) {
-                showProgressBar(progressBar, true);
                 showFailureMsg(new Throwable(networkState.getMsg()),
                         android.R.drawable.ic_dialog_alert, errorLayout, progressBar, errorTV, errorIV);
-            } else {
-                showProgressBar(progressBar, false);
             }
         }
 

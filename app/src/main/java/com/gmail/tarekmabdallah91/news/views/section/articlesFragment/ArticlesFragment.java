@@ -42,7 +42,9 @@ import butterknife.BindView;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
 import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity.openArticleWebViewActivity;
 
@@ -74,8 +76,7 @@ public class ArticlesFragment extends BaseFragment {
     }
 
     protected void setPagingViewModel(String searchKeyword){
-        observeNetworkState(new NetworkState(NetworkState.Status.RUNNING,
-                activity.getString(R.string.loading_msg))); // to be shown firstly till some data get loaded
+        makeViewVisible(progressBar);
         ItemViewModel itemViewModel =  new ItemViewModel(activity, getSectionId(), searchKeyword);
         itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Article>>() {
             @Override
@@ -143,7 +144,7 @@ public class ArticlesFragment extends BaseFragment {
 
     private void observeNetworkState(@Nullable NetworkState networkState){
         itemAdapter.setNetworkState(networkState);
-        //if (itemAdapter.hasExtraRow()) showToastMsg(activity.getString(R.string.loading_msg));
+        showNormalProgressBar(progressBar, itemAdapter.hasExtraRow());
     }
 
     public static ArticlesFragment getInstance() {

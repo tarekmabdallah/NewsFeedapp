@@ -360,6 +360,11 @@ public final class ViewsUtils {
         }
     }
 
+    public static void showNormalProgressBar(View progressBar, boolean show) {
+        if (show) makeViewVisible(progressBar);
+        else makeViewGone(progressBar);
+    }
+
     /**
      * used when want to show / hide a view
      *

@@ -28,14 +28,13 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getValueFromPrefe
 
 public class MainActivity extends SectionActivity {
 
-    private boolean isDefaultSection; // is it world news ?
-
     @Override
     protected void initiateValues() {
         super.initiateValues();
         // get section id to be used in calling tha API
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
-        isDefaultSection = null == sectionId;
+        // is it world news ?
+        boolean isDefaultSection = null == sectionId;
         if (isDefaultSection) sectionId = getString(R.string.sections_list_default_value);
         getIntent().putExtra(SECTION_ID_KEYWORD, sectionId);
     }
