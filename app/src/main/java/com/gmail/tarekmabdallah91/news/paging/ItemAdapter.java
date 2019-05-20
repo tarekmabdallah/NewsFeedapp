@@ -41,7 +41,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.gmail.tarekmabdallah91.news.models.articles.Article.DIFF_CALLBACK;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getCurrentTime;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getTextFromEditText;
@@ -121,19 +120,7 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
     }
 
     public void setNetworkState(NetworkState newNetworkState) {
-        NetworkState previousState = this.networkState;
-        boolean previousExtraRow = hasExtraRow();
         this.networkState = newNetworkState;
-        boolean newExtraRow = hasExtraRow();
-        if (previousExtraRow != newExtraRow) {
-            if (previousExtraRow) {
-                notifyItemRemoved(getItemCount());
-            } else {
-                notifyItemInserted(getItemCount());
-            }
-        } else if (newExtraRow && previousState != newNetworkState) {
-            notifyItemChanged(getItemCount() - ONE);
-        }
     }
 
     /**
