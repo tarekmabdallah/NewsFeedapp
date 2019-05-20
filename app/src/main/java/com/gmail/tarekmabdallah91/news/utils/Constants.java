@@ -82,7 +82,7 @@ public class Constants {
     public static final int THREE = 3;
     public static final int FOUR = 4;
     public static final int FIVE = 5;
-    public static final int PAGE_SIZE = 10;
+    public static final int PAGE_SIZE = 2;
 
     // these all methods used to set Font to the TextViews / EditTexts
     private static Typeface buttonTypeFace(Context context) {

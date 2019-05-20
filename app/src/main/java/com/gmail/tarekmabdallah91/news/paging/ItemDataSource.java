@@ -170,6 +170,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
      * @param dataFetcherCallback to handle success or failure cases
      */
     private void callApi(Call call, DataFetcherCallback dataFetcherCallback){
+        networkState.postValue(NetworkState.LOADING);
         if (isConnected(activity))getResponse(call, dataFetcherCallback);
         else handelFailureCase(noConnectionThrowable);
     }

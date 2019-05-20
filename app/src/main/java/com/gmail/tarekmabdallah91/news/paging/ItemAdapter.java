@@ -45,8 +45,8 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getCurrentTime;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getTextFromEditText;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelNoConnectionCase;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.loadImage;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showFailureMsg;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
 
 public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder>{
@@ -219,11 +219,9 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
         }
 
         void bindView(NetworkState networkState) {
-            showNormalProgressBar(progressBar,(networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING));
-            if (networkState != null && networkState.getStatus() == NetworkState.Status.FAILED) {
-                showFailureMsg(new Throwable(networkState.getMsg()),
-                        android.R.drawable.ic_dialog_alert, errorLayout, progressBar, errorTV, errorIV);
-            }
+            boolean isStateRunning = networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING;
+            showNormalProgressBar(progressBar, isStateRunning);
+            handelNoConnectionCase(networkState, errorLayout, progressBar, errorTV, errorIV);
         }
 
         /**

@@ -24,14 +24,12 @@ import android.arch.paging.PagedList;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ProgressBar;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.room.news.DbViewModel;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
 import com.gmail.tarekmabdallah91.news.paging.ItemViewModel;
-import com.gmail.tarekmabdallah91.news.paging.ListItemClickListener;
 import com.gmail.tarekmabdallah91.news.paging.OnArticleClickListener;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
@@ -42,8 +40,9 @@ import butterknife.BindView;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelNoConnectionCase;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewGone;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
 import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity.openArticleWebViewActivity;
@@ -53,8 +52,6 @@ public class ArticlesFragment extends BaseFragment {
 
     @BindView(R.id.articles_recycler_view)
     RecyclerView articlesRecyclerView;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
 
     protected ItemAdapter itemAdapter ;
 
@@ -102,8 +99,11 @@ public class ArticlesFragment extends BaseFragment {
             public void onChanged(@Nullable List<Article> articlesInDb) {
                 if (null != articlesInDb && !articlesInDb.isEmpty())
                     itemAdapter.swapList(articlesInDb);
-                else observeNetworkState(new NetworkState(NetworkState.Status.FAILED,
+                else {
+                    observeNetworkState(new NetworkState(NetworkState.Status.FAILED,
                             activity.getString(R.string.empty_db_msg)));
+                    makeViewGone(progressBar);
+                }
             }
         });
     }
@@ -126,13 +126,7 @@ public class ArticlesFragment extends BaseFragment {
             }
         };
         itemAdapter.setOnArticleClickListener(onArticleClickListener);
-        ListItemClickListener listItemClickListener = new ListItemClickListener() {
-            @Override
-            public void onRetryClick() {
-                restartActivity(activity);
-            }
-        };
-        itemAdapter.setItemClickListener(listItemClickListener);
+        itemAdapter.setItemClickListener(this);
     }
 
     private void setArticlesRecyclerView() {
@@ -144,7 +138,9 @@ public class ArticlesFragment extends BaseFragment {
 
     private void observeNetworkState(@Nullable NetworkState networkState){
         itemAdapter.setNetworkState(networkState);
-        showNormalProgressBar(progressBar, itemAdapter.hasExtraRow());
+        boolean hasExtraRows = itemAdapter.hasExtraRow();
+        showNormalProgressBar(progressBar, hasExtraRows);
+        handelNoConnectionCase(networkState, errorLayout, progressBar, errorTV, errorIV);
     }
 
     public static ArticlesFragment getInstance() {
