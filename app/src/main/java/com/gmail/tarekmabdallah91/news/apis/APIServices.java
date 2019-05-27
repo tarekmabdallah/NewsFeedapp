@@ -21,7 +21,7 @@ import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
 
 import java.util.Map;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
@@ -35,9 +35,9 @@ public interface APIServices {
 
     @Headers({HEADER_API_KEY}) /*HEADER_FORMAT, HEADER_LANG,  are set in the interceptor in APIClient */
     @GET("{section}")
-    Call<ResponseSection> getArticlesBySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
+    Observable <ResponseSection> getArticlesBySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
 
     @Headers({HEADER_API_KEY})
     @GET("world/{section}") // to get country news / section
-    Call<ResponseCountryNews> getCountrySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
+    Observable <ResponseCountryNews> getCountrySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
 }

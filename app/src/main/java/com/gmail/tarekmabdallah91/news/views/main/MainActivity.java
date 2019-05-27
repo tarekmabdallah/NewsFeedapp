@@ -17,6 +17,7 @@
 package com.gmail.tarekmabdallah91.news.views.main;
 
 import android.support.v7.app.ActionBar;
+import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
@@ -24,7 +25,9 @@ import com.gmail.tarekmabdallah91.news.views.section.SectionActivity;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceSubTitleStyle;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getValueFromPreferencesByKey;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
 
 public class MainActivity extends SectionActivity {
 
@@ -47,12 +50,18 @@ public class MainActivity extends SectionActivity {
     @Override // to avoid showing back arrow in the tool bar in MainActivity
     protected void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        if (null != actionBar){
-            actionBar.setTitle(getActivityTitle());
-            SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
-            String sectionName = sharedPreferencesHelper.getMainSection();
-            if (EMPTY_STRING.equals(sectionName)) sectionName =  getString(R.string.world_news_label);
-            actionBar.setSubtitle(sectionName);
-        }
+        if (null != actionBar) customTitleTVStyle(actionBar);
+    }
+
+    @Override
+    protected void customTitleTVStyle(ActionBar actionBar) {
+        super.customTitleTVStyle(actionBar);
+        SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
+        String sectionName = sharedPreferencesHelper.getMainSection();
+        if (EMPTY_STRING.equals(sectionName)) sectionName = getString(R.string.world_news_label);
+        TextView subtitleTV = findViewById(R.id.action_bar_subtitle);
+        makeViewVisible(subtitleTV);
+        makeTypeFaceSubTitleStyle(subtitleTV);
+        subtitleTV.setText(sectionName);
     }
 }

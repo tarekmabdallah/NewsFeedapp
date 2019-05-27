@@ -136,6 +136,4 @@ public class DatesFragment extends BaseFragment {
                 .build()
                 .show();
     }
-
-
 }

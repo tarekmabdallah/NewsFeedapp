@@ -18,24 +18,21 @@ package com.gmail.tarekmabdallah91.news.apis;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
 
 import okhttp3.Cache;
 import okhttp3.Dispatcher;
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.THREE;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.URL_KEYWORD;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class APIClient {
@@ -47,7 +44,7 @@ public class APIClient {
     public static Retrofit getInstance(final Context context) {
         if (retrofit == null) {
 
-            Interceptor interceptor = new Interceptor() {
+            Interceptor headerInterceptor = new Interceptor() {
                 @Override
                 public synchronized okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
                     Request request = chain.request();
@@ -70,66 +67,29 @@ public class APIClient {
 
             final int TIMEOUT = 60, CASH_SIZE = 10 * 1024 * 1024 /*10MB*/;
             Cache cache = new Cache(context.getCacheDir(), CASH_SIZE);
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(TIMEOUT, SECONDS)
+
+            //this is the part where you will see all the logs of retrofit requests
+            //and responses
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
+            okHttpBuilder.connectTimeout(TIMEOUT, SECONDS)
                     .readTimeout(TIMEOUT, SECONDS)
                     .writeTimeout(TIMEOUT, SECONDS)
-                    .addInterceptor(interceptor)
+                    .addInterceptor(headerInterceptor)
+                    .addInterceptor(loggingInterceptor)
                     .cache(cache)
                     .dispatcher(dispatcher);
 
-            retrofit = new Retrofit.Builder().baseUrl(BASE_URL).client(builder.build()).
-                    addConverterFactory(GsonConverterFactory.create()).build();
             retrofit = new Retrofit.Builder().
                     baseUrl(BASE_URL).
-                    addConverterFactory(GsonConverterFactory.create()).
+                    addConverterFactory(GsonConverterFactory.create()). // converts the response JSON into GSON and then into the POJO objects
+                    addCallAdapterFactory(RxJava2CallAdapterFactory.create()). // verifies we are using RxJava2 for this API call
+                    client(okHttpBuilder.build()).
                     build();
         }
         return retrofit;
-    }
-
-    /**
-     * https://github.com/square/retrofit/blob/master/samples/src/main/java/com/example/retrofit/ErrorHandlingAdapter.java
-     *
-     * @param call-
-     * @param dataFetcherCallback-
-     */
-    public static void getResponse(Call call, final DataFetcherCallback dataFetcherCallback) {
-        final int errorImageResId = android.R.drawable.stat_notify_error;
-        call.clone().enqueue(new Callback() { // call.clone() to avoid java.lang.IllegalStateException: Already executed.
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) {
-                int code = response.code();
-                String message = response.message();
-                Throwable throwable;
-                printCallUrlInLogs(call);
-                if (response.isSuccessful())
-                    dataFetcherCallback.onDataFetched(response.body());
-                else {
-                    if (code >= 400 && code < 500) {
-                        throwable = new Throwable(message);
-                    } else if (code >= 500 && code < 600) //Internal Server Error "SERVER ERROR "
-                        throwable = new Throwable(message);
-                    else
-                        throwable = new Throwable("FATAL ERROR\nUnexpected response\n" + message);
-                    dataFetcherCallback.onFailure(throwable, errorImageResId);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull Throwable t) {
-                printCallUrlInLogs(call);
-                String message = t.getMessage();
-                if (t instanceof IOException) message = "NETWORK ERROR " + message;
-                else message = "FATAL ERROR\nUnexpected response " + message;
-                dataFetcherCallback.onFailure(new Throwable(message), errorImageResId);
-            }
-        });
-    }
-
-    private static void printCallUrlInLogs(Call call){
-        HttpUrl url = call.request().url();
-        Log.d(URL_KEYWORD, url.toString());
     }
 
     public static APIServices getAPIServices (Context context){

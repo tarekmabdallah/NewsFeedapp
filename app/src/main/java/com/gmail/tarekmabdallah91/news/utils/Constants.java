@@ -63,6 +63,7 @@ public class Constants {
     public static final String ARTICLES_LIST_KEYWORD = "ARTICLES_LIST_KEYWORD";
     public static final String ARTICLES_KEYWORD = "ARTICLES_KEYWORD";
     public static final String URL_KEYWORD = "URL_KEYWORD";
+    public static final String RX_KEYWORD = "RxJava";
     public static final String MAIN_SECTION_KEYWORD = "MAIN_SECTION_KEYWORD";
     public static final String SECTION_ID_KEYWORD = "SECTION_ID_KEYWORD";
     public static final String IS_SP_UPDATED = "IS_SP_UPDATED";
@@ -80,24 +81,16 @@ public class Constants {
     public static final int ONE = 1;
     public static final int TWO = 2;
     public static final int THREE = 3;
-    public static final int FOUR = 4;
     public static final int FIVE = 5;
-    public static final int PAGE_SIZE = 2;
+    public static final int TEN = 10;
+    public static int PAGE_SIZE = TEN;
 
     // these all methods used to set Font to the TextViews / EditTexts
     private static Typeface buttonTypeFace(Context context) {
         return Font.VelinoSansMedium(context);
     }
 
-    public static Typeface productNameTypeFace(Context context) {
-        return Font.VelinoSansLight(context);
-    }
-
-    public static Typeface productDetailsTypeFace(Context context) {
-        return Font.VelinoSansThin(context);
-    }
-
-    public static Typeface textTypeFace(Context context) {
+    private static Typeface textTypeFace(Context context) {
         return Font.VelinoSansBook(context);
     }
 
@@ -105,12 +98,7 @@ public class Constants {
         return Font.VelinoSansThin(context);
     }
 
-    public static Typeface designerTypeFace(Context context) {
-        return Font.VelinoSansMedium(context);
-    }
-
-    public static Typeface titleToolbarTypeFace(Context context) {
-        //return Font.VelinoSansBold(context);
+    private static Typeface titleToolbarTypeFace(Context context) {
         return Font.VelinoSansMedium(context);
     }
 
@@ -133,13 +121,12 @@ public class Constants {
         for (TextView textView : textViews) textView.setTypeface(buttonTypeFace(context));
     }
 
-    public static void makeTypeFaceSmallTextStyle(TextView... textViews) {
-        Context context = textViews[ZERO].getContext();
-        for (TextView textView : textViews) textView.setTypeface(smallTextTypeFace(context));
+    public static void makeTypeFaceSubTitleStyle(TextView titleTv) {
+        Context context = titleTv.getContext();
+        titleTv.setTypeface(smallTextTypeFace(context));
     }
 
-    public static void setTypeFaceNoDataTv(TextView noDataTv) {
-        if (null != noDataTv) makeTypeFaceLabelStyle(noDataTv);
+    public static void makeTypeFaceTitleStyle(TextView titleTv) {
+        if (null != titleTv) titleTv.setTypeface(titleToolbarTypeFace(titleTv.getContext()));
     }
-
 }

@@ -22,11 +22,11 @@ import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
-import com.gmail.tarekmabdallah91.news.apis.DataFetcherCallback;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
 import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
@@ -36,16 +36,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-import static com.gmail.tarekmabdallah91.news.apis.APIClient.getResponse;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.RX_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
 
 public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
@@ -68,9 +71,15 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, Article> callback) {
         networkState.postValue(NetworkState.LOADING);
-        DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
+        Observer observer = new Observer() {
             @Override
-            public void onDataFetched(Object body) {
+            public void onSubscribe(Disposable d) {
+                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
+            }
+
+            @Override
+            public void onNext(Object body) {
+                Log.d(RX_KEYWORD, "onNext" + body.toString());
                 List<Article> articles = new ArrayList<>();
                 if (body instanceof ResponseSection){
                     ResponseSection responseSection = (ResponseSection) body;
@@ -84,19 +93,33 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
             }
 
             @Override
-            public void onFailure(Throwable t, int errorImageResId) {
-                handelFailureCase(t);
+            public void onError(Throwable e) {
+                handelFailureCase(e);
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(RX_KEYWORD, "onComplete");
             }
         };
-        callApi(getCall(ONE), dataFetcherCallback);
+        getObservable(ONE).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(observer);
     }
 
     //this will load the previous page
     @Override
     public void loadBefore(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Article> callback) {
-        DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
+        Observer observer = new Observer() {
             @Override
-            public void onDataFetched(Object body) {
+            public void onSubscribe(Disposable d) {
+                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
+            }
+
+            @Override
+            public void onNext(Object body) {
+                Log.d(RX_KEYWORD, "onNext" + body.toString());
                 List<Article> articles = new ArrayList<>();
                 if (body instanceof ResponseSection){
                     ResponseSection responseSection = (ResponseSection) body;
@@ -111,19 +134,33 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
             }
 
             @Override
-            public void onFailure(Throwable t, int errorImageResId) {
-                handelFailureCase(t);
+            public void onError(Throwable e) {
+                handelFailureCase(e);
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(RX_KEYWORD, "onComplete");
             }
         };
-        callApi(getCall(params.key), dataFetcherCallback);
+        getObservable(params.key).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(observer);
     }
 
     //this will load the next page
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Article> callback) {
-        DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
+        Observer observer = new Observer() {
             @Override
-            public void onDataFetched(Object body) {
+            public void onSubscribe(Disposable d) {
+                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
+            }
+
+            @Override
+            public void onNext(Object body) {
+                Log.d(RX_KEYWORD, "onNext" + body.toString());
                 List<Article> articles = new ArrayList<>();
                 int pagesNumber = ZERO;
                 if (body instanceof ResponseSection){
@@ -141,14 +178,22 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
             }
 
             @Override
-            public void onFailure(Throwable t, int errorImageResId) {
-                handelFailureCase(t);
+            public void onError(Throwable e) {
+                handelFailureCase(e);
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(RX_KEYWORD, "onComplete");
             }
         };
-        callApi(getCall(params.key), dataFetcherCallback);
+        getObservable(params.key).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(observer);
     }
 
-    private Call getCall (int pageNumber){
+    private Observable getObservable(int pageNumber){
         APIServices apiServices = APIClient.getAPIServices(activity);
         Map<String, Object> queries = getQueriesMap(activity, pageNumber);
         if (null != searchKeyword) queries.put(QUERY_Q_KEYWORD, searchKeyword);
@@ -161,17 +206,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
     }
 
     private void handelFailureCase(Throwable t){
+        Log.d(RX_KEYWORD, "onError" + t.getMessage());
         networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
-    }
-
-    /**
-     * to handle calling the APIs and get its response
-     * @param call to call the API
-     * @param dataFetcherCallback to handle success or failure cases
-     */
-    private void callApi(Call call, DataFetcherCallback dataFetcherCallback){
-        networkState.postValue(NetworkState.LOADING);
-        if (isConnected(activity))getResponse(call, dataFetcherCallback);
-        else handelFailureCase(noConnectionThrowable);
     }
 }

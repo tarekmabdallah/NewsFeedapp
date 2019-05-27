@@ -30,6 +30,7 @@ import com.gmail.tarekmabdallah91.news.R;
 import butterknife.ButterKnife;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTitleStyle;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 import static com.gmail.tarekmabdallah91.news.views.search.SearchActivity.openSearchActivity;
 import static com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity.openSectionsActivity;
@@ -39,7 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     // TODO: 07-Apr-19 to use Fb sdk for logging
     // TODO: 07-Apr-19 to use firebase for crash analytics and messing
-    // TODO: 07-Apr-19 to use dagger 2 and RxJava
+    // TODO: 07-Apr-19 to use dagger 2
     // TODO: 07-Apr-19 to update the UI (Responsive UI)
 
     @Override
@@ -61,11 +62,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (null != actionBar){
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(R.layout.action_bar_title_layout);
-            TextView titleTV = findViewById(R.id.action_bar_title);
-            titleTV.setText(getActivityTitle());
+            customTitleTVStyle(actionBar);
         }
+    }
+    
+    protected void customTitleTVStyle(ActionBar actionBar){
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.action_bar_title_layout);
+        TextView titleTV = findViewById(R.id.action_bar_title);
+        makeTypeFaceTitleStyle(titleTV);
+        titleTV.setText(getActivityTitle());
     }
 
     protected abstract String getActivityTitle();

@@ -44,7 +44,7 @@ import static com.gmail.tarekmabdallah91.news.models.articles.Article.DIFF_CALLB
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getCurrentTime;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getTextFromEditText;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelNoConnectionCase;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelErrorMsg;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.loadImage;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
 
@@ -208,7 +208,7 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
         void bindView(NetworkState networkState) {
             boolean isStateRunning = networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING;
             showNormalProgressBar(progressBar, isStateRunning);
-            handelNoConnectionCase(networkState, errorLayout, progressBar, errorTV, errorIV);
+            handelErrorMsg(networkState, errorLayout, progressBar, errorTV, errorIV);
         }
 
         /**

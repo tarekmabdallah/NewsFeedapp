@@ -586,7 +586,7 @@ public final class ViewsUtils {
         label.append(textToAppend);
     }
 
-    public static void handelNoConnectionCase (NetworkState networkState, View... views){
+    public static void handelErrorMsg(NetworkState networkState, View... views){
         if (networkState != null && networkState.getStatus() == NetworkState.Status.FAILED) {
             showFailureMsg(new Throwable(networkState.getMsg()), android.R.drawable.stat_notify_sync, views);
         }

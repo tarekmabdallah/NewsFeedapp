@@ -38,11 +38,15 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelNoConnectionCase;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelErrorMsg;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewGone;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
 import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity.openArticleWebViewActivity;
@@ -78,8 +82,13 @@ public class ArticlesFragment extends BaseFragment {
         itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Article>>() {
             @Override
             public void onChanged(@Nullable PagedList<Article> items) {
-                itemAdapter.submitList(items);
-                observeNetworkState(NetworkState.LOADED);
+                if (null != items && !items.isEmpty()){
+                    observeNetworkState(new NetworkState(NetworkState.Status.FAILED,
+                            activity.getString(R.string.no_news_found)));
+                } else {
+                    itemAdapter.submitList(items);
+                    observeNetworkState(NetworkState.LOADED);
+                }
             }
         });
 
@@ -140,7 +149,15 @@ public class ArticlesFragment extends BaseFragment {
         itemAdapter.setNetworkState(networkState);
         boolean hasExtraRows = itemAdapter.hasExtraRow();
         showNormalProgressBar(progressBar, hasExtraRows);
-        handelNoConnectionCase(networkState, errorLayout, progressBar, errorTV, errorIV);
+        String errorMsg = EMPTY_STRING;
+        if (null != networkState) errorMsg = networkState.getMsg();
+        // when the page size is larger than the total size in the Gaurdian API >> change it to equal 2 and restart the activity
+        final String HTTP_BAD_REQUEST = "HTTP 400 Bad Request";
+        if (HTTP_BAD_REQUEST.equals(errorMsg)){
+            PAGE_SIZE = TWO ;
+            restartActivity(activity);
+        }
+        handelErrorMsg(networkState, errorLayout, progressBar, errorTV, errorIV);
     }
 
     public static ArticlesFragment getInstance() {
