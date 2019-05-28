@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.gmail.tarekmabdallah91.news.R;
@@ -29,10 +30,10 @@ import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
+import com.gmail.tarekmabdallah91.news.models.section.CommonResponse;
 import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,8 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.RX_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
 
 public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
@@ -57,6 +58,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
     private MutableLiveData<NetworkState> networkState;
     private boolean isCountrySection;
     private Throwable noConnectionThrowable;
+    private final static String LOAD_BEFORE = "LOAD_BEFORE", LOAD_AFTER = "LOAD_AFTER", LOAD_INITIAL = "LOAD_INITIAL";
 
     ItemDataSource(Activity activity, String sectionId, String searchKeyword){
         this.activity = activity;
@@ -71,126 +73,19 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, Article> callback) {
         networkState.postValue(NetworkState.LOADING);
-        Observer observer = new Observer() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
-            }
-
-            @Override
-            public void onNext(Object body) {
-                Log.d(RX_KEYWORD, "onNext" + body.toString());
-                List<Article> articles = new ArrayList<>();
-                if (body instanceof ResponseSection){
-                    ResponseSection responseSection = (ResponseSection) body;
-                    articles = responseSection.getResponse().getResults();
-                }else if (body instanceof ResponseCountryNews){
-                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
-                    articles = responseCountryNews.getResponse().getResults();
-                }
-                networkState.postValue(NetworkState.LOADED);
-                callback.onResult(articles, null , TWO );
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                handelFailureCase(e);
-            }
-
-            @Override
-            public void onComplete() {
-                Log.d(RX_KEYWORD, "onComplete");
-            }
-        };
-        getObservable(ONE).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(observer);
+        loadData(LOAD_INITIAL, ONE, callback, null);
     }
 
     //this will load the previous page
     @Override
     public void loadBefore(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Article> callback) {
-        Observer observer = new Observer() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
-            }
-
-            @Override
-            public void onNext(Object body) {
-                Log.d(RX_KEYWORD, "onNext" + body.toString());
-                List<Article> articles = new ArrayList<>();
-                if (body instanceof ResponseSection){
-                    ResponseSection responseSection = (ResponseSection) body;
-                    articles = responseSection.getResponse().getResults();
-                }else if (body instanceof ResponseCountryNews){
-                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
-                    articles = responseCountryNews.getResponse().getResults();
-                }
-                Integer adjacentKey = (params.key > ONE) ? params.key - ONE : null;
-                networkState.postValue(NetworkState.LOADED);
-                callback.onResult(articles, adjacentKey );
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                handelFailureCase(e);
-            }
-
-            @Override
-            public void onComplete() {
-                Log.d(RX_KEYWORD, "onComplete");
-            }
-        };
-        getObservable(params.key).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(observer);
+        loadData(LOAD_BEFORE, params.key, null, callback);
     }
 
     //this will load the next page
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Article> callback) {
-        Observer observer = new Observer() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
-            }
-
-            @Override
-            public void onNext(Object body) {
-                Log.d(RX_KEYWORD, "onNext" + body.toString());
-                List<Article> articles = new ArrayList<>();
-                int pagesNumber = ZERO;
-                if (body instanceof ResponseSection){
-                    ResponseSection responseSection = (ResponseSection) body;
-                    pagesNumber = responseSection.getResponse().getPages();
-                    articles = responseSection.getResponse().getResults();
-                }else if (body instanceof ResponseCountryNews){
-                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
-                    pagesNumber = responseCountryNews.getResponse().getPages();
-                    articles = responseCountryNews.getResponse().getResults();
-                }
-                Integer key = pagesNumber > params.key ? params.key + ONE : null;
-                networkState.postValue(NetworkState.LOADED);
-                callback.onResult(articles, key);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                handelFailureCase(e);
-            }
-
-            @Override
-            public void onComplete() {
-                Log.d(RX_KEYWORD, "onComplete");
-            }
-        };
-        getObservable(params.key).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(observer);
+        loadData(LOAD_AFTER, params.key, null, callback);
     }
 
     private Observable getObservable(int pageNumber){
@@ -199,6 +94,71 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
         if (null != searchKeyword) queries.put(QUERY_Q_KEYWORD, searchKeyword);
         if (isCountrySection) return apiServices.getCountrySection(sectionId, queries);
         else return apiServices.getArticlesBySection(sectionId, queries);
+    }
+
+    private void loadData(final String state, final int paramsKey
+            , @Nullable final LoadInitialCallback<Integer, Article> initialCallback
+            , @Nullable final LoadCallback<Integer, Article> callback){
+
+        Observer observer = new Observer() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
+            }
+
+            @Override
+            public void onNext(Object body) {
+                Log.d(RX_KEYWORD, "onNext" + body.toString());
+                CommonResponse response = null;
+                if (body instanceof ResponseSection){
+                    ResponseSection responseSection = (ResponseSection) body;
+                    response = responseSection.getResponse();
+
+                }else if (body instanceof ResponseCountryNews){
+                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
+                    response = responseCountryNews.getResponse();
+                }
+                if (null != response) {
+                    int pagesNumber = response.getPages();
+                    List<Article> articles = response.getResults();
+                    if (null != articles && !articles.isEmpty()){
+                        networkState.postValue(NetworkState.LOADED);
+                        Integer key;
+                        switch (state){
+                            case LOAD_BEFORE:
+                                key = (paramsKey > ONE) ? paramsKey - ONE : null;
+                                callback.onResult(articles, key );
+                                break;
+                            case LOAD_AFTER:
+                                key = pagesNumber > paramsKey ? paramsKey + ONE : null;
+                                callback.onResult(articles, key );
+                                break;
+                            default:
+                                initialCallback.onResult(articles, null, TWO);
+                        }
+                    }else {
+                        networkState.postValue(new NetworkState(NetworkState.Status.FAILED,
+                                activity.getString(R.string.no_news_found)));
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                handelFailureCase(e);
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(RX_KEYWORD, "onComplete");
+            }
+        };
+        if (isConnected(activity)){
+            getObservable(paramsKey).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribe(observer);
+        }else handelFailureCase(noConnectionThrowable);
     }
 
     MutableLiveData getNetworkState() {

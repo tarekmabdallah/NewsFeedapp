@@ -82,13 +82,8 @@ public class ArticlesFragment extends BaseFragment {
         itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Article>>() {
             @Override
             public void onChanged(@Nullable PagedList<Article> items) {
-                if (null != items && !items.isEmpty()){
-                    observeNetworkState(new NetworkState(NetworkState.Status.FAILED,
-                            activity.getString(R.string.no_news_found)));
-                } else {
-                    itemAdapter.submitList(items);
-                    observeNetworkState(NetworkState.LOADED);
-                }
+                itemAdapter.submitList(items);
+                observeNetworkState(NetworkState.LOADED);
             }
         });
 
@@ -151,7 +146,7 @@ public class ArticlesFragment extends BaseFragment {
         showNormalProgressBar(progressBar, hasExtraRows);
         String errorMsg = EMPTY_STRING;
         if (null != networkState) errorMsg = networkState.getMsg();
-        // when the page size is larger than the total size in the Gaurdian API >> change it to equal 2 and restart the activity
+        // when the page size is larger than the total size in the Guardian API >> change it to equal 2 and restart the activity
         final String HTTP_BAD_REQUEST = "HTTP 400 Bad Request";
         if (HTTP_BAD_REQUEST.equals(errorMsg)){
             PAGE_SIZE = TWO ;
