@@ -28,6 +28,7 @@ import android.support.v7.widget.RecyclerView;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.room.news.DbViewModel;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import com.gmail.tarekmabdallah91.news.modules.MyApplication;
 import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
 import com.gmail.tarekmabdallah91.news.paging.ItemViewModel;
 import com.gmail.tarekmabdallah91.news.paging.OnArticleClickListener;
@@ -36,7 +37,10 @@ import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import retrofit2.Retrofit;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
@@ -54,6 +58,9 @@ import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActiv
 
 public class ArticlesFragment extends BaseFragment {
 
+    @Inject
+    Retrofit retrofit;
+
     @BindView(R.id.articles_recycler_view)
     RecyclerView articlesRecyclerView;
 
@@ -66,6 +73,7 @@ public class ArticlesFragment extends BaseFragment {
 
     @Override
     protected void initiateValues() {
+        ((MyApplication) activity.getApplication()).getNetComponent().inject(this);
         setItemAdapter();
         setArticlesRecyclerView();
         if (IS_FAVOURITE_LIST.equals(getSectionId())) setDbViewModel();
@@ -78,12 +86,11 @@ public class ArticlesFragment extends BaseFragment {
 
     protected void setPagingViewModel(String searchKeyword){
         makeViewVisible(progressBar);
-        ItemViewModel itemViewModel =  new ItemViewModel(activity, getSectionId(), searchKeyword);
+        ItemViewModel itemViewModel =  new ItemViewModel(activity, getSectionId(), searchKeyword, retrofit);
         itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Article>>() {
             @Override
             public void onChanged(@Nullable PagedList<Article> items) {
                 itemAdapter.submitList(items);
-                observeNetworkState(NetworkState.LOADED);
             }
         });
 

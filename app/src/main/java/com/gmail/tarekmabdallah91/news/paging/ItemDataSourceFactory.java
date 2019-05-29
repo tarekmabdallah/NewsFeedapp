@@ -22,22 +22,26 @@ import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
 
+import retrofit2.Retrofit;
+
 public class ItemDataSourceFactory  extends DataSource.Factory {
 
     private MutableLiveData<ItemDataSource> itemLiveDataSource ;
     private Activity activity;
     private String sectionId, searchKeyword;
+    private Retrofit retrofit;
 
-    ItemDataSourceFactory(Activity activity, String sectionId, String searchKeyword){
+    ItemDataSourceFactory(Activity activity, String sectionId, String searchKeyword, Retrofit retrofit){
         this.activity = activity;
         this.sectionId = sectionId;
         this.searchKeyword = searchKeyword;
+        this.retrofit = retrofit;
         this.itemLiveDataSource = new MutableLiveData<>();
     }
 
     @Override
     public DataSource create() {
-        ItemDataSource itemDataSource = new ItemDataSource(activity, sectionId, searchKeyword);
+        ItemDataSource itemDataSource = new ItemDataSource(activity, sectionId, searchKeyword, retrofit);
         itemLiveDataSource.postValue(itemDataSource);
         return itemDataSource;
     }

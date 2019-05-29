@@ -26,7 +26,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
@@ -42,6 +41,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
@@ -53,6 +53,8 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
 
 public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
+
+    private Retrofit retrofit;
     private Activity activity;
     private String sectionId, searchKeyword;
     private MutableLiveData<NetworkState> networkState;
@@ -60,10 +62,11 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
     private Throwable noConnectionThrowable;
     private final static String LOAD_BEFORE = "LOAD_BEFORE", LOAD_AFTER = "LOAD_AFTER", LOAD_INITIAL = "LOAD_INITIAL";
 
-    ItemDataSource(Activity activity, String sectionId, String searchKeyword){
+    ItemDataSource(Activity activity, String sectionId, String searchKeyword, Retrofit retrofit){
         this.activity = activity;
         this.sectionId = sectionId;
         this.searchKeyword = searchKeyword;
+        this.retrofit = retrofit;
         isCountrySection = activity.getIntent().getBooleanExtra(IS_COUNTRY_SECTION,false);
         networkState = new MutableLiveData<>();
         noConnectionThrowable = new Throwable(activity.getString(R.string.no_connection));
@@ -89,7 +92,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
     }
 
     private Observable getObservable(int pageNumber){
-        APIServices apiServices = APIClient.getAPIServices(activity);
+        APIServices apiServices = retrofit.create(APIServices.class);
         Map<String, Object> queries = getQueriesMap(activity, pageNumber);
         if (null != searchKeyword) queries.put(QUERY_Q_KEYWORD, searchKeyword);
         if (isCountrySection) return apiServices.getCountrySection(sectionId, queries);

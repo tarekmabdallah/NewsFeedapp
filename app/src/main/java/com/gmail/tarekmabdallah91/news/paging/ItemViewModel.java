@@ -33,6 +33,8 @@ import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import retrofit2.Retrofit;
+
 import static com.gmail.tarekmabdallah91.news.utils.Constants.FIVE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
@@ -42,13 +44,13 @@ public class ItemViewModel extends ViewModel {
     private LiveData<PagedList<Article>> itemPagedList;
     private LiveData<NetworkState> networkState;
 
-    public ItemViewModel(Activity activity, String sectionId, String searchKeyword) {
-        init(activity, sectionId, searchKeyword);
+    public ItemViewModel(Activity activity, String sectionId, String searchKeyword, Retrofit retrofit) {
+        init(activity, sectionId, searchKeyword, retrofit);
     }
 
-    private void init(Activity activity, String sectionId, String searchKeyword) {
+    private void init(Activity activity, String sectionId, String searchKeyword, Retrofit retrofit) {
         Executor executor = Executors.newFixedThreadPool(FIVE);
-        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory(activity, sectionId, searchKeyword);
+        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory(activity, sectionId, searchKeyword, retrofit);
         Function functionNetworkState = new Function<ItemDataSource, MutableLiveData>() {
             @Override
             public MutableLiveData apply(ItemDataSource dataSource) {
