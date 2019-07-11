@@ -16,15 +16,10 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.modules;
+package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
 
@@ -38,29 +33,33 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.BASE_URL;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.THREE;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Module
-class ApiModule {
+public class OkHttpClientModule {
+
+    @Provides
+    @Singleton
+    OkHttpClient provideOkHttpClient(Cache cache, Interceptor headerInterceptor, HttpLoggingInterceptor loggingInterceptor, Dispatcher dispatcher) {
+        final int TIMEOUT = 60;
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.connectTimeout(TIMEOUT, SECONDS)
+                .readTimeout(TIMEOUT, SECONDS)
+                .writeTimeout(TIMEOUT, SECONDS)
+                .addInterceptor(headerInterceptor)
+                .addInterceptor(loggingInterceptor)
+                .cache(cache)
+                .dispatcher(dispatcher);
+        return client.build();
+    }
 
     @Provides
     @Singleton
     Cache provideHttpCache(Application application) {
         final int CASH_SIZE = 10 * 1024 * 1024 /*10MB*/;
         return new Cache(application.getCacheDir(), CASH_SIZE);
-    }
-
-    @Provides
-    @Singleton
-    Gson provideGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-        return gsonBuilder.create();
     }
 
     @Provides
@@ -102,31 +101,5 @@ class ApiModule {
                 return chain.proceed(requestBuilder.build());
             }
         };
-    }
-
-    @Provides
-    @Singleton
-    OkHttpClient provideOkhttpClient(Cache cache, Interceptor headerInterceptor, HttpLoggingInterceptor loggingInterceptor, Dispatcher dispatcher) {
-        final int TIMEOUT = 60;
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.connectTimeout(TIMEOUT, SECONDS)
-                .readTimeout(TIMEOUT, SECONDS)
-                .writeTimeout(TIMEOUT, SECONDS)
-                .addInterceptor(headerInterceptor)
-                .addInterceptor(loggingInterceptor)
-                .cache(cache)
-                .dispatcher(dispatcher);
-        return client.build();
-    }
-
-    @Provides
-    @Singleton
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
-        return new Retrofit.Builder().
-                baseUrl(BASE_URL).
-                addConverterFactory(GsonConverterFactory.create(gson)). // converts the response JSON into GSON and then into the POJO objects
-                addCallAdapterFactory(RxJava2CallAdapterFactory.create()). // verifies we are using RxJava2 for this API call
-                client(okHttpClient).
-                build();
     }
 }

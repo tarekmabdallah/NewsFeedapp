@@ -76,7 +76,6 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.INVALID;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_FROM_DATE_KEYWORD;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_LANGUAGE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_ORDER_BY_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_ORDER_date_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_PAGE_KEYWORD;
@@ -542,7 +541,7 @@ public final class ViewsUtils {
     }
 
     /**
-     * @return map contains QUERY_SHOW_FIELDS_KEYWORD to get articles fields
+     * @return map contains filter keywords
      */
     public static Map<String, Object> getQueriesMap(Context context, int pageNumber) {
         SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(context);
@@ -550,17 +549,26 @@ public final class ViewsUtils {
         String toDate = sharedPreferencesHelper.getToDate();
         String orderBy = getValueFromPreferencesByKey(context, R.string.order_by_list_key, R.string.order_by_list_default_value);
         String orderDate = getValueFromPreferencesByKey(context, R.string.order_date_list_key, R.string.order_date_list_default_value);
-        String lang = Locale.getDefault().getLanguage();//  like ar or en
         Map<String, Object> queries = new HashMap<>();
         queries.put(QUERY_SHOW_FIELDS_KEYWORD, ARTICLE_FIELDS);
         queries.put(QUERY_PAGE_SIZE_KEYWORD, PAGE_SIZE);
         queries.put(QUERY_ORDER_BY_KEYWORD, orderBy);
         queries.put(QUERY_ORDER_date_KEYWORD, orderDate);
-        queries.put(QUERY_LANGUAGE_KEYWORD, lang);
         if (ZERO < pageNumber) queries.put(QUERY_PAGE_KEYWORD, pageNumber);
         if (!EMPTY_STRING.equals(fromDate)) queries.put(QUERY_FROM_DATE_KEYWORD, fromDate);
         if (!EMPTY_STRING.equals(toDate)) queries.put(QUERY_TO_DATE_KEYWORD, toDate);
         return queries;
+    }
+
+    /**
+     * to detect @param keyword language
+     * @return 'ar' or "en
+     */
+    public static String getKeywordLanguage(String keyword){
+        char ch = keyword.charAt(ZERO);
+        Character.UnicodeBlock block = Character.UnicodeBlock.of(ch);
+        if (Character.UnicodeBlock.ARABIC.equals(block)) return "ar";
+        else return "en";
     }
 
     public static String getValueFromPreferencesByKey(Context context, int keyStringId, int defaultValueStringId){
@@ -589,6 +597,9 @@ public final class ViewsUtils {
     public static void handelErrorMsg(NetworkState networkState, View... views){
         if (networkState != null && networkState.getStatus() == NetworkState.Status.FAILED) {
             showFailureMsg(new Throwable(networkState.getMsg()), android.R.drawable.stat_notify_sync, views);
+        }else {
+            View errorLayout = views[ZERO];
+            makeViewGone(errorLayout);
         }
     }
 

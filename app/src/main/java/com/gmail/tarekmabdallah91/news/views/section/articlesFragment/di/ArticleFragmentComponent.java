@@ -16,16 +16,22 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.modules;
+package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di;
 
+
+import com.gmail.tarekmabdallah91.news.di.modules.ApplicationModule;
 import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.ArticlesFragment;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
 
+//@Singleton error: This @Singleton component cannot depend on scoped components:
+//@Singleton com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di.ArticleFragmentComponent
+
 @Singleton
-@Component(modules = {AppModule.class, ApiModule.class})
-public interface ApiComponent {
+@Component(modules = {ApplicationModule.class, RetrofitModule.class, ArticleFragmentUtilsModule.class})
+public interface ArticleFragmentComponent {
     void inject(ArticlesFragment articlesFragment);
+    // it is important to inject each fragment/activity to can use theses dependencies and get benefits from them
 }

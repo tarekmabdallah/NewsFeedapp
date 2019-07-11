@@ -16,26 +16,30 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.modules;
+package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di;
 
-import android.app.Application;
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-class AppModule {
-    private Application application;
+public class ArticleFragmentUtilsModule {
 
-    AppModule(Application application) {
-        this.application = application;
+    private Context context;
+
+    @Inject
+    public ArticleFragmentUtilsModule(Context context){
+        this.context = context;
     }
 
     @Provides
     @Singleton
-    Application provideApplication() {
-        return application;
+    LinearLayoutManager provideLayoutManager (){
+        return new LinearLayoutManager(context);
     }
 }

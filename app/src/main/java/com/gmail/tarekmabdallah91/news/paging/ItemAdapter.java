@@ -36,6 +36,8 @@ import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -56,6 +58,7 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
     private NetworkState networkState;
     private ListItemClickListener itemClickListener;
 
+    @Inject
     public ItemAdapter() {
         super(DIFF_CALLBACK);
     }

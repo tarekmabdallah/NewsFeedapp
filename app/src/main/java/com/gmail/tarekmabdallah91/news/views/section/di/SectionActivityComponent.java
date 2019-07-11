@@ -16,24 +16,16 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.modules;
+package com.gmail.tarekmabdallah91.news.views.section.di;
 
-import android.app.Application;
+import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.ArticlesFragment;
 
-public class MyApplication extends Application {
+import javax.inject.Singleton;
 
-    private ApiComponent apiComponent;
+import dagger.Component;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        apiComponent = DaggerApiComponent.builder()
-                .appModule(new AppModule(this))
-                .apiModule(new ApiModule())
-                .build();
-    }
-
-    public ApiComponent getNetComponent() {
-        return apiComponent;
-    }
+@Singleton
+@Component(modules = {SectionActivityModule.class})
+public interface SectionActivityComponent {
+    ArticlesFragment getArticlesFragment();
 }

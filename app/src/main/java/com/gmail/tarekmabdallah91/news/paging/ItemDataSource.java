@@ -45,9 +45,11 @@ import retrofit2.Retrofit;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_LANGUAGE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.RX_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getKeywordLanguage;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
 
@@ -94,7 +96,11 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
     private Observable getObservable(int pageNumber){
         APIServices apiServices = retrofit.create(APIServices.class);
         Map<String, Object> queries = getQueriesMap(activity, pageNumber);
-        if (null != searchKeyword) queries.put(QUERY_Q_KEYWORD, searchKeyword);
+        if (null != searchKeyword) {
+            queries.put(QUERY_Q_KEYWORD, searchKeyword);
+            String lang = getKeywordLanguage(searchKeyword);
+            queries.put(QUERY_LANGUAGE_KEYWORD, lang);
+        }
         if (isCountrySection) return apiServices.getCountrySection(sectionId, queries);
         else return apiServices.getArticlesBySection(sectionId, queries);
     }

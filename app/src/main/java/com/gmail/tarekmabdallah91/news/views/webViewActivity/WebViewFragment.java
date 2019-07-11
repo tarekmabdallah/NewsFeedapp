@@ -38,19 +38,18 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLES_KEYWORD;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLE_HTML_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.CALL_INTENT;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMAIL_INTENT;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.FIVE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.HTML_TEXT;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TEXT_PLAIN;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.URL_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.UTF8;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.checkIfFoundInWishListDb;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.setFabIcon;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showProgressBar;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showView;
 
 public class WebViewFragment extends BaseFragment {
 
@@ -80,13 +79,14 @@ public class WebViewFragment extends BaseFragment {
     protected void getComingIntent() {
         Intent comingIntent = activity.getIntent();
         article = comingIntent.getParcelableExtra(ARTICLES_KEYWORD);
-        if (null != article){
-            url = article.getWebUrl();
-            textHtml = article.getFields().getBody();
-        }else {
-            url = comingIntent.getStringExtra(URL_KEYWORD);
-            if (!isUrl(url)) textHtml = comingIntent.getStringExtra(ARTICLE_HTML_KEYWORD);
-        }
+        url = article.getWebUrl();
+//        if (null != article){
+//            url = article.getWebUrl();
+//            textHtml = article.getFields().getBody();
+//        }else {
+//            url = comingIntent.getStringExtra(URL_KEYWORD);
+//            if (!isUrl(url)) textHtml = comingIntent.getStringExtra(ARTICLE_HTML_KEYWORD);
+//        }
         checkIfFoundInWishListDb(addToFavouriteListFabLayout, addToFavouriteListFab, article.getId());
     }
 
@@ -140,6 +140,7 @@ public class WebViewFragment extends BaseFragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 showProgressBar(progressBar, false);
+                showView(addToFavouriteListFabLayout, true);
             }
 
             @Override

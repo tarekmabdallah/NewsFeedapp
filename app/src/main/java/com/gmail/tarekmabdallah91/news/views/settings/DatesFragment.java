@@ -77,7 +77,7 @@ public class DatesFragment extends BaseFragment {
         if (!EMPTY_STRING.equals(fromDate)) appendStringToTextView(fromDateLabel, fromDateMsg, fromDate);
         toDate = sharedPreferencesHelper.getToDate();
         if (!EMPTY_STRING.equals(toDate)) appendStringToTextView(toDateLabel, toDateMsg, toDate);
-        showView(clearDatesBtn, !EMPTY_STRING.equals(fromDate) && !EMPTY_STRING.equals(toDate));
+        showView(clearDatesBtn, !EMPTY_STRING.equals(fromDate) || !EMPTY_STRING.equals(toDate));
     }
 
     @OnClick(R.id.clear_dates_btn)

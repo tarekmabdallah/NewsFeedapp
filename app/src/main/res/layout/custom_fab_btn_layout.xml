@@ -28,6 +28,8 @@
        android:layout_width="@dimen/fab_intercom_size"
        android:layout_height="@dimen/fab_intercom_size"
        android:background="@drawable/fab_background"
+       android:visibility="gone"
+       tools:visibility="visible"
        tools:ignore="UselessParent">
 
        <!--  instead of using fab-->

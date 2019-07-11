@@ -26,9 +26,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.application.MyApplication;
 import com.gmail.tarekmabdallah91.news.data.room.news.DbViewModel;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
-import com.gmail.tarekmabdallah91.news.modules.MyApplication;
 import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
 import com.gmail.tarekmabdallah91.news.paging.ItemViewModel;
 import com.gmail.tarekmabdallah91.news.paging.OnArticleClickListener;
@@ -44,9 +44,9 @@ import retrofit2.Retrofit;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelErrorMsg;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewGone;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
@@ -64,7 +64,10 @@ public class ArticlesFragment extends BaseFragment {
     @BindView(R.id.articles_recycler_view)
     RecyclerView articlesRecyclerView;
 
+    @Inject
     protected ItemAdapter itemAdapter ;
+
+    @Inject LinearLayoutManager layoutManager;
 
     @Override
     protected int getLayoutResId() {
@@ -73,7 +76,7 @@ public class ArticlesFragment extends BaseFragment {
 
     @Override
     protected void initiateValues() {
-        ((MyApplication) activity.getApplication()).getNetComponent().inject(this);
+        ((MyApplication) activity.getApplication()).getArticleFragmentComponent().inject(this);
         setItemAdapter();
         setArticlesRecyclerView();
         if (IS_FAVOURITE_LIST.equals(getSectionId())) setDbViewModel();
@@ -120,12 +123,11 @@ public class ArticlesFragment extends BaseFragment {
     }
 
     private void setItemAdapter(){
-        itemAdapter = new ItemAdapter();
         OnArticleClickListener onArticleClickListener = new OnArticleClickListener() {
 
             @Override
             public void onClickArticle(Article article) {
-                openArticleWebViewActivity(activity, article);
+                 openArticleWebViewActivity(activity, article);
             }
 
             @Override
@@ -141,7 +143,6 @@ public class ArticlesFragment extends BaseFragment {
     }
 
     private void setArticlesRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         articlesRecyclerView.setLayoutManager(layoutManager);
         articlesRecyclerView.setHasFixedSize(true);
         articlesRecyclerView.setAdapter(itemAdapter);
@@ -153,16 +154,12 @@ public class ArticlesFragment extends BaseFragment {
         showNormalProgressBar(progressBar, hasExtraRows);
         String errorMsg = EMPTY_STRING;
         if (null != networkState) errorMsg = networkState.getMsg();
-        // when the page size is larger than the total size in the Guardian API >> change it to equal 2 and restart the activity
+        // when the page size is larger than the total size in the Guardian API >> change it to equal 1 and restart the activity
         final String HTTP_BAD_REQUEST = "HTTP 400 Bad Request";
         if (HTTP_BAD_REQUEST.equals(errorMsg)){
-            PAGE_SIZE = TWO ;
+            PAGE_SIZE = ONE ;
             restartActivity(activity);
         }
         handelErrorMsg(networkState, errorLayout, progressBar, errorTV, errorIV);
-    }
-
-    public static ArticlesFragment getInstance() {
-        return new ArticlesFragment();
     }
 }

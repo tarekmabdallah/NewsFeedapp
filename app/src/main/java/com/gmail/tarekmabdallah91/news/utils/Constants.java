@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 
 public class Constants {
 
+    public static final String SHARED_PREF = "sp";
     public static final String BASE_URL = "https://content.guardianapis.com/";
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -43,7 +44,7 @@ public class Constants {
     public static final String QUERY_FROM_DATE_KEYWORD = "from-date";
     public static final String QUERY_TO_DATE_KEYWORD = "to-date";
     public static final String QUERY_Q_KEYWORD = "q";
-    static final String QUERY_LANGUAGE_KEYWORD = "lang";
+    public static final String QUERY_LANGUAGE_KEYWORD = "lang";
     static final String QUERY_PAGE_SIZE_KEYWORD = "page-size";
     static final String QUERY_PAGE_KEYWORD = "page";
     static final String QUERY_ORDER_BY_KEYWORD = "order-by";

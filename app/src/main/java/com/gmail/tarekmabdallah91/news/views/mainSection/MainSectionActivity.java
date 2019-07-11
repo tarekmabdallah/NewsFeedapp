@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gmail.tarekmabdallah91.news.views.main;
+package com.gmail.tarekmabdallah91.news.views.mainSection;
 
 import android.support.v7.app.ActionBar;
 import android.widget.TextView;
@@ -29,7 +29,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceSubTit
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getValueFromPreferencesByKey;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
 
-public class MainActivity extends SectionActivity {
+public class MainSectionActivity extends SectionActivity {
 
     @Override
     protected void initiateValues() {
@@ -47,7 +47,7 @@ public class MainActivity extends SectionActivity {
         return getString(R.string.main_label);
     }
 
-    @Override // to avoid showing back arrow in the tool bar in MainActivity
+    @Override // to avoid showing back arrow in the tool bar in MainSectionActivity
     protected void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (null != actionBar) customTitleTVStyle(actionBar);
