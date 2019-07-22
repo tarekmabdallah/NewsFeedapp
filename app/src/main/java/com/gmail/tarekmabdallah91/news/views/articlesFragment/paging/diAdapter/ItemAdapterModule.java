@@ -16,14 +16,25 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.diAdapter;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import dagger.Module;
 
-import javax.inject.Scope;
+@Module
+public class ItemAdapterModule {
+// will be used when inject item adapter
+//    @Provides
+//    @IntoMap
+//    @IntKey(R.layout.item_article)
+//    ItemAdapterViewHolderFactory ArticleViewHolder() {
+//        return new ArticleViewHolderFactory();
+//    }
+//
+//    @Provides
+//    @IntoMap
+//    @IntKey(R.layout.progress_bar_no_data_tv_layout)
+//    ItemAdapterViewHolderFactory NetworkStateItemViewHolder() {
+//        return new NetworkStateItemViewHolderFactory();
+//    }
 
-@Scope
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ArticleFragmentScope {
 }

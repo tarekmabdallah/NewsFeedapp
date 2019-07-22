@@ -38,6 +38,7 @@ public interface APIServices {
     Observable <ResponseSection> getArticlesBySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
 
     @Headers({HEADER_API_KEY})
-    @GET("world/{section}") // to get country news / section
+    @GET("world/{section}")
+        // to getMyApplication country news / section
     Observable <ResponseCountryNews> getCountrySection(@Path("section") String section, @QueryMap Map<String, Object> queries);
 }

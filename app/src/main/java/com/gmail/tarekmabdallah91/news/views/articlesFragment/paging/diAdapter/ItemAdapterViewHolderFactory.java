@@ -16,30 +16,11 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.diAdapter;
 
-import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
-
-@Module
-public class ArticleFragmentUtilsModule {
-
-    private Context context;
-
-    @Inject
-    public ArticleFragmentUtilsModule(Context context){
-        this.context = context;
-    }
-
-    @Provides
-    @Singleton
-    LinearLayoutManager provideLayoutManager (){
-        return new LinearLayoutManager(context);
-    }
+public interface ItemAdapterViewHolderFactory {
+    RecyclerView.ViewHolder createViewHolder(ViewGroup parent);
 }

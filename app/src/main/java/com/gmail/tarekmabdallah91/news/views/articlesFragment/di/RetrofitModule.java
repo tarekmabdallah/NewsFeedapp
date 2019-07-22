@@ -16,7 +16,7 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment.di;
 
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
 import com.google.gson.FieldNamingPolicy;

@@ -16,7 +16,7 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.section.articlesFragment;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -26,13 +26,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.application.MyApplication;
 import com.gmail.tarekmabdallah91.news.data.room.news.DbViewModel;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
-import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
-import com.gmail.tarekmabdallah91.news.paging.ItemViewModel;
-import com.gmail.tarekmabdallah91.news.paging.OnArticleClickListener;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.di.ArticleFragmentComponent;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.di.ArticleFragmentUtilsModule;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.di.DaggerArticleFragmentComponent;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.di.RetrofitModule;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.ItemViewModel;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.OnArticleClickListener;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.diAdapter.ItemAdapter;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
 import java.util.List;
@@ -52,22 +55,20 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewGone;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
-import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
-import static com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity.openArticleWebViewActivity;
 
 
 public class ArticlesFragment extends BaseFragment {
-
-    @Inject
-    Retrofit retrofit;
 
     @BindView(R.id.articles_recycler_view)
     RecyclerView articlesRecyclerView;
 
     @Inject
-    protected ItemAdapter itemAdapter ;
-
+    Retrofit retrofit;
+    @Inject
+    protected ItemAdapter itemAdapter;
     @Inject LinearLayoutManager layoutManager;
+    @Inject
+    OnArticleClickListener onArticleClickListener;
 
     @Override
     protected int getLayoutResId() {
@@ -75,8 +76,16 @@ public class ArticlesFragment extends BaseFragment {
     }
 
     @Override
+    public void setFragmentComponent() {
+        ArticleFragmentComponent articleFragmentComponent = DaggerArticleFragmentComponent.builder()
+                .retrofitModule(new RetrofitModule())
+                .articleFragmentUtilsModule(new ArticleFragmentUtilsModule(activity))
+                .build();
+        articleFragmentComponent.inject(this);
+    }
+
+    @Override
     protected void initiateValues() {
-        ((MyApplication) activity.getApplication()).getArticleFragmentComponent().inject(this);
         setItemAdapter();
         setArticlesRecyclerView();
         if (IS_FAVOURITE_LIST.equals(getSectionId())) setDbViewModel();
@@ -87,16 +96,17 @@ public class ArticlesFragment extends BaseFragment {
         return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
     }
 
+    Observer<PagedList<Article>> pagedListObserver;
     protected void setPagingViewModel(String searchKeyword){
         makeViewVisible(progressBar);
-        ItemViewModel itemViewModel =  new ItemViewModel(activity, getSectionId(), searchKeyword, retrofit);
-        itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Article>>() {
+        ItemViewModel itemViewModel = new ItemViewModel(activity, getSectionId(), searchKeyword, retrofit);
+        pagedListObserver = new Observer<PagedList<Article>>() {
             @Override
             public void onChanged(@Nullable PagedList<Article> items) {
                 itemAdapter.submitList(items);
             }
-        });
-
+        };
+        itemViewModel.getItemPagedList().observe(this, pagedListObserver);
         itemViewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
             @Override
             public void onChanged(@Nullable NetworkState networkState) {
@@ -106,6 +116,7 @@ public class ArticlesFragment extends BaseFragment {
     }
 
     private void setDbViewModel() {
+        // failed to inject observers
         DbViewModel viewModel = ViewModelProviders.of(this).get(DbViewModel.class);
         viewModel.getData().observe(this, new Observer<List<Article>>() {
 
@@ -123,21 +134,6 @@ public class ArticlesFragment extends BaseFragment {
     }
 
     private void setItemAdapter(){
-        OnArticleClickListener onArticleClickListener = new OnArticleClickListener() {
-
-            @Override
-            public void onClickArticle(Article article) {
-                 openArticleWebViewActivity(activity, article);
-            }
-
-            @Override
-            public void onClickArticleSection(Article article) {
-                String sectionName = article.getSectionName();
-                String activityTitle = activity.getTitle().toString();
-                if (!activityTitle.equals(sectionName))
-                    openSectionActivity(activity, article.getSectionId(), article.getSectionName(), false);
-            }
-        };
         itemAdapter.setOnArticleClickListener(onArticleClickListener);
         itemAdapter.setItemClickListener(this);
     }

@@ -16,9 +16,9 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment.di;
 
-import android.app.Application;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import java.io.IOException;
@@ -57,9 +57,9 @@ public class OkHttpClientModule {
 
     @Provides
     @Singleton
-    Cache provideHttpCache(Application application) {
+    Cache provideHttpCache(Context Context) {
         final int CASH_SIZE = 10 * 1024 * 1024 /*10MB*/;
-        return new Cache(application.getCacheDir(), CASH_SIZE);
+        return new Cache(Context.getCacheDir(), CASH_SIZE);
     }
 
     @Provides

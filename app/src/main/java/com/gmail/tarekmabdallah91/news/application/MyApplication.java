@@ -18,32 +18,37 @@
 
 package com.gmail.tarekmabdallah91.news.application;
 
+import android.app.Activity;
 import android.app.Application;
 
 import com.gmail.tarekmabdallah91.news.di.modules.ApplicationModule;
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di.ArticleFragmentComponent;
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di.ArticleFragmentUtilsModule;
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di.DaggerArticleFragmentComponent;
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di.RetrofitModule;
 import com.gmail.tarekmabdallah91.news.views.section.di.DaggerSectionActivityComponent;
 import com.gmail.tarekmabdallah91.news.views.section.di.SectionActivityComponent;
 import com.gmail.tarekmabdallah91.news.views.section.di.SectionActivityModule;
 
 public class MyApplication extends Application {
 
-    private ArticleFragmentComponent articleFragmentComponent;
+    //    private ArticleFragmentComponent articleFragmentComponent;
     private SectionActivityComponent sectionActivityComponent;
 //    private ApplicationComponent applicationComponent;
+
+    public static MyApplication getMyApplication(Activity activity) {
+        return (MyApplication) activity.getApplication();
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        //Use it only in debug builds
+//        if (BuildConfig.DEBUG) {
+//            AndroidDevMetrics.initWith(this);
+//        }
         ApplicationModule applicationModule = new ApplicationModule(this);
-        articleFragmentComponent = DaggerArticleFragmentComponent.builder()
-                .applicationModule(applicationModule)
-                .retrofitModule(new RetrofitModule())
-                .articleFragmentUtilsModule(new ArticleFragmentUtilsModule(getBaseContext()))
-                .build();
+//        articleFragmentComponent = DaggerArticleFragmentComponent.builder()
+//                .applicationModule(applicationModule)
+//                .retrofitModule(new RetrofitModule())
+//                .articleFragmentUtilsModule(new ArticleFragmentUtilsModule(getBaseContext()))
+//                .build();
         sectionActivityComponent = DaggerSectionActivityComponent.builder()
                 .sectionActivityModule(new SectionActivityModule())
                 .build();
@@ -52,9 +57,9 @@ public class MyApplication extends Application {
 //        applicationComponent = DaggerApplicationComponent.builder().applicationModule(applicationModule).build();
     }
 
-    public ArticleFragmentComponent getArticleFragmentComponent() {
-        return articleFragmentComponent;
-    }
+//    public ArticleFragmentComponent getArticleFragmentComponent() {
+//        return articleFragmentComponent;
+//    }
 
     public SectionActivityComponent getSectionActivityComponent() {
         return sectionActivityComponent;

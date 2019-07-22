@@ -16,18 +16,14 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.paging;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment.di;
 
-import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-public interface OnArticleClickListener {
-    /**
-     * to open the details of the clicked article (by position)
-     */
-    void onClickArticle(Article article);
+import javax.inject.Scope;
 
-    /**
-     * to open the section of the clicked article
-     */
-    void onClickArticleSection(Article article);
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ArticleFragmentScope {
 }

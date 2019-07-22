@@ -7,11 +7,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-        
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.3.2' // when updated made some errors
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' // the latest version of the android-apt plugin
+//        classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.7' // old version
     }
 }
 
@@ -19,6 +17,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+
         maven { url "https://jitpack.io" }
     }
 }
@@ -26,3 +25,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

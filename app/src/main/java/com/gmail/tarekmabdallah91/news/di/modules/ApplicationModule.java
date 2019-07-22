@@ -31,6 +31,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.SHARED_PREF;
 
 @Module
 public class ApplicationModule {
+
     private Application application;
 
     public ApplicationModule(Application application) {

@@ -20,7 +20,7 @@ package com.gmail.tarekmabdallah91.news.di.interfaces.components;
 
 import com.gmail.tarekmabdallah91.news.di.interfaces.ActivityScope;
 import com.gmail.tarekmabdallah91.news.di.modules.ActivityModule;
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.di.ArticleFragmentComponent;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.di.ArticleFragmentComponent;
 
 import dagger.Component;
 

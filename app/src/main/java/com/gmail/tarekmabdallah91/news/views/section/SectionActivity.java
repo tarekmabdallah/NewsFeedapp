@@ -6,8 +6,8 @@ import android.content.Intent;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.application.MyApplication;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.ArticlesFragment;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivity;
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.ArticlesFragment;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;

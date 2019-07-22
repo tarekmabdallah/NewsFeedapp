@@ -16,7 +16,7 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.paging;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.diAdapter;
 
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
@@ -33,10 +33,10 @@ import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.articles.Fields;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.ListItemClickListener;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.OnArticleClickListener;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,23 +50,25 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelErrorMsg;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.loadImage;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showNormalProgressBar;
 
-public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder>{
+public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder> {
 
-    private Context context;
+    protected Context context;
     private List<Article> articles;
-    private OnArticleClickListener listener;
+    OnArticleClickListener listener;
     private NetworkState networkState;
-    private ListItemClickListener itemClickListener;
+    ListItemClickListener itemClickListener;
+//    private Map<Integer, ItemAdapterViewHolderFactory> viewHolderFactories;
 
-    @Inject
     public ItemAdapter() {
         super(DIFF_CALLBACK);
+//        this.viewHolderFactories = viewHolderFactories;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
+//        return viewHolderFactories.get(viewType).createViewHolder(parent);
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view;
         if (viewType == R.layout.item_article) {
@@ -92,15 +94,15 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
 
     @Nullable
     @Override
-    protected Article getItem (int position) {
+    protected Article getItem(int position) {
         try {
             return super.getItem(position);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             return articles.get(position);
         }
     }
 
-    private String getDate (String inputDate){
+    String getDate(String inputDate) {
         String t = "T";
         String date = inputDate.split(t)[ZERO];
         String today = getCurrentTime();
@@ -127,15 +129,15 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
     }
 
     /**
-     * when articles list is not null means that it shows articles from Db, so get it's size
-     * when articles is null means that it shows pagedList loaded from tha API, so get super.getItemCount()
+     * when articles list is not null means that it shows articles from Db, so getMyApplication it's size
+     * when articles is null means that it shows pagedList loaded from tha API, so getMyApplication super.getItemCount()
      */
     @Override
     public int getItemCount() {
         return null == articles ? super.getItemCount() : articles.size();
     }
 
-    public void swapList (List<Article> articles) {
+    public void swapList(List<Article> articles) {
         this.articles = articles;
         notifyDataSetChanged();
     }
@@ -175,12 +177,12 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
         }
 
         @OnClick(R.id.section)
-        void onClickSectionTV (){
+        void onClickSectionTV() {
             int position = getAdapterPosition();
             listener.onClickArticleSection(getItem(position));
         }
 
-        public void bindTo(Article currentArticle) {
+        void bindTo(Article currentArticle) {
             articleTitle.setText(currentArticle.getWebTitle());
             articleDate.setText(getDate(currentArticle.getWebPublicationDate()));
             Fields fields = currentArticle.getFields();
@@ -218,15 +220,16 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
          * to reload data if the user click on the error image and it was because failure in internet connection
          */
         @OnClick(R.id.msg_iv)
-        void onClickMsgIV(){
+        void onClickMsgIV() {
             String errorMsg = getTextFromEditText(errorTV);
             if (context.getString(R.string.no_connection).equals(errorMsg))
                 itemClickListener.onRetryClick();
         }
 
         @OnClick(R.id.msg_tv)
-        void onClickMsgTV(){
+        void onClickMsgTV() {
             onClickMsgIV();
         }
     }
+
 }

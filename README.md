@@ -1,94 +1,26 @@
-# NewsFeedapp:
+# NewsApp (The Guardian):
 
-This 
-project 
-is 
-about 
-combining 
-various 
-ideas 
-and 
-skills 
-we’ve 
-been 
-practicing 
-throughout 
-the 
-course.
-They 
-include:  
-●
-Connecting 
-to 
-an 
-API  
-●
-Parsing 
-the 
-JSON 
-response  
-●
-Handling 
-error 
-cases 
-gracefully  
-●
-Updating 
-information 
-regularly  
-●
-Using 
-an 
-AsyncTask  
-●
-Doing 
-network operations 
-independent 
-of 
-the 
-Activity 
-lifecycle   
-●
-Implement 
-the 
-Preference 
-Fragment   
-●
-Launch 
-a 
-Settings 
-Activity 
-from 
-a 
-menu 
-in 
-the 
-Main 
-Activity    
-●
-Use 
-Uri.Builder 
-class 
-to 
-add 
-query 
-parameters 
-to 
-the 
-URL   
-●
-Update 
-and 
-display 
-the 
-Preference 
-Summary   
- 
-Really I will appreciate any feedback or suggestions :)    
-If you like it , don't forget to give it a star please ;)
+This project is about combining various ideas and skills we’ve been practicing throughout my career path. They include:
+
+● Connecting to The Guardian news API with *Retrofit* (was handling calling the API by hand and used Uri.Builder class to add query parameters to the URL).
+● Parsing the *JSON* response with *Gson*.
+● Used *Paging* library to load and display small chunks of data at a time.
+● Displayed the images with *Picasso*. 
+● Handling error cases gracefully.
+● Updating information regularly.
+● Using *RxJava* for background operations (was using an *AsyncTask*).
+● Doing network operations independent of the *Activity lifecycle*.
+● Implement the *Preference* Fragment for user's preferred choices - Update and display the Preference Summary.
+● Launch a Settings Activity from a menu in all activities.
+● Used *Room* db and *Architecture Components* to save some articles.
+● Managed to write *Clean code*.
+● Start to apply Dependency injection with *Dagger2*. 
+
+Really I will appreciate any feedback or suggestions :)
+If you like it, don't forget to give it a star please ;)
 
 # Youtube:
-https://youtu.be/PH8cJEZfQhw
+(OLD VERSION) https://youtu.be/PH8cJEZfQhw
 
 # License: 
 

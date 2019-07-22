@@ -129,7 +129,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void updateSearchAdapter (){
-        searchHistoryList = sharedPreferencesHelper.getSearchHistory(); // to get arranged list
+        searchHistoryList = sharedPreferencesHelper.getSearchHistory(); // to getMyApplication arranged list
         searchHistoryAdapter.clear();
         searchHistoryAdapter.addAll(searchHistoryList);
     }

@@ -35,7 +35,7 @@ public interface ArticleDao {
     void addArticle(Article article);
 
     @Query("SELECT * FROM favArticles")
-    List<Article> getArticles(); // used to get count articles in db
+    List<Article> getArticles(); // used to getMyApplication count articles in db
 
     @Query("SELECT * FROM favArticles")
     LiveData<List<Article>> getArticlesList();

@@ -345,7 +345,7 @@ public final class ViewsUtils {
     }
 
     /**
-     * used when we need to block the UI while some data get loaded and the progressBar is visible
+     * used when we need to block the UI while some data getMyApplication loaded and the progressBar is visible
      */
     public static void showProgressBar(View progressBar, boolean show) {
         AppCompatActivity activity = (AppCompatActivity) progressBar.getContext();
@@ -380,7 +380,7 @@ public final class ViewsUtils {
      * change the state of the FAB as the state of the item if it was added to the FavList or not
      * @param fabLayout to change it's color background
      * @param fab  to change it's icon
-     * @param isWishList - to get it's state and set the UI
+     * @param isWishList - to getMyApplication it's state and set the UI
      */
     @SuppressLint("NewApi")
     public static void setFabIcon(View fabLayout, ImageView fab, boolean isWishList) {
@@ -526,12 +526,12 @@ public final class ViewsUtils {
             if (builder.length() > ONE) builder.deleteCharAt(builder.lastIndexOf(COMMA));
             return builder.toString();
         } else {
-            return EMPTY_STRING; // to get all products from api as it needed " " and not needed as null in the api
+            return EMPTY_STRING; // to getMyApplication all products from api as it needed " " and not needed as null in the api
         }
     }
 
     /**
-     * to get the current time with this pattern "yyyy-MM-dd,hh:mm:ss" 2019-04-16
+     * to getMyApplication the current time with this pattern "yyyy-MM-dd,hh:mm:ss" 2019-04-16
      */
     @SuppressLint("SimpleDateFormat")
     public static String getCurrentTime() {

@@ -18,7 +18,7 @@
   -->
 
 <resources>
-    <string name="app_name">News app</string>
+    <string name="app_name">الجارديان</string>
     <string name="search_label">بحث</string>
     <string name="sections_label">أقسام</string>
     <string name="article_details_label">التفاصيل</string>

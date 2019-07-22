@@ -16,16 +16,8 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.section.di;
+package com.gmail.tarekmabdallah91.news.views.articlesFragment.paging;
 
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.ArticlesFragment;
-
-import javax.inject.Singleton;
-
-import dagger.Component;
-
-@Singleton
-@Component(modules = {SectionActivityModule.class})
-public interface SectionActivityComponent {
-    ArticlesFragment getArticlesFragment();
+public interface ListItemClickListener {
+    void onRetryClick();
 }

@@ -18,9 +18,7 @@
 
 package com.gmail.tarekmabdallah91.news.views.section.di;
 
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.ArticlesFragment;
-
-import javax.inject.Singleton;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.ArticlesFragment;
 
 import dagger.Module;
 import dagger.Provides;
@@ -29,7 +27,6 @@ import dagger.Provides;
 public class SectionActivityModule {
 
     @Provides
-    @Singleton
     ArticlesFragment providesArticleFragments (){
         return new ArticlesFragment();
     }

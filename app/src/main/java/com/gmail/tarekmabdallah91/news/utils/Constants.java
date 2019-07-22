@@ -50,7 +50,7 @@ public class Constants {
     static final String QUERY_ORDER_BY_KEYWORD = "order-by";
     static final String QUERY_ORDER_date_KEYWORD = "order-date";
     static final String QUERY_SHOW_FIELDS_KEYWORD = "show-fields";
-    static final String ARTICLE_FIELDS = "byline,thumbnail,trailText,headline,trailText,byline,bodyText,body,wordcount"; // CAN ALSO USE "all" to get all fields, "trailText,headline,standfirst,byline,main,body"
+    static final String ARTICLE_FIELDS = "byline,thumbnail,trailText,headline,trailText,byline,bodyText,body,wordcount"; // CAN ALSO USE "all" to getMyApplication all fields, "trailText,headline,standfirst,byline,main,body"
 
     // TODO: you can put your API key in gradle.properties like THE_GUARDIAN_API_KEY = "put_your_key_here"
     private static final String API_KEY = BuildConfig.ApiKey;

@@ -17,7 +17,7 @@
 package com.gmail.tarekmabdallah91.news.apis;
 
 /**
- * interface to deal with Retrofit 2 cases and to get the the response or the failure case
+ * interface to deal with Retrofit 2 cases and to getMyApplication the the response or the failure case
  * that make we use ONE method for all Retrofit calls and then do the appropriate logic for each call
  */
 public interface DataFetcherCallback {
@@ -29,7 +29,7 @@ public interface DataFetcherCallback {
 
 
     /**
-     * called when the call failed to get the response for any reason (each case is handled in the Method which deal with all calls in RetrofitWrapper)
+     * called when the call failed to getMyApplication the response for any reason (each case is handled in the Method which deal with all calls in RetrofitWrapper)
      */
     void onFailure(Throwable t, int errorImageResId);
 

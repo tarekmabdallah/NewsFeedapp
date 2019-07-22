@@ -1,6 +1,6 @@
 package com.gmail.tarekmabdallah91.news.views.search;
 
-import com.gmail.tarekmabdallah91.news.views.section.articlesFragment.ArticlesFragment;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.ArticlesFragment;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SEARCH_KEYWORD;
 
