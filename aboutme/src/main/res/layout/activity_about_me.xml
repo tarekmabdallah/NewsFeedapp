@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/about_text_style"
+        android:textStyle="bold"
+        android:layout_above="@id/job_tv"
+        android:text="@string/name_label" />
+
+    <TextView
+        android:id="@+id/job_tv"
+        style="@style/about_text_style"
+        android:layout_above="@id/icons_layout"
+        android:text="@string/job_label" />
+
+    <LinearLayout
+        android:id="@+id/icons_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/mobile"
+            style="@style/icons_style"
+            android:layout_margin="@dimen/space8"
+            android:contentDescription="@string/call_me"
+            android:src="@drawable/ic_telephone"
+            android:text="@string/mobile_number" />
+
+        <ImageView
+            android:id="@+id/email"
+            style="@style/icons_style"
+            android:layout_margin="@dimen/space8"
+            android:contentDescription="@string/linked_in"
+            android:src="@drawable/ic_email" />
+
+        <ImageView
+            android:id="@+id/linkedin"
+            style="@style/icons_style"
+            android:layout_margin="@dimen/space8"
+            android:contentDescription="@string/send_email"
+            android:src="@drawable/ic_linkedin" />
+
+        <ImageView
+            android:id="@+id/github"
+            style="@style/icons_style"
+            android:layout_margin="@dimen/space8"
+            android:contentDescription="@string/github"
+            android:src="@drawable/ic_github_logo" />
+
+    </LinearLayout>
+
+</RelativeLayout>

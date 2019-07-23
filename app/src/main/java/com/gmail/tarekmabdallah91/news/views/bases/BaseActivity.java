@@ -29,6 +29,7 @@ import com.gmail.tarekmabdallah91.news.R;
 
 import butterknife.ButterKnife;
 
+import static aboutMe.AboutMeActivity.openAboutMeActivity;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTitleStyle;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
@@ -94,6 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (id == R.id.item_settings) openSettingsActivity(this);
         else if (id == R.id.item_search) openSearchActivity(this);
         else if (id == R.id.item_sections) openSectionsActivity(this);
+        else if (id == R.id.item_about_me) openAboutMeActivity(this);
         else if (item.getItemId() == android.R.id.home) finish();
         return true;
     }

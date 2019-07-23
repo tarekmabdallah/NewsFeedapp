@@ -74,5 +74,6 @@
     <string name="today_label">Today</string>
     <string name="loading_msg">loading...</string>
     <string name="empty_db_msg">Empty database !</string>
+    <string name="about_me">About me</string>
 
 </resources>

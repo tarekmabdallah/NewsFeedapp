@@ -30,6 +30,9 @@
         <activity android:name="com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name="com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity" />
+        <activity
+            android:name="aboutMe.AboutMeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

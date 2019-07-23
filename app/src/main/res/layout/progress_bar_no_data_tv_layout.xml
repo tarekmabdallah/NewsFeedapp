@@ -45,7 +45,7 @@
             style="@style/text_style"
             android:text="@string/no_items_msg"
             android:textColor="@color/dark_gray"
-            android:layout_marginTop="@dimen/space16"
+            android:layout_marginTop="@dimen/space8"
             app:layout_constraintTop_toBottomOf="@id/msg_iv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

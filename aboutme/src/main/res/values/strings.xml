@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AboutMe</string>
+    <string name="name_label">Tarek AbdAllah</string>
+    <string name="job_label">Android Developer\n</string>
+    <string name="mobile_number">+201096071130</string>
+    <string name="email">tarekmabdallah91@gmail.com</string>
+    <string name="call_me">Call me</string>
+    <string name="send_email">Send email</string>
+    <string name="github">Github</string>
+    <string name="linked_in">Linked in</string>
+</resources>

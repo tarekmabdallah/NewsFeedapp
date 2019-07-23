@@ -55,5 +55,6 @@
     <string name="favourite_list_label">قائمة المفضلة</string>
     <string name="today_label">اليوم</string>
     <string name="empty_db_msg">قاعدة البيانات فارغة!</string>
-    <string name="loading_msg">يتم التحميل...</string>
+    <string name="loading_msg">يتم التحميل ....</string>
+    <string name="about_me">عني</string>
 </resources>

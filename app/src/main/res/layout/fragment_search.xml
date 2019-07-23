@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:divider="@color/dark_gray"
         android:dividerHeight="@dimen/space2"
-        android:padding="@dimen/space16"
+        android:padding="@dimen/space8"
         android:layout_below="@id/search_view"/>
 
     <include layout="@layout/activity_section"

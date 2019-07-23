@@ -34,7 +34,7 @@
         layout="@layout/custom_fab_btn_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/space16"
+        android:layout_margin="@dimen/space8"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true" />

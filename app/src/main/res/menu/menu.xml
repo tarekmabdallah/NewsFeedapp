@@ -33,4 +33,10 @@
         android:title="@string/settings_label"
         android:icon="@android:drawable/ic_menu_manage"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_about_me"
+        android:title="@string/about_me"
+        android:icon="@android:drawable/ic_dialog_info"
+        app:showAsAction="never" />
 </menu>
