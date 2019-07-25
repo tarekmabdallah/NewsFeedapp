@@ -28,7 +28,7 @@ This project is about combining various ideas and skills we’ve been practicing
 
 ● Start to apply Dependency injection with *Dagger2*. 
 
-● The app still under development.
+● The app still in progress.
 
 Really I will appreciate any feedback or suggestions :)
 
