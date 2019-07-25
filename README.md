@@ -34,7 +34,8 @@ Really I will appreciate any feedback or suggestions :)
 
 If you like it, don't forget to give it a star please ;)
 
-# APK: http://bit.ly/2JObwwB
+# APK: 
+(Latest one) http://bit.ly/2JObwwB
 
 # Youtube:
 (OLD VERSION) https://youtu.be/PH8cJEZfQhw

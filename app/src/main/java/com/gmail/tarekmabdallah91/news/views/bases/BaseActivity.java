@@ -95,7 +95,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (id == R.id.item_settings) openSettingsActivity(this);
         else if (id == R.id.item_search) openSearchActivity(this);
         else if (id == R.id.item_sections) openSectionsActivity(this);
-        else if (id == R.id.item_about_me) openAboutMeActivity(this);
+        else if (id == R.id.item_about_me) openAboutMeActivity(this,
+                "Tarek AbdAllah",
+                "Android Developer",
+                "+201096071130",
+                "tarekmabdallah91@gmail.com",
+                "http://bit.ly/2kfdLeB",
+                "http://bit.ly/2Pi2h84");
         else if (item.getItemId() == android.R.id.home) finish();
         return true;
     }
