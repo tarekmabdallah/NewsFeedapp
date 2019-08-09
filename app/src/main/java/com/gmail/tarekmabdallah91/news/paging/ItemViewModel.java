@@ -16,7 +16,7 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.articlesFragment.paging;
+package com.gmail.tarekmabdallah91.news.paging;
 
 import android.app.Activity;
 import android.arch.core.util.Function;

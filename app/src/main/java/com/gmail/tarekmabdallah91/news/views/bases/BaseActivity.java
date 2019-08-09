@@ -23,26 +23,39 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.paging.ListItemClickListener;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static aboutMe.AboutMeActivity.openAboutMeActivity;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTitleStyle;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 import static com.gmail.tarekmabdallah91.news.views.search.SearchActivity.openSearchActivity;
 import static com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity.openSectionsActivity;
 import static com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity.openSettingsActivity;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements ListItemClickListener {
 
     // TODO: 07-Apr-19 to use Fb sdk for logging
     // TODO: 07-Apr-19 to use firebase for crash analytics and messing
-    // TODO: 07-Apr-19 to use dagger 2
     // TODO: 07-Apr-19 to update the UI (Responsive UI)
+
+    @Nullable @BindView(R.id.msg_iv)
+    protected ImageView errorIV;
+    @Nullable @BindView(R.id.progress_bar)
+    protected View progressBar;
+    @Nullable @BindView(R.id.msg_tv)
+    protected TextView errorTV;
+    @Nullable @BindView(R.id.msg_layout)
+    protected View errorLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             reSetActivityWithSaveInstanceState(savedInstanceState);
         }
+        initiateValuesAfterCheckSaveInstanceState();
     }
 
     protected void setActionBar(){
@@ -148,6 +162,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * to init values after check SaveInstanceState
+     */
+    protected void initiateValuesAfterCheckSaveInstanceState() {
+    }
+
+    /**
      * override it to set the  UI
      * it is called in onResume() to recalled each time the activity resumed
      */
@@ -172,4 +192,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return the layout resource id for each activity
      */
     protected abstract int getLayoutResId();
+
+    @Override
+    public void onRetryClick() {
+        restartActivity(this);
+    }
 }

@@ -16,7 +16,7 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.articlesFragment.paging;
+package com.gmail.tarekmabdallah91.news.paging;
 
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
@@ -33,8 +33,6 @@ import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.models.articles.Fields;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.ListItemClickListener;
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.OnArticleClickListener;
 
 import java.util.List;
 

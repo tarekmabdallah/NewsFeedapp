@@ -68,8 +68,7 @@ public class APIClient {
             final int TIMEOUT = 60, CASH_SIZE = 10 * 1024 * 1024 /*10MB*/;
             Cache cache = new Cache(context.getCacheDir(), CASH_SIZE);
 
-            //this is the part where you will see all the logs of retrofit requests
-            //and responses
+            //this is the part to print logs of retrofit requests, responses and called urls
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 

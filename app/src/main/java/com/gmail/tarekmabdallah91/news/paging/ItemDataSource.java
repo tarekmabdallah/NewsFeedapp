@@ -16,7 +16,7 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.views.articlesFragment.paging;
+package com.gmail.tarekmabdallah91.news.paging;
 
 import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
@@ -117,7 +117,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
             @Override
             public void onNext(Object body) {
-                Log.d(RX_KEYWORD, "onNext" + body.toString());
+                Log.d(RX_KEYWORD, "onNext");
                 CommonResponse response = null;
                 if (body instanceof ResponseSection){
                     ResponseSection responseSection = (ResponseSection) body;

@@ -30,9 +30,9 @@ import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.data.room.news.DbViewModel;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.ItemViewModel;
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.OnArticleClickListener;
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.ItemAdapter;
+import com.gmail.tarekmabdallah91.news.paging.ItemViewModel;
+import com.gmail.tarekmabdallah91.news.paging.OnArticleClickListener;
+import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
 import java.util.List;

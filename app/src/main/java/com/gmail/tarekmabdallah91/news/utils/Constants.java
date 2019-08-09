@@ -72,6 +72,7 @@ public class Constants {
     public static final String IS_SP_UPDATED = "IS_SP_UPDATED";
     public static final String IS_COUNTRY_SECTION = "IS_COUNTRY_SECTION";
     public static final String IS_FAVOURITE_LIST = "IS_FAVOURITE_LIST";
+    public static final String SCROLL_POSITION = "SCROLL_POSITION";
 
     public static final String EMAIL_INTENT = "mailto:";
     public static final String CALL_INTENT = "tel:";

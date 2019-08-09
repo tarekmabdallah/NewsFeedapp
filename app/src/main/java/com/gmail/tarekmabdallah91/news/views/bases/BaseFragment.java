@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.paging.ListItemClickListener;
+import com.gmail.tarekmabdallah91.news.paging.ListItemClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

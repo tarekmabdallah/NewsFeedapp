@@ -33,13 +33,13 @@ public class MainSectionActivity extends SectionActivity {
 
     @Override
     protected void initiateValues() {
-        super.initiateValues();
         // getMyApplication section id to be used in calling tha API
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
         // is it world news ?
         boolean isDefaultSection = null == sectionId;
         if (isDefaultSection) sectionId = getString(R.string.sections_list_default_value);
         getIntent().putExtra(SECTION_ID_KEYWORD, sectionId);
+        super.initiateValues();
     }
 
     @Override
