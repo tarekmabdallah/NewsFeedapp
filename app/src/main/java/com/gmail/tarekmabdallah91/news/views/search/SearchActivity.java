@@ -71,7 +71,7 @@ public class SearchActivity extends SectionActivity {
 
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.activity_search;
     }
 
@@ -91,21 +91,16 @@ public class SearchActivity extends SectionActivity {
     }
 
     @Override
-    protected void initiateValues() {
+    public void initiateValues() {
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
         setSearchHistoryListView();
         setSearchView();
         super.initiateValues();
     }
 
-    @Override
-    protected void setActivityWhenSaveInstanceStateNull() {
-//         moved to initiateValues till find solution to keep data after rotating this fragment
-//        setFragmentToCommit(fragment, R.id.fragment_articles_container);
-    }
 
     @Override
-    protected void setUI() {
+    public void setUI() {
         String searchKeyword = getSearchKeyword();
         boolean isValidSearchKeyword = isValidString(searchKeyword);
         showView(articlesRecyclerView, isValidSearchKeyword);

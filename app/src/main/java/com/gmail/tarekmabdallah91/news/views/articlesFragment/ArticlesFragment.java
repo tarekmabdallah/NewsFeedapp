@@ -63,12 +63,12 @@ public class ArticlesFragment extends BaseFragment {
     protected ItemAdapter itemAdapter;
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.fragment_articles;
     }
 
     @Override
-    protected void initiateValues() {
+    public void initiateValues() {
         retrofit = APIClient.getInstance(activity);
         setItemAdapter();
         setArticlesRecyclerView();
@@ -132,7 +132,6 @@ public class ArticlesFragment extends BaseFragment {
                     openSectionActivity(activity, article.getSectionId(), article.getSectionName(), false);
             }
         });
-        itemAdapter.setItemClickListener(this);
     }
 
     private void setArticlesRecyclerView() {

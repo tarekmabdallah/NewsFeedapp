@@ -63,16 +63,16 @@ public class WebViewFragment extends BaseFragment {
     RelativeLayout addToFavouriteListFabLayout;
 
     private String url;
-    private String textHtml;
+    private String textHtml; // to show html view  blocks>body>bodyHtml
     private Article article;
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.fragment_web_view;
     }
 
     @Override
-    protected void initiateValues() {
+    public void initiateValues() {
         setWebView();
     }
 
@@ -91,7 +91,7 @@ public class WebViewFragment extends BaseFragment {
     }
 
     @Override
-    protected void setUI() {
+    public void setUI() {
         getComingIntent();
         if (null != textHtml) webView.loadData(textHtml, HTML_TEXT, UTF8);
         else if (null != url) webView.loadUrl(url);

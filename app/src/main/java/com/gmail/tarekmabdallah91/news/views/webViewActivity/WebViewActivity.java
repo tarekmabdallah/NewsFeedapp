@@ -20,6 +20,7 @@ package com.gmail.tarekmabdallah91.news.views.webViewActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
@@ -36,7 +37,7 @@ public class WebViewActivity extends BaseActivityNoMenu {
     }
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.activity_web_view;
     }
 

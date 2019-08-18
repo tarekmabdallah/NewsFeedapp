@@ -28,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.paging.ListItemClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,16 +35,15 @@ import butterknife.ButterKnife;
 import static aboutMe.AboutMeActivity.openAboutMeActivity;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTitleStyle;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 import static com.gmail.tarekmabdallah91.news.views.search.SearchActivity.openSearchActivity;
 import static com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity.openSectionsActivity;
 import static com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity.openSettingsActivity;
 
-public abstract class BaseActivity extends AppCompatActivity implements ListItemClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements BaseInterface {
 
     // TODO: 07-Apr-19 to use Fb sdk for logging
-    // TODO: 07-Apr-19 to use firebase for crash analytics and messing
+    // TODO: 07-Apr-19 to use firebase for crash analytics and messaging
     // TODO: 07-Apr-19 to update the UI (Responsive UI)
 
     @Nullable @BindView(R.id.msg_iv)
@@ -70,6 +68,8 @@ public abstract class BaseActivity extends AppCompatActivity implements ListItem
             reSetActivityWithSaveInstanceState(savedInstanceState);
         }
         initiateValuesAfterCheckSaveInstanceState();
+        BasePresenter basePresenter = BasePresenter.getInstance();
+        basePresenter.setOnClickListenerForErrorMsg(errorIV, errorTV);
     }
 
     protected void setActionBar(){
@@ -141,39 +141,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ListItem
         return null;
     }
 
-    /**
-     * called when the activity created for the first time (WhenSaveInstanceStateNull)
-     */
-    protected void setActivityWhenSaveInstanceStateNull() {
-    }
-
-    /**
-     * called when the device rotated  (WhenSaveInstanceState IS NOT Null)
-     *
-     * @param savedInstanceState -
-     */
-    protected void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
-    }
-
-    /**
-     * to init some values once and will be called every time the device rotated
-     */
-    protected void initiateValues() {
-    }
-
-    /**
-     * to init values after check SaveInstanceState
-     */
-    protected void initiateValuesAfterCheckSaveInstanceState() {
-    }
-
-    /**
-     * override it to set the  UI
-     * it is called in onResume() to recalled each time the activity resumed
-     */
-    protected void setUI() {
-    }
-
     protected void setFragmentToCommit (BaseFragment fragment, int containerId){
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(containerId, fragment).commit();
@@ -184,17 +151,33 @@ public abstract class BaseActivity extends AppCompatActivity implements ListItem
      *
      * @param msg which will be shown
      */
-    protected void showToastMsg(String msg) {
+    @Override
+    public void showToastMsg(String msg) {
         showShortToastMsg(this, msg);
     }
 
-    /**
-     * @return the layout resource id for each activity
-     */
-    protected abstract int getLayoutResId();
+    @Override
+    public void setActivityWhenSaveInstanceStateNull() {
+
+    }
 
     @Override
-    public void onRetryClick() {
-        restartActivity(this);
+    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void initiateValues() {
+
+    }
+
+    @Override
+    public void initiateValuesAfterCheckSaveInstanceState() {
+
+    }
+
+    @Override
+    public void setUI() {
+
     }
 }

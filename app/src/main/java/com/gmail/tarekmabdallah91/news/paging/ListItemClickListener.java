@@ -18,6 +18,8 @@
 
 package com.gmail.tarekmabdallah91.news.paging;
 
+import android.app.Activity;
+
 public interface ListItemClickListener {
-    void onRetryClick();
+    void onRetryClick(Activity activity);
 }

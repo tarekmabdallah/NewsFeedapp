@@ -44,12 +44,12 @@ public class SectionsFragment extends BaseFragment {
     private ArticlesRoomHelper articlesRoomHelper;
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.fragment_sections;
     }
 
     @Override
-    protected void initiateValues() {
+    public void initiateValues() {
         super.initiateValues();
         setSectionsSpinner();
         setCountriesSpinner();
@@ -59,7 +59,7 @@ public class SectionsFragment extends BaseFragment {
     }
 
     @Override
-    protected void setUI() {
+    public void setUI() {
         articlesRoomHelper.getArticlesList(retrieveArticleData);
     }
 

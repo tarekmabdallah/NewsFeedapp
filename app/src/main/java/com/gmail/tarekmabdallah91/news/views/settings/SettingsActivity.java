@@ -25,7 +25,7 @@ import com.gmail.tarekmabdallah91.news.views.bases.BaseActivityNoMenu;
 public class SettingsActivity extends BaseActivityNoMenu {
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.settings_layout;
     }
 

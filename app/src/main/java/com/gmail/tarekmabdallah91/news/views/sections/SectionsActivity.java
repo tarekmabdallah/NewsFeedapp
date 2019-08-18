@@ -28,7 +28,7 @@ import com.gmail.tarekmabdallah91.news.views.bases.BaseActivity;
 public class SectionsActivity extends BaseActivity {
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.activity_sections;
     }
 
@@ -38,7 +38,7 @@ public class SectionsActivity extends BaseActivity {
     }
 
     @Override
-    protected void setActivityWhenSaveInstanceStateNull() {
+    public void setActivityWhenSaveInstanceStateNull() {
         SectionsFragment sectionsFragment = SectionsFragment.getInstance();
         setFragmentToCommit(sectionsFragment, R.id.fragment_sections_container);
     }

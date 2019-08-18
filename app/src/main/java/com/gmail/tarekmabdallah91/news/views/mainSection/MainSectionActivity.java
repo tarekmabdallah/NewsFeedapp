@@ -32,7 +32,7 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
 public class MainSectionActivity extends SectionActivity {
 
     @Override
-    protected void initiateValues() {
+    public void initiateValues() {
         // getMyApplication section id to be used in calling tha API
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
         // is it world news ?

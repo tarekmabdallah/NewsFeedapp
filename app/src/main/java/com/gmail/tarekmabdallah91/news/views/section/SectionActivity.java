@@ -34,9 +34,10 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_FAVOURITE_LIST;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SCROLL_POSITION;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.SEARCH_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.TEN;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TITLE_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.handelErrorMsg;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewGone;
@@ -55,12 +56,12 @@ public class SectionActivity extends BaseActivity {
     private int scrollPosition;
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.fragment_articles;
     }
 
     @Override
-    protected void setUI() {
+    public void setUI() {
         SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
         boolean isSPUpdated = sharedPreferencesHelper.getIsSPUpdated();
         if (isSPUpdated) {
@@ -76,7 +77,7 @@ public class SectionActivity extends BaseActivity {
     }
 
     @Override
-    protected void initiateValues() {
+    public void initiateValues() {
         retrofit = APIClient.getInstance(this);
         setItemAdapter();
         setArticlesRecyclerView();
@@ -85,13 +86,10 @@ public class SectionActivity extends BaseActivity {
         else setPagingViewModel(null);
     }
 
-    @Override
-    protected void setActivityWhenSaveInstanceStateNull() {
 
-    }
 
     @Override
-    protected void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
+    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
         scrollPosition = savedInstanceState.getInt(SCROLL_POSITION);
         moveRecyclerViewToPosition(scrollPosition);
     }
@@ -151,7 +149,10 @@ public class SectionActivity extends BaseActivity {
             public void onChanged(@Nullable NetworkState networkState) {
                 observeNetworkState(networkState);
                 // must called here after the layout of progress bar is gone
-                if (ZERO < scrollPosition) moveRecyclerViewToPosition(scrollPosition);
+                if (ZERO < scrollPosition) {
+                    moveRecyclerViewToPosition(scrollPosition);
+                    scrollPosition = ZERO;
+                }
             }
         });
     }
@@ -190,7 +191,6 @@ public class SectionActivity extends BaseActivity {
                     openSectionActivity(getBaseContext(), article.getSectionId(), article.getSectionName(), false);
             }
         });
-        itemAdapter.setItemClickListener(this);
     }
 
     private void setArticlesRecyclerView() {
@@ -209,7 +209,7 @@ public class SectionActivity extends BaseActivity {
         // when the page size is larger than the total size in the Guardian API >> change it to equal 1 and restart the activity
         final String HTTP_BAD_REQUEST = "HTTP 400 Bad Request";
         if (HTTP_BAD_REQUEST.equals(errorMsg)){
-            PAGE_SIZE = ONE ;
+            PAGE_SIZE /= TWO ;
             restartActivity(this);
         }
         handelErrorMsg(networkState, errorLayout, progressBar, errorTV, errorIV);

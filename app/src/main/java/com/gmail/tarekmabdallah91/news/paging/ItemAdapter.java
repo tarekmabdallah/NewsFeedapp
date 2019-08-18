@@ -52,9 +52,8 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
 
     protected Context context;
     private List<Article> articles;
-    OnArticleClickListener listener;
+    private OnArticleClickListener listener;
     private NetworkState networkState;
-    ListItemClickListener itemClickListener;
 
     public ItemAdapter() {
         super(DIFF_CALLBACK);
@@ -97,7 +96,7 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
         }
     }
 
-    String getDate(String inputDate) {
+    private String getDate(String inputDate) {
         String t = "T";
         String date = inputDate.split(t)[ZERO];
         String today = getCurrentTime();
@@ -139,10 +138,6 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
 
     public void setOnArticleClickListener(OnArticleClickListener listener) {
         this.listener = listener;
-    }
-
-    public void setItemClickListener(ListItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
     }
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {
@@ -211,20 +206,6 @@ public class ItemAdapter extends PagedListAdapter<Article, RecyclerView.ViewHold
             handelErrorMsg(networkState, errorLayout, progressBar, errorTV, errorIV);
         }
 
-        /**
-         * to reload data if the user click on the error image and it was because failure in internet connection
-         */
-        @OnClick(R.id.msg_iv)
-        void onClickMsgIV() {
-            String errorMsg = getTextFromEditText(errorTV);
-            if (context.getString(R.string.no_connection).equals(errorMsg))
-                itemClickListener.onRetryClick();
-        }
-
-        @OnClick(R.id.msg_tv)
-        void onClickMsgTV() {
-            onClickMsgIV();
-        }
     }
 
 }
