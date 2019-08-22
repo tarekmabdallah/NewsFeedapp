@@ -9,26 +9,29 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_round_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_round_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity
-            android:name="com.gmail.tarekmabdallah91.news.views.mainSection.MainSectionActivity"
-            android:theme="@style/AppTheme">
+        <activity android:name=".views.easyViewActivity.EasyViewActivity"></activity>
+        <activity android:name=".views.splashActivity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity"/>
-        <activity android:name="com.gmail.tarekmabdallah91.news.views.search.SearchActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan|adjustResize"/>
-        <activity android:name="com.gmail.tarekmabdallah91.news.views.section.SectionActivity" />
-        <activity android:name="com.gmail.tarekmabdallah91.news.views.webViewActivity.WebViewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name="com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity" />
+        <activity android:name=".views.mainSection.MainSectionActivity" />
+        <activity android:name=".views.settings.SettingsActivity" />
+        <activity
+            android:name=".views.search.SearchActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustResize" />
+        <activity android:name=".views.section.SectionActivity" />
+        <activity
+            android:name=".views.webViewActivity.WebViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".views.sections.SectionsActivity" />
         <activity
             android:name="aboutMe.AboutMeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

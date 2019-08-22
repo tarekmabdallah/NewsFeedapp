@@ -18,9 +18,11 @@ package com.gmail.tarekmabdallah91.news.views.sections;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivity;
+import com.gmail.tarekmabdallah91.news.views.bases.BasePresenter;
 
 /**
  * to view the 3 options of sections like countries, sections or db articles
@@ -38,9 +40,15 @@ public class SectionsActivity extends BaseActivity {
     }
 
     @Override
-    public void setActivityWhenSaveInstanceStateNull() {
+    public void initiateValues() {
         SectionsFragment sectionsFragment = SectionsFragment.getInstance();
-        setFragmentToCommit(sectionsFragment, R.id.fragment_sections_container);
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragment_sections_container, sectionsFragment).commit();
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
     }
 
     protected String getActivityTitle() {

@@ -9,11 +9,11 @@ public class SearchFragment extends ArticlesFragment implements onClickItemListe
 
     @Override
     public void onClickItem(String searchKeyword) {
-        if (null != itemAdapter) itemAdapter.submitList(null);
-        super.setPagingViewModel(searchKeyword);
+//        if (null != itemAdapter) itemAdapter.submitList(null);
+       // super.setPagingViewModel(searchKeyword);
     }
 
-    @Override
+//    @Override
     public String getSectionId() {
         return SEARCH_KEYWORD;
     }
@@ -22,7 +22,7 @@ public class SearchFragment extends ArticlesFragment implements onClickItemListe
         return new SearchFragment();
     }
 
-    @Override // empty to do nothing here till we want to call super func.
+//    @Override // empty to do nothing here till we want to call super func.
     protected void setPagingViewModel(String searchKeyword) {}
 
     @Override // not used here

@@ -624,4 +624,8 @@ public final class ViewsUtils {
             }
         });
     }
+
+    public static String getSectionId (Context context, int position){
+        return context.getResources().getStringArray(R.array.sections_ids)[position];
+    }
 }

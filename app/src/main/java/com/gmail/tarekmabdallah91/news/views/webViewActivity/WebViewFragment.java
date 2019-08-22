@@ -71,7 +71,7 @@ public class WebViewFragment extends BaseFragment {
         return R.layout.fragment_web_view;
     }
 
-    @Override
+//    @Override
     public void initiateValues() {
         setWebView();
     }
@@ -90,7 +90,7 @@ public class WebViewFragment extends BaseFragment {
         checkIfFoundInWishListDb(addToFavouriteListFabLayout, addToFavouriteListFab, article.getId());
     }
 
-    @Override
+//    @Override
     public void setUI() {
         getComingIntent();
         if (null != textHtml) webView.loadData(textHtml, HTML_TEXT, UTF8);

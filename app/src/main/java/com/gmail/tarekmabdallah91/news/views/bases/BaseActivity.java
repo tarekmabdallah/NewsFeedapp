@@ -18,7 +18,6 @@ package com.gmail.tarekmabdallah91.news.views.bases;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -35,12 +34,11 @@ import butterknife.ButterKnife;
 import static aboutMe.AboutMeActivity.openAboutMeActivity;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTitleStyle;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 import static com.gmail.tarekmabdallah91.news.views.search.SearchActivity.openSearchActivity;
 import static com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity.openSectionsActivity;
 import static com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity.openSettingsActivity;
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseInterface {
+public abstract class BaseActivity extends AppCompatActivity {
 
     // TODO: 07-Apr-19 to use Fb sdk for logging
     // TODO: 07-Apr-19 to use firebase for crash analytics and messaging
@@ -55,10 +53,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseInte
     @Nullable @BindView(R.id.msg_layout)
     protected View errorLayout;
 
+    protected BasePresenter presenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
+        presenter = getPresenter();
         ButterKnife.bind(this);
         initiateValues();
         setActionBar();
@@ -67,9 +68,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseInte
         } else {
             reSetActivityWithSaveInstanceState(savedInstanceState);
         }
-        initiateValuesAfterCheckSaveInstanceState();
-        BasePresenter basePresenter = BasePresenter.getInstance();
-        basePresenter.setOnClickListenerForErrorMsg(errorIV, errorTV);
+        if (null != presenter){
+            presenter.initiateValuesAfterCheckSaveInstanceState();
+            presenter.setOnClickListenerForErrorMsg(errorIV, errorTV);
+        }
+    }
+
+    protected abstract int getLayoutResId();
+
+    protected BasePresenter getPresenter(){
+        return null;
     }
 
     protected void setActionBar(){
@@ -90,6 +98,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseInte
     }
 
     protected abstract String getActivityTitle();
+
+    public void initiateValues (){}
+
+    public void setActivityWhenSaveInstanceStateNull() {}
+
+    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {}
+
+    public void setUI (){}
 
     @Override
     protected void onResume() {
@@ -139,45 +155,5 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseInte
      */
     protected int[] getMenuItemIdsToHide(){
         return null;
-    }
-
-    protected void setFragmentToCommit (BaseFragment fragment, int containerId){
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(containerId, fragment).commit();
-    }
-
-    /**
-     * simple method to show Toast Msg and control all Toast's style in the app
-     *
-     * @param msg which will be shown
-     */
-    @Override
-    public void showToastMsg(String msg) {
-        showShortToastMsg(this, msg);
-    }
-
-    @Override
-    public void setActivityWhenSaveInstanceStateNull() {
-
-    }
-
-    @Override
-    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void initiateValues() {
-
-    }
-
-    @Override
-    public void initiateValuesAfterCheckSaveInstanceState() {
-
-    }
-
-    @Override
-    public void setUI() {
-
     }
 }

@@ -16,9 +16,10 @@ import com.gmail.tarekmabdallah91.news.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
 
-public abstract class BaseFragment extends Fragment implements BaseInterface {
+public abstract class BaseFragment extends Fragment {
 
     @Nullable @BindView(R.id.msg_iv)
     protected ImageView errorIV;
@@ -39,6 +40,8 @@ public abstract class BaseFragment extends Fragment implements BaseInterface {
         return view;
     }
 
+    protected abstract int getLayoutResId();
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -52,6 +55,17 @@ public abstract class BaseFragment extends Fragment implements BaseInterface {
         BasePresenter basePresenter = BasePresenter.getInstance();
         basePresenter.setOnClickListenerForErrorMsg(errorIV, errorTV);
     }
+
+    public void initiateValues (){}
+
+    public void setActivityWhenSaveInstanceStateNull() {}
+
+    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {}
+
+    public void initiateValuesAfterCheckSaveInstanceState() {
+    }
+
+    public void setUI (){}
 
     @Override
     public void onResume() {
@@ -70,35 +84,7 @@ public abstract class BaseFragment extends Fragment implements BaseInterface {
      *
      * @param msg which will be shown
      */
-    @Override
     public void showToastMsg(String msg) {
         showShortToastMsg(activity, msg);
     }
-
-    @Override
-    public void setActivityWhenSaveInstanceStateNull() {
-
-    }
-
-    @Override
-    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void initiateValues() {
-
-    }
-
-    @Override
-    public void initiateValuesAfterCheckSaveInstanceState() {
-
-    }
-
-    @Override
-    public void setUI() {
-
-    }
-
-
 }

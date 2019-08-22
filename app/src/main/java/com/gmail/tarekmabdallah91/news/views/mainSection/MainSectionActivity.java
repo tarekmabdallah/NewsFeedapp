@@ -16,6 +16,8 @@
 
 package com.gmail.tarekmabdallah91.news.views.mainSection;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
 import com.gmail.tarekmabdallah91.news.views.section.SectionActivity;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceSubTitleStyle;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getValueFromPreferencesByKey;
@@ -64,4 +67,11 @@ public class MainSectionActivity extends SectionActivity {
         makeTypeFaceSubTitleStyle(subtitleTV);
         subtitleTV.setText(sectionName);
     }
+
+    public static void openMainSectionActivity(Context context, boolean isCountrySection){
+        Intent openMainSectionActivity = new Intent(context, MainSectionActivity.class);
+        openMainSectionActivity.putExtra(IS_COUNTRY_SECTION, isCountrySection);
+        context.startActivity(openMainSectionActivity);
+    }
+
 }

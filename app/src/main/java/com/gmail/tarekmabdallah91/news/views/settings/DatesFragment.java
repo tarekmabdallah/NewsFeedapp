@@ -68,7 +68,7 @@ public class DatesFragment extends BaseFragment {
         return R.layout.fragment_dates;
     }
 
-    @Override
+//    @Override
     public void initiateValues() {
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(activity);
         makeTypeFaceTextStyle(fromDateLabel, toDateLabel);
