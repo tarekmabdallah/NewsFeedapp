@@ -22,12 +22,12 @@ public class SplashActivity extends BaseActivityNoMenu {
     }
 
     @OnClick(R.id.simple_view_btn)
-    void OnClickSimpleViewBtn (){
+    void onClickSimpleViewBtn (){
         openMainSectionActivity(this, false);
     }
 
     @OnClick(R.id.easy_view_btn)
-    void OnClickEasyViewBtn (){
+    void onClickEasyViewBtn(){
         openEasyViewActivity(this);
     }
 }

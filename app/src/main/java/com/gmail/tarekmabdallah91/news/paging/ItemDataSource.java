@@ -52,6 +52,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getKeywordLanguage;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.printLog;
 
 public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
@@ -112,12 +113,12 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
         Observer observer = new Observer() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(RX_KEYWORD, "onSubscribe" + d.isDisposed());
+                printLog(RX_KEYWORD + "onSubscribe" + d.isDisposed());
             }
 
             @Override
             public void onNext(Object body) {
-                Log.d(RX_KEYWORD, "onNext");
+                printLog(RX_KEYWORD + "onNext");
                 CommonResponse response = null;
                 if (body instanceof ResponseSection){
                     ResponseSection responseSection = (ResponseSection) body;
@@ -159,7 +160,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
             @Override
             public void onComplete() {
-                Log.d(RX_KEYWORD, "onComplete");
+                printLog(RX_KEYWORD+ "onComplete");
             }
         };
         if (isConnected(activity)){

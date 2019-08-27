@@ -57,6 +57,6 @@
     <string name="empty_db_msg">قاعدة البيانات فارغة!</string>
     <string name="loading_msg">يتم التحميل ....</string>
     <string name="about_me">عني</string>
-    <string name="simple_view">simple view</string>
-    <string name="easy_view">Easy view</string>
+    <string name="simple_view">التصفح العادي</string>
+    <string name="easy_view">التصفح السهل</string>
 </resources>

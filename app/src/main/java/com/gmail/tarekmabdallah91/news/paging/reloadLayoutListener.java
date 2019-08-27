@@ -20,6 +20,6 @@ package com.gmail.tarekmabdallah91.news.paging;
 
 import android.app.Activity;
 
-public interface ListItemClickListener {
+public interface reloadLayoutListener {
     void onRetryClick(Activity activity);
 }

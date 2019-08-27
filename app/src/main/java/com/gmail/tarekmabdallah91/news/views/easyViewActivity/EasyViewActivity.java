@@ -1,25 +1,36 @@
 package com.gmail.tarekmabdallah91.news.views.easyViewActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.paging.reloadLayoutListener;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.ArticlesFragment;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivityNoMenu;
 import com.gmail.tarekmabdallah91.news.views.bases.BasePresenter;
 
+import java.util.Stack;
+
 import butterknife.BindView;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.TEN;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_LOADED_BEFORE;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 
-public class EasyViewActivity extends BaseActivityNoMenu {
+public class EasyViewActivity extends BaseActivityNoMenu implements reloadLayoutListener {
 
     @BindView(R.id.id_view_pager)
     ViewPager viewPager;
     @BindView(R.id.tabs)
     TabLayout tabLayout;
+
+    private ItemsViewPagerAdapter viewPagerAdapter;
+    private Stack<Integer> stack = new Stack<>();
+    private int tabPosition = ZERO;
 
     @Override
     protected BasePresenter getPresenter() {
@@ -42,40 +53,71 @@ public class EasyViewActivity extends BaseActivityNoMenu {
     }
 
     private void setViewPager() {
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                PAGE_SIZE = TEN;
-//                ItemsViewPagerAdapter itemsViewPagerAdapter = (ItemsViewPagerAdapter)viewPager.getAdapter();
-//                ArticlesFragment articlesFragment = (ArticlesFragment) itemsViewPagerAdapter.getItem(position);
-//                articlesFragment.setPosition(position);
-//                String sectionId = (String) itemsViewPagerAdapter.getPageTitle(position);
-//                Log.d(SCROLL_POSITION, position + " " + sectionId);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-
-//        viewPager.setOffscreenPageLimit(ONE); // to set how many page instances you want the system to (skip with out loading) keep in memory on either side of your current page. As a result, more memory will be consumed.
-
-        ItemsViewPagerAdapter viewPagerAdapter = new ItemsViewPagerAdapter(getSupportFragmentManager(), this);
+        viewPagerAdapter = new ItemsViewPagerAdapter(getSupportFragmentManager(), this, this);
+        viewPager.setOffscreenPageLimit(ONE);// keeps 3 fragments in memory
         viewPager.setAdapter(viewPagerAdapter);
-
-
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+            /*https://stackoverflow.com/a/33028501/5055780*/
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tabPosition = tab.getPosition();
+                updateFragmentArgs(tabPosition);
+                viewPager.setCurrentItem(tab.getPosition());
+
+                if (stack.empty()) stack.push(ZERO);
+                if (stack.contains(tabPosition)) {
+                    int indexOfTabPosition = stack.indexOf(tabPosition);
+                    stack.remove(indexOfTabPosition); // should be like this stack.remove(stack.indexOf(tabPosition));
+                    stack.push(tabPosition);
+                } else {
+                    stack.push(tabPosition);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
+    }
+
+    @Override
+    public void onRetryClick(Activity activity) {
+        viewPagerAdapter.notifyDataSetChanged();
+        int position = viewPager.getCurrentItem();
+        ArticlesFragment articlesFragment = updateFragmentArgs(position);
+        articlesFragment.setUserVisibleHint(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (stack.size() > ONE) {
+            stack.pop();
+            int lastElement = stack.lastElement();
+            updateFragmentArgs(lastElement);
+            viewPager.setCurrentItem(lastElement);
+        } else super.onBackPressed();
+    }
+
+    /**
+     * used to remove the key which prevent the fragment to be loaded
+     * it's complex but this is the best solution I found for now to solve the viewpager's problem with loading fragment as wanted
+     * simply it should load one fragment at a time and display any clicked tap any time
+     * @param position of the fragment
+     */
+    private ArticlesFragment updateFragmentArgs (int position){
+        ArticlesFragment currentArticlesFragment = (ArticlesFragment) viewPagerAdapter.getItem(position);
+        Bundle args = currentArticlesFragment.getArguments();
+        if (args != null && args.containsKey(IS_LOADED_BEFORE)) args.remove(IS_LOADED_BEFORE);
+        currentArticlesFragment.setArguments(args);
+        return currentArticlesFragment;
     }
 
     public static void openEasyViewActivity(Context context) {
         Intent openEasyViewActivity = new Intent(context, EasyViewActivity.class);
         context.startActivity(openEasyViewActivity);
     }
-
 }

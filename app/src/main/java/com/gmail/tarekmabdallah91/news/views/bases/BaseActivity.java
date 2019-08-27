@@ -63,15 +63,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initiateValues();
         setActionBar();
-        if (null == savedInstanceState) {
-            setActivityWhenSaveInstanceStateNull();
-        } else {
-            reSetActivityWithSaveInstanceState(savedInstanceState);
-        }
-        if (null != presenter){
-            presenter.initiateValuesAfterCheckSaveInstanceState();
-            presenter.setOnClickListenerForErrorMsg(errorIV, errorTV);
-        }
+        if (null == savedInstanceState) setActivityWhenSaveInstanceStateNull();
+        else reSetActivityWithSaveInstanceState(savedInstanceState);
     }
 
     protected abstract int getLayoutResId();

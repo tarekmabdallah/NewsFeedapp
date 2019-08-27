@@ -70,6 +70,7 @@ public class Constants {
     public static final String MAIN_SECTION_KEYWORD = "MAIN_SECTION_KEYWORD";
     public static final String SECTION_ID_KEYWORD = "SECTION_ID_KEYWORD";
     public static final String IS_SP_UPDATED = "IS_SP_UPDATED";
+    public static final String IS_LOADED_BEFORE = "IS_LOADED_BEFORE";
     public static final String IS_COUNTRY_SECTION = "IS_COUNTRY_SECTION";
     public static final String IS_FAVOURITE_LIST = "IS_FAVOURITE_LIST";
     public static final String SCROLL_POSITION = "SCROLL_POSITION";

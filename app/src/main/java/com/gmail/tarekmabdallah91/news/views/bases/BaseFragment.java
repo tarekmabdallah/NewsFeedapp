@@ -52,8 +52,6 @@ public abstract class BaseFragment extends Fragment {
             reSetActivityWithSaveInstanceState(savedInstanceState);
         }
         initiateValuesAfterCheckSaveInstanceState();
-        BasePresenter basePresenter = BasePresenter.getInstance();
-        basePresenter.setOnClickListenerForErrorMsg(errorIV, errorTV);
     }
 
     public void initiateValues (){}

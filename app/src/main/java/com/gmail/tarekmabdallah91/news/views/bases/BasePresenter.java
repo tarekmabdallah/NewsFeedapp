@@ -9,21 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.paging.ListItemClickListener;
+import com.gmail.tarekmabdallah91.news.paging.reloadLayoutListener;
 
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getTextFromEditText;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.restartActivity;
 
-public class BasePresenter implements BaseInterface, ListItemClickListener {
+public abstract class BasePresenter implements BaseInterface {
 
-    private static BasePresenter basePresenter;
+    private reloadLayoutListener reloadLayoutListener;
 
-    public static BasePresenter getInstance() {
-        if (null == basePresenter) basePresenter = new BasePresenter();
-        return basePresenter;
-    }
-
-    void setOnClickListenerForErrorMsg(ImageView errorIV, final TextView errorTV){
+    public void setOnClickListenerForErrorMsg(final TextView errorTV, ImageView errorIV){
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,13 +34,10 @@ public class BasePresenter implements BaseInterface, ListItemClickListener {
     private void onClickMsgIV(TextView errorTV){
         Context context = errorTV.getContext();
         String errorMsg = getTextFromEditText(errorTV);
-        if (context.getString(R.string.no_connection).equals(errorMsg)) onRetryClick((Activity) context);
+        if (context.getString(R.string.no_connection).equals(errorMsg)) reloadLayoutListener.onRetryClick((Activity) context);
     }
 
-    @Override
-    public void onRetryClick(Activity activity) {
-        restartActivity(activity);
-    }
+    public abstract void onRetryClick(Activity activity);
 
     @Override
     public void initiateValues(Activity activity, View...views) {}
@@ -84,5 +75,9 @@ public class BasePresenter implements BaseInterface, ListItemClickListener {
     @Override
     public String getActivityTitle(Activity activity) {
         return null;
+    }
+
+    public void setReloadLayoutListener(reloadLayoutListener reloadLayoutListener) {
+        this.reloadLayoutListener = reloadLayoutListener;
     }
 }

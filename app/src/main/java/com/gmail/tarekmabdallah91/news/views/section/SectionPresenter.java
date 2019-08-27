@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
@@ -56,6 +58,7 @@ public class SectionPresenter extends BasePresenter {
 
     @Override
     public void initiateValues(Activity activity, View...views) {
+        setOnClickListenerForErrorMsg((TextView) views[TWO], (ImageView) views[THREE]);
         retrofit = APIClient.getInstance(activity);
         setItemAdapter(activity);
         setArticlesRecyclerView((RecyclerView) views[FOUR]);
@@ -105,6 +108,11 @@ public class SectionPresenter extends BasePresenter {
     @Override
     public void showToastMsg(String msg) {
 
+    }
+
+    @Override
+    public void onRetryClick(Activity activity) {
+        restartActivity(activity);
     }
 
     public int getRecyclerViewPosition(RecyclerView articlesRecyclerView){
@@ -229,7 +237,7 @@ public class SectionPresenter extends BasePresenter {
             PAGE_SIZE /= TWO ;
             setPagingViewModel(activity,null,views);
         }
-        handelErrorMsg(networkState, views[ZERO], views[ONE], views[TWO], views[THREE]);
+        handelErrorMsg(networkState, views);
     }
 
 }

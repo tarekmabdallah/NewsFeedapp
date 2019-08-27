@@ -628,4 +628,9 @@ public final class ViewsUtils {
     public static String getSectionId (Context context, int position){
         return context.getResources().getStringArray(R.array.sections_ids)[position];
     }
+
+    public static void printLog (String statement){
+        final String TAG = "APP_LOGS";
+        Log.d(TAG, statement);
+    }
 }
