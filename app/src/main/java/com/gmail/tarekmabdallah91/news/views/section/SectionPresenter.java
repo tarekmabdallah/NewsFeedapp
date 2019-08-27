@@ -1,3 +1,21 @@
+/*
+ *
+ * Copyright 2019 tarekmabdallah91@gmail.com
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package com.gmail.tarekmabdallah91.news.views.section;
 
 import android.app.Activity;
@@ -86,7 +104,7 @@ public class SectionPresenter extends BasePresenter {
     @Override
     public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState, RecyclerView articlesRecyclerView) {
         scrollPosition = savedInstanceState.getInt(SCROLL_POSITION);
-        moveRecyclerViewToPosition(articlesRecyclerView, scrollPosition);
+//        moveRecyclerViewToPosition(articlesRecyclerView, scrollPosition);
     }
 
     @Override
@@ -115,7 +133,7 @@ public class SectionPresenter extends BasePresenter {
         restartActivity(activity);
     }
 
-    public int getRecyclerViewPosition(RecyclerView articlesRecyclerView){
+    private int getRecyclerViewPosition(RecyclerView articlesRecyclerView){
         int[] scrollPosition = new int[]{ZERO, ZERO};
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) articlesRecyclerView.getLayoutManager();
         if (null != linearLayoutManager) {
@@ -133,7 +151,7 @@ public class SectionPresenter extends BasePresenter {
      * to scroll the recycler view to wanted position
      * https://stackoverflow.com/a/43505830/5055780
      */
-    public void moveRecyclerViewToPosition(RecyclerView articlesRecyclerView, int scrollPosition){
+    private void moveRecyclerViewToPosition(RecyclerView articlesRecyclerView, int scrollPosition){
         Context context = articlesRecyclerView.getContext();
         LinearLayoutManager layoutManager = (LinearLayoutManager) articlesRecyclerView.getLayoutManager();
         LinearSmoothScroller smoothScroller = new LinearSmoothScroller(context) {
@@ -142,11 +160,12 @@ public class SectionPresenter extends BasePresenter {
             }
         };
         smoothScroller.setTargetPosition(scrollPosition);
-        if (null != layoutManager) //layoutManager.startSmoothScroll(smoothScroller);
-            layoutManager.scrollToPositionWithOffset(scrollPosition, 0);
+        if (null != layoutManager)
+            layoutManager.startSmoothScroll(smoothScroller);
+//            layoutManager.scrollToPositionWithOffset(scrollPosition, 0);
     }
 
-    public String getSectionId(Activity activity) {
+    private String getSectionId(Activity activity) {
         return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
     }
 

@@ -19,37 +19,50 @@
 package com.gmail.tarekmabdallah91.news.views.articlesFragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.paging.reloadLayoutListener;
+import com.gmail.tarekmabdallah91.news.paging.ReloadLayoutListener;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
 import butterknife.BindView;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_LOADED_BEFORE;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.SCROLL_POSITION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
+
 
 public class ArticlesFragment extends BaseFragment {
 
     @BindView(R.id.articles_recycler_view)
-    RecyclerView articlesRecyclerView;
-    // TODO: 8/22/2019 after rotation the view pager skip the 1st fragment (after the current position) not loaded
-    private ArticleFragmentPresenter articleFragmentPresenter;
-    private String sectionId;
-    private reloadLayoutListener reloadLayoutListener;
+    protected RecyclerView articlesRecyclerView;
+
+    protected ArticleFragmentPresenter articleFragmentPresenter;
+    protected String sectionId;
+    protected ReloadLayoutListener reloadLayoutListener;
 
     @Override
-    public int getLayoutResId() {
+    protected int getLayoutResId() {
         return R.layout.fragment_articles;
     }
 
     @Override
     public void initiateValues() {
+        setArticleFragmentPresenter ();
+        showCurrentFragment();
+    }
+
+    @Override
+    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
+        articleFragmentPresenter.reSetActivityWithSaveInstanceState(savedInstanceState, articlesRecyclerView);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        articleFragmentPresenter.onSaveInstanceState(savedInstanceState, articlesRecyclerView);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    protected void setArticleFragmentPresenter (){
         articleFragmentPresenter = ArticleFragmentPresenter.getInstance();
         articleFragmentPresenter.setReloadLayoutListener(reloadLayoutListener);
         Bundle args = getArguments();
@@ -58,62 +71,17 @@ public class ArticlesFragment extends BaseFragment {
         }
     }
 
-    /**
-     * this method is not part of the fragment lifecycle
-     * it used here to load only the visible fragment after be sure that the fragment is attached (by the delay of the handler)
-     */
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            // handler needed to wait sometime till the fragment be completely VisibleToUser
-            // TO load pages when the user swipe taps (not when the user swipe between fragments)
-            final Bundle args = getArguments();
-            if (null != args && !args.containsKey(IS_LOADED_BEFORE)){
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        args.putBoolean(IS_LOADED_BEFORE, true); // to prevent loading it again when be visible
-                        setArguments(args);
-                        showCurrentFragment();
-                    }
-                }, ONE);
-            }
-        }
-    }
-
-    private void showCurrentFragment(){
+    protected void showCurrentFragment(){
         // MUST USED HERE
         if (null != sectionId) activity.getIntent().putExtra(SECTION_ID_KEYWORD, sectionId);
         articleFragmentPresenter.initiateValues(activity, errorLayout, progressBar, errorTV, errorIV, articlesRecyclerView);
     }
 
-    @Override
-    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
-//        articleFragmentPresenter.reSetActivityWithSaveInstanceState(savedInstanceState, articlesRecyclerView);
-//        sectionId = activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
-//        Log.d(SCROLL_POSITION + " Bundle", position + " " + sectionId);
-        int scrollPosition = savedInstanceState.getInt(SCROLL_POSITION);
-        articleFragmentPresenter.moveRecyclerViewToPosition(articlesRecyclerView, scrollPosition);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-//        articleFragmentPresenter = ArticleFragmentPresenter.getInstance();
-//        articleFragmentPresenter.onSaveInstanceState(savedInstanceState, articlesRecyclerView);
-        if (null != articleFragmentPresenter && null != articlesRecyclerView) {
-            int scrollingPosition = articleFragmentPresenter.getRecyclerViewPosition(articlesRecyclerView);
-            savedInstanceState.putInt(SCROLL_POSITION, scrollingPosition);
-        }
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    public void setReloadLayoutListener(reloadLayoutListener reloadLayoutListener) {
+    protected void setReloadLayoutListener(ReloadLayoutListener reloadLayoutListener) {
         this.reloadLayoutListener = reloadLayoutListener;
     }
 
-    public static ArticlesFragment newInstance(String sectionId, reloadLayoutListener reloadLayoutListener) {
+    public static ArticlesFragment newInstance(String sectionId, ReloadLayoutListener reloadLayoutListener) {
         Bundle args = new Bundle();
         args.putString(SECTION_ID_KEYWORD, sectionId);
         ArticlesFragment fragment = new ArticlesFragment();
@@ -121,4 +89,5 @@ public class ArticlesFragment extends BaseFragment {
         fragment.setReloadLayoutListener(reloadLayoutListener);
         return fragment;
     }
+
 }

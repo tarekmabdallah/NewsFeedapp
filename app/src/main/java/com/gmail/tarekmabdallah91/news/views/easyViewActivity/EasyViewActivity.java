@@ -1,3 +1,21 @@
+/*
+ *
+ * Copyright 2019 tarekmabdallah91@gmail.com
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package com.gmail.tarekmabdallah91.news.views.easyViewActivity;
 
 import android.app.Activity;
@@ -8,8 +26,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.paging.reloadLayoutListener;
-import com.gmail.tarekmabdallah91.news.views.articlesFragment.ArticlesFragment;
+import com.gmail.tarekmabdallah91.news.paging.ReloadLayoutListener;
+import com.gmail.tarekmabdallah91.news.views.articlesFragment.ItemArticlesFragment;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivityNoMenu;
 import com.gmail.tarekmabdallah91.news.views.bases.BasePresenter;
 
@@ -21,7 +39,7 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_LOADED_BEFORE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 
-public class EasyViewActivity extends BaseActivityNoMenu implements reloadLayoutListener {
+public class EasyViewActivity extends BaseActivityNoMenu implements ReloadLayoutListener {
 
     @BindView(R.id.id_view_pager)
     ViewPager viewPager;
@@ -88,8 +106,8 @@ public class EasyViewActivity extends BaseActivityNoMenu implements reloadLayout
     public void onRetryClick(Activity activity) {
         viewPagerAdapter.notifyDataSetChanged();
         int position = viewPager.getCurrentItem();
-        ArticlesFragment articlesFragment = updateFragmentArgs(position);
-        articlesFragment.setUserVisibleHint(true);
+        ItemArticlesFragment itemArticlesFragment = updateFragmentArgs(position);
+        itemArticlesFragment.setUserVisibleHint(true);
     }
 
     @Override
@@ -108,12 +126,12 @@ public class EasyViewActivity extends BaseActivityNoMenu implements reloadLayout
      * simply it should load one fragment at a time and display any clicked tap any time
      * @param position of the fragment
      */
-    private ArticlesFragment updateFragmentArgs (int position){
-        ArticlesFragment currentArticlesFragment = (ArticlesFragment) viewPagerAdapter.getItem(position);
-        Bundle args = currentArticlesFragment.getArguments();
+    private ItemArticlesFragment updateFragmentArgs (int position){
+        ItemArticlesFragment currentItemArticlesFragment = (ItemArticlesFragment) viewPagerAdapter.getItem(position);
+        Bundle args = currentItemArticlesFragment.getArguments();
         if (args != null && args.containsKey(IS_LOADED_BEFORE)) args.remove(IS_LOADED_BEFORE);
-        currentArticlesFragment.setArguments(args);
-        return currentArticlesFragment;
+        currentItemArticlesFragment.setArguments(args);
+        return currentItemArticlesFragment;
     }
 
     public static void openEasyViewActivity(Context context) {
