@@ -16,36 +16,39 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.data.room.news;
+package com.gmail.tarekmabdallah91.smooth.service.repository.storge;
 
-import android.arch.lifecycle.LiveData;
+
 import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 
 import java.util.List;
 
+/**
+ * Data Access Object for the movies table.
+ */
 @Dao
 public interface ArticleDao {
 
-    @Insert
-    void addArticle(Article article);
-
+    /**
+     * Get the Articles from the table.
+     * -------------------------------
+     * Since the DB use as caching, we don't return LiveData.
+     * We don't need to get update every time the database update.
+     * We using the get query when application start. So, we able to display
+     * data fast and in case we don't have connection to work offline.
+     * @return the movies from the table
+     */
     @Query("SELECT * FROM favArticles")
-    List<Article> getArticles(); // used to getMyApplication count articles in db
+    List<Article> getArticles();
 
-    @Query("SELECT * FROM favArticles")
-    LiveData<List<Article>> getArticlesList();
-
-    @Delete
-    void deleteArticleFromDb (Article article);
-
-    @Query("DELETE FROM favArticles WHERE `id` = :id") // this id is the article id in API (String) not the int rowIdInDb
-    void deleteArticleById(String id);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertArticles(Article movie);
 
     @Query("DELETE FROM favArticles")
-    void clearArticlesDb();
+    abstract void deleteAllArticles();
 }

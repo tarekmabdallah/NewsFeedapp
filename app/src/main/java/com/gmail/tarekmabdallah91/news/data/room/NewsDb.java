@@ -16,27 +16,29 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.data.room.news;
+package com.gmail.tarekmabdallah91.news.data.room;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.gmail.tarekmabdallah91.news.data.room.favArticles.ArticleDao;
+import com.gmail.tarekmabdallah91.news.data.room.newsDb.NewsDao;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import com.gmail.tarekmabdallah91.news.models.newsDbPages.NewsDbPage;
 
-@Database(entities = {Article.class}, version = 1, exportSchema = false)
-abstract class ArticlesDb extends RoomDatabase {
+@Database(entities = {Article.class, NewsDbPage.class}, version = 1, exportSchema = false)
+public abstract class NewsDb extends RoomDatabase {
 
+    private static NewsDb newsDb;
+    private final static String DATABASE_NAME = "mainNewsDb";
 
-    private static ArticlesDb articlesDb;
-    private final static String DATABASE_NAME = "news";
-
-    static ArticlesDb getCartDbInstance(Context context) {
-        if (articlesDb == null) articlesDb = Room.databaseBuilder(context, ArticlesDb.class, DATABASE_NAME).build();
-        return articlesDb;
+    public static NewsDb getNewsDbInstance(Context context) {
+        if (newsDb == null) newsDb = Room.databaseBuilder(context, NewsDb.class, DATABASE_NAME).build();
+        return newsDb;
     }
 
-    abstract ArticleDao articleDao();
-
+    public abstract NewsDao newsDao();
+    public abstract ArticleDao articleDao();
 }

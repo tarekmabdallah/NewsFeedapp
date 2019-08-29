@@ -16,27 +16,13 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.data.room.news;
-
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
+package com.gmail.tarekmabdallah91.news.data.room.favArticles;
 
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 
 import java.util.List;
 
-final public class DbViewModel extends AndroidViewModel {
+public interface RetrieveArticleData {
 
-    private final LiveData<List<Article>> data;
-
-    public DbViewModel(Application application) {
-        super(application);
-        ArticlesDb database = ArticlesDb.getCartDbInstance(this.getApplication());
-        data = database.articleDao().getArticlesList();
-    }
-
-    public LiveData<List<Article>> getData() {
-        return data;
-    }
+    void onComplete(List<Article> articlesListInDb);
 }

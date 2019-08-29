@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
@@ -66,7 +67,7 @@ public class EasyViewActivity extends BaseActivityNoMenu implements ReloadLayout
     }
 
     @Override
-    public void initiateValues() {
+    public void initiateValues(@Nullable Bundle savedInstanceState) {
         setViewPager();
     }
 

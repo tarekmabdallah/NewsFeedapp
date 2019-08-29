@@ -19,8 +19,6 @@ package com.gmail.tarekmabdallah91.news.apis;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-
 import java.io.IOException;
 
 import okhttp3.Cache;
@@ -34,6 +32,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.THREE;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+//import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class APIClient {
 
@@ -84,7 +84,7 @@ public class APIClient {
             retrofit = new Retrofit.Builder().
                     baseUrl(BASE_URL).
                     addConverterFactory(GsonConverterFactory.create()). // converts the response JSON into GSON and then into the POJO objects
-                    addCallAdapterFactory(RxJava2CallAdapterFactory.create()). // verifies we are using RxJava2 for this API call
+//                    addCallAdapterFactory(RxJava2CallAdapterFactory.create()). // verifies we are using RxJava2 for this API call
                     client(okHttpBuilder.build()).
                     build();
         }

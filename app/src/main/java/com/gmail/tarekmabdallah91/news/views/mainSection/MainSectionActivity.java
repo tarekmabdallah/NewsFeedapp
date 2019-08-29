@@ -18,6 +18,8 @@ package com.gmail.tarekmabdallah91.news.views.mainSection;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.widget.TextView;
 
@@ -35,14 +37,13 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
 public class MainSectionActivity extends SectionActivity {
 
     @Override
-    public void initiateValues() {
+    public void initiateValues(@Nullable Bundle savedInstanceState) {
         // getMyApplication section id to be used in calling tha API
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
         // is it world news ?
         boolean isDefaultSection = null == sectionId;
         if (isDefaultSection) sectionId = getString(R.string.sections_list_default_value);
         getIntent().putExtra(SECTION_ID_KEYWORD, sectionId);
-        super.initiateValues();
     }
 
     @Override

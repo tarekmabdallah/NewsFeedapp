@@ -44,8 +44,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.data.room.news.ArticlesRoomHelper;
-import com.gmail.tarekmabdallah91.news.data.room.news.RetrieveArticleData;
+import com.gmail.tarekmabdallah91.news.data.room.favArticles.ArticlesRoomHelper;
+import com.gmail.tarekmabdallah91.news.data.room.favArticles.RetrieveArticleData;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.sections.SpinnerAdapter;

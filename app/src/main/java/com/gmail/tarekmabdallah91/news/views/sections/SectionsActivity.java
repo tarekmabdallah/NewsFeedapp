@@ -18,6 +18,8 @@ package com.gmail.tarekmabdallah91.news.views.sections;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 
 import com.gmail.tarekmabdallah91.news.R;
@@ -40,7 +42,7 @@ public class SectionsActivity extends BaseActivity {
     }
 
     @Override
-    public void initiateValues() {
+    public void initiateValues(@Nullable Bundle savedInstanceState) {
         SectionsFragment sectionsFragment = SectionsFragment.getInstance();
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.fragment_sections_container, sectionsFragment).commit();

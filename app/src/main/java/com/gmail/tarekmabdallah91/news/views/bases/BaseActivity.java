@@ -61,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResId());
         presenter = getPresenter();
         ButterKnife.bind(this);
-        initiateValues();
+        initiateValues(savedInstanceState);
         setActionBar();
         if (null == savedInstanceState) setActivityWhenSaveInstanceStateNull();
         else reSetActivityWithSaveInstanceState(savedInstanceState);
@@ -92,7 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract String getActivityTitle();
 
-    public void initiateValues (){}
+    public void initiateValues (@Nullable Bundle savedInstanceState){}
 
     public void setActivityWhenSaveInstanceStateNull() {}
 

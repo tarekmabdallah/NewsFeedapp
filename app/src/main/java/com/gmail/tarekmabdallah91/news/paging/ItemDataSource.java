@@ -28,34 +28,22 @@ import android.util.Log;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
-import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
-import com.gmail.tarekmabdallah91.news.models.section.CommonResponse;
-import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 
-import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
+import rx.Observable;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_LANGUAGE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.RX_KEYWORD;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getKeywordLanguage;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.printLog;
 
 public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
-
 
     private Retrofit retrofit;
     private Activity activity;
@@ -102,73 +90,74 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
             String lang = getKeywordLanguage(searchKeyword);
             queries.put(QUERY_LANGUAGE_KEYWORD, lang);
         }
-        if (isCountrySection) return apiServices.getCountrySection(sectionId, queries);
-        else return apiServices.getArticlesBySection(sectionId, queries);
+//        if (isCountrySection) return apiServices.getCountrySection(sectionId, queries);
+//        else return apiServices.getArticlesBySection(sectionId, queries);
+        return null;
     }
 
     private void loadData(final String state, final int paramsKey
             , @Nullable final LoadInitialCallback<Integer, Article> initialCallback
             , @Nullable final LoadCallback<Integer, Article> callback){
 
-        Observer observer = new Observer() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                printLog(RX_KEYWORD + "onSubscribe" + d.isDisposed());
-            }
-
-            @Override
-            public void onNext(Object body) {
-                printLog(RX_KEYWORD + "onNext");
-                CommonResponse response = null;
-                if (body instanceof ResponseSection){
-                    ResponseSection responseSection = (ResponseSection) body;
-                    response = responseSection.getResponse();
-
-                }else if (body instanceof ResponseCountryNews){
-                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
-                    response = responseCountryNews.getResponse();
-                }
-                if (null != response) {
-                    int pagesNumber = response.getPages();
-                    List<Article> articles = response.getResults();
-                    if (null != articles && !articles.isEmpty()){
-                        networkState.postValue(NetworkState.LOADED);
-                        Integer key;
-                        switch (state){
-                            case LOAD_BEFORE:
-                                key = (paramsKey > ONE) ? paramsKey - ONE : null;
-                                callback.onResult(articles, key );
-                                break;
-                            case LOAD_AFTER:
-                                key = pagesNumber > paramsKey ? paramsKey + ONE : null;
-                                callback.onResult(articles, key );
-                                break;
-                            default:
-                                initialCallback.onResult(articles, null, TWO);
-                        }
-                    }else {
-                        networkState.postValue(new NetworkState(NetworkState.Status.FAILED,
-                                activity.getString(R.string.no_news_found)));
-                    }
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                handelFailureCase(e);
-            }
-
-            @Override
-            public void onComplete() {
-                printLog(RX_KEYWORD+ "onComplete");
-            }
-        };
-        if (isConnected(activity)){
-            getObservable(paramsKey).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .unsubscribeOn(Schedulers.io())
-                    .subscribe(observer);
-        }else handelFailureCase(noConnectionThrowable);
+//        Observer observer = new Observer() {
+//            @Override
+//            public void onSubscribe(Disposable d) {
+//                printLog(RX_KEYWORD + "onSubscribe" + d.isDisposed());
+//            }
+//
+//            @Override
+//            public void onNext(Object body) {
+//                printLog(RX_KEYWORD + "onNext");
+//                CommonResponse response = null;
+//                if (body instanceof ResponseSection){
+//                    ResponseSection responseSection = (ResponseSection) body;
+//                    response = responseSection.getResponse();
+//
+//                }else if (body instanceof ResponseCountryNews){
+//                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
+//                    response = responseCountryNews.getResponse();
+//                }
+//                if (null != response) {
+//                    int pagesNumber = response.getPages();
+//                    List<Article> articles = response.getResults();
+//                    if (null != articles && !articles.isEmpty()){
+//                        networkState.postValue(NetworkState.LOADED);
+//                        Integer key;
+//                        switch (state){
+//                            case LOAD_BEFORE:
+//                                key = (paramsKey > ONE) ? paramsKey - ONE : null;
+//                                callback.onResult(articles, key );
+//                                break;
+//                            case LOAD_AFTER:
+//                                key = pagesNumber > paramsKey ? paramsKey + ONE : null;
+//                                callback.onResult(articles, key );
+//                                break;
+//                            default:
+//                                initialCallback.onResult(articles, null, TWO);
+//                        }
+//                    }else {
+//                        networkState.postValue(new NetworkState(NetworkState.Status.FAILED,
+//                                activity.getString(R.string.no_news_found)));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                handelFailureCase(e);
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//                printLog(RX_KEYWORD+ "onComplete");
+//            }
+//        };
+//        if (isConnected(activity)){
+//            getObservable(paramsKey).subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .unsubscribeOn(Schedulers.io())
+//                    .subscribe(observer);
+//        }else handelFailureCase(noConnectionThrowable);
     }
 
     MutableLiveData getNetworkState() {

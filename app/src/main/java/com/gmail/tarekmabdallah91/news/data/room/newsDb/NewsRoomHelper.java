@@ -16,73 +16,74 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.data.room.news;
+package com.gmail.tarekmabdallah91.news.data.room.newsDb;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import com.gmail.tarekmabdallah91.news.data.room.NewsDb;
+import com.gmail.tarekmabdallah91.news.models.newsDbPages.NewsDbPage;
 
 import java.util.List;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 
-public final class ArticlesRoomHelper {
+public final class NewsRoomHelper {
 
-    private ArticlesDb articlesDb;
-    private static ArticlesRoomHelper articlesRoomHelper;
+    private NewsDb newsDb;
+    private static NewsRoomHelper newsRoomHelper;
 
-    private ArticlesRoomHelper(Context context) {
-        articlesDb = ArticlesDb.getCartDbInstance(context);
+    private NewsRoomHelper(Context context) {
+        newsDb = NewsDb.getNewsDbInstance(context);
     }
 
-    public static ArticlesRoomHelper getInstance(Context context) {
-        if (null == articlesRoomHelper) articlesRoomHelper = new ArticlesRoomHelper(context);
-        return articlesRoomHelper;
+    public static NewsRoomHelper getInstance(Context context) {
+        if (null == newsRoomHelper) newsRoomHelper = new NewsRoomHelper(context);
+        return newsRoomHelper;
     }
 
-    public void insertArticle(final Article article) {
+    public void insertNewsDbPage(final NewsDbPage page) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                articlesDb.articleDao().addArticle(article);
+                newsDb.newsDao().addPage(page);
             }
         }).start();
     }
 
-    public void getArticlesList (final RetrieveArticleData retrieveArticleData) {
+    public void getNewsDbPagesList (final RetrieveNewsData retrieveNewsData) {
         final Handler handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                retrieveArticleData.onComplete((List<Article>) msg.obj);
+                retrieveNewsData.onComplete((List<NewsDbPage>) msg.obj);
             }
         };
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Article> articlesList = articlesDb.articleDao().getArticles();
-                Message message = handler.obtainMessage(ZERO, articlesList);
+                List<NewsDbPage> pagesList = newsDb.newsDao().getPages();
+                Message message = handler.obtainMessage(ZERO, pagesList);
                 message.sendToTarget();
             }
         }).start();
     }
 
-    public void deleteArticle(final Article article) {
+    public void deleteNewsDbPage(final NewsDbPage page) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                articlesDb.articleDao().deleteArticleFromDb(article);
+                newsDb.newsDao().deletePageFromDb(page);
             }
         }).start();
     }
 
-    public void deleteArticleById(final String id) {
+    public void deleteNewsDbPageById(final String id) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                articlesDb.articleDao().deleteArticleById(id);
+                newsDb.newsDao().deletePageById();//id
             }
         }).start();
     }
@@ -91,7 +92,7 @@ public final class ArticlesRoomHelper {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                articlesDb.articleDao().clearArticlesDb();
+                newsDb.newsDao().clearNewsDb();
             }
         }).start();
     }

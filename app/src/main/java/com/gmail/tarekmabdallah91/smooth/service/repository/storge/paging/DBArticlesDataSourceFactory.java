@@ -16,13 +16,23 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.news.data.room.news;
+package com.gmail.tarekmabdallah91.smooth.service.repository.storge.paging;
 
-import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import android.arch.paging.DataSource;
 
-import java.util.List;
+import com.gmail.tarekmabdallah91.smooth.service.repository.storge.ArticleDao;
 
-public interface RetrieveArticleData {
 
-    void onComplete(List<Article> articlesListInDb);
+public class DBArticlesDataSourceFactory extends DataSource.Factory {
+
+    private DBArticlesPageKeyedDataSource articlesPageKeyedDataSource;
+    public DBArticlesDataSourceFactory(ArticleDao dao) {
+        articlesPageKeyedDataSource = new DBArticlesPageKeyedDataSource(dao);
+    }
+
+    @Override
+    public DataSource create() {
+        return articlesPageKeyedDataSource;
+    }
+
 }

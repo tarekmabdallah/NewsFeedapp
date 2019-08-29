@@ -31,17 +31,12 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.SEARCH_HISTORY_KEY
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.convertListToString;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.convertStringToList;
 
-//@Singleton
 public class SharedPreferencesHelper {
 
     private static final String SHARED_PREF = "sp";
     private SharedPreferences sharedPreferences;
     private static SharedPreferencesHelper helper;
 
-//    @Inject
-//    public SharedPreferencesHelper(SharedPreferences sharedPreferences){
-//        this.sharedPreferences = sharedPreferences;
-//    }
     private SharedPreferencesHelper(Context context) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
     }

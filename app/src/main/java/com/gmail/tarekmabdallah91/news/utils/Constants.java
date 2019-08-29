@@ -75,6 +75,9 @@ public class Constants {
     public static final String IS_FAVOURITE_LIST = "IS_FAVOURITE_LIST";
     public static final String SCROLL_POSITION = "SCROLL_POSITION";
 
+    public static final String DATA_BASE_NAME = "newsDb";
+    public static final int NUMBERS_OF_THREADS = 3;
+
     public static final String EMAIL_INTENT = "mailto:";
     public static final String CALL_INTENT = "tel:";
     public static final String TEXT_PLAIN = "text/plain";
