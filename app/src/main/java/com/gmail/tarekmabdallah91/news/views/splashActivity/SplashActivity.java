@@ -6,7 +6,7 @@ import com.gmail.tarekmabdallah91.news.views.bases.BaseActivityNoMenu;
 import butterknife.OnClick;
 
 import static com.gmail.tarekmabdallah91.news.views.easyViewActivity.EasyViewActivity.openEasyViewActivity;
-import static com.gmail.tarekmabdallah91.smooth.ui.view.SimpleActivity.openSimpleActivity;
+import static com.gmail.tarekmabdallah91.news.views.mainSection.MainSectionActivity.openMainSectionActivity;
 
 public class SplashActivity extends BaseActivityNoMenu {
 
@@ -21,15 +21,10 @@ public class SplashActivity extends BaseActivityNoMenu {
         return "Choose style";
     }
 
-    @Override
-    public void setUI() {
-        onClickSimpleViewBtn ();
-    }
-
     @OnClick(R.id.simple_view_btn)
     void onClickSimpleViewBtn (){
-//        openMainSectionActivity(this, false);
-        openSimpleActivity(this);
+        openMainSectionActivity(this, false);
+        //openSimpleActivity(this,"brazil","empty", true);
     }
 
     @OnClick(R.id.easy_view_btn)

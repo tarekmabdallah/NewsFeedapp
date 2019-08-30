@@ -18,43 +18,65 @@
 
 package com.gmail.tarekmabdallah91.smooth.service.repository;
 
+import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.paging.PagedList;
-import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
-import com.gmail.tarekmabdallah91.smooth.service.repository.network.ArticlesNetwork;
+import com.gmail.tarekmabdallah91.smooth.service.repository.network.PagedListSetter;
 import com.gmail.tarekmabdallah91.smooth.service.repository.network.paging.DataSourceFactory;
 import com.gmail.tarekmabdallah91.smooth.service.repository.storge.AticlesDatabase;
 
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getSectionIdOrCountrySection;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.printLog;
 
+/**
+ * Repository
+ */
+
 public class ArticleRepository {
+
     private static ArticleRepository instance;
-    final private ArticlesNetwork network;
-    final private AticlesDatabase database;
-    final private MediatorLiveData liveDataMerger;
+    private final PagedListSetter network;
+    private final AticlesDatabase database;
+    private final MediatorLiveData liveDataMerger;
+    private String sectionId;
+    private Activity activity;
 
-    private ArticleRepository(Context context, String sectionId) {
 
-        DataSourceFactory dataSourceFactory = new DataSourceFactory(context, sectionId);
+    private ArticleRepository(Activity activity) {
+        this.activity = activity;
+        DataSourceFactory dataSourceFactory = new DataSourceFactory(activity);
 
-        network = new ArticlesNetwork(dataSourceFactory, boundaryCallback);
-        database = AticlesDatabase.getInstance(context.getApplicationContext());
+        PagedList.BoundaryCallback<Article> boundaryCallback = new PagedList.BoundaryCallback<Article>() {
+            @Override
+            public void onZeroItemsLoaded() {
+                super.onZeroItemsLoaded();
+                liveDataMerger.addSource(database.getArticlesPaged(), new Observer() {
+                    @Override
+                    public void onChanged(@Nullable Object value) {
+                        liveDataMerger.setValue(value);
+                        liveDataMerger.removeSource(database.getArticlesPaged());
+                    }
+                });
+            }
+        };
+        network = new PagedListSetter(dataSourceFactory, boundaryCallback);
+        database = AticlesDatabase.getInstance(activity.getApplicationContext());
         // when we get new articles from net we set them into the database
         liveDataMerger = new MediatorLiveData<>();
         liveDataMerger.addSource(network.getPagedArticles(), new Observer() {
             @Override
             public void onChanged(@Nullable Object value) {
                 liveDataMerger.setValue(value);
-                printLog(value.toString());
+                if (value != null) printLog(value.toString());
             }
         });
 
@@ -70,22 +92,27 @@ public class ArticleRepository {
 
     }
 
-    private PagedList.BoundaryCallback<Article> boundaryCallback = new PagedList.BoundaryCallback<Article>() {
-        @Override
-        public void onZeroItemsLoaded() {
-            super.onZeroItemsLoaded();
-            liveDataMerger.addSource(database.getArticlesPaged(), new Observer() {
-                @Override
-                public void onChanged(@Nullable Object value) {
-                    liveDataMerger.setValue(value);
-                    liveDataMerger.removeSource(database.getArticlesPaged());
-                }
-            });
-        }
-    };
-    public static ArticleRepository getInstance(Context context, String sectionId){
-        if(instance == null){
-            instance = new ArticleRepository(context, sectionId);
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public static ArticleRepository getInstance(Activity activity){
+        if(instance == null) instance = new ArticleRepository(activity);
+        else { // to reset process when sectionId is changed which means that the user is showing that new section so load it
+            String sectionId = getSectionIdOrCountrySection (activity.getIntent());
+            if (null == instance.getSectionId() || !instance.getSectionId().equals(sectionId)){
+                instance = null;
+                instance = new ArticleRepository(activity);
+                instance.setSectionId(sectionId);
+            }
         }
         return instance;
     }

@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.views.sections.SectionsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +35,8 @@ import butterknife.ButterKnife;
 import static aboutMe.AboutMeActivity.openAboutMeActivity;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTitleStyle;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showFragment;
 import static com.gmail.tarekmabdallah91.news.views.search.SearchActivity.openSearchActivity;
-import static com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity.openSectionsActivity;
 import static com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity.openSettingsActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -117,8 +118,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.item_settings) openSettingsActivity(this);
         else if (id == R.id.item_search) openSearchActivity(this);
-        else if (id == R.id.item_sections) openSectionsActivity(this);
-        else if (id == R.id.item_about_me) openAboutMeActivity(this,
+        else if (id == R.id.item_sections) {
+            SectionsFragment sectionsFragment = new SectionsFragment();
+            showFragment(sectionsFragment, getSupportFragmentManager(), R.id.fragmentsContainer, false);
+        } else if (id == R.id.item_about_me) openAboutMeActivity(this,
                 "Tarek AbdAllah",
                 "Android Developer",
                 "+201096071130",

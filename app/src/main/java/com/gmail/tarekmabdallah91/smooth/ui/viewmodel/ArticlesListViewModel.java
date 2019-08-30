@@ -18,7 +18,7 @@
 
 package com.gmail.tarekmabdallah91.smooth.ui.viewmodel;
 
-import android.app.Application;
+import android.app.Activity;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.PagedList;
@@ -29,13 +29,19 @@ import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 import com.gmail.tarekmabdallah91.smooth.service.repository.ArticleRepository;
 
 
+
 public class ArticlesListViewModel extends AndroidViewModel {
+
     private ArticleRepository repository;
 
-    public ArticlesListViewModel(@NonNull Application application, String sectionId) {
-        super(application);
-        repository = ArticleRepository.getInstance(application, sectionId);
+    /**
+     * @param activity just passed it as we can pass some values via it without needing to pas a Bundle or something else
+     */
+    public ArticlesListViewModel(@NonNull Activity activity) {
+        super(activity.getApplication());
+        repository = ArticleRepository.getInstance(activity);
     }
+
     public LiveData<PagedList<Article>> getArticles() {
         return repository.getArticles();
     }
@@ -43,5 +49,4 @@ public class ArticlesListViewModel extends AndroidViewModel {
     public LiveData<NetworkState> getNetworkState() {
         return repository.getNetworkState();
     }
-
 }

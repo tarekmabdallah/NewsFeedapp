@@ -35,7 +35,7 @@ import java.util.Map;
 import retrofit2.Retrofit;
 import rx.Observable;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_LANGUAGE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
@@ -58,7 +58,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
         this.sectionId = sectionId;
         this.searchKeyword = searchKeyword;
         this.retrofit = retrofit;
-        isCountrySection = activity.getIntent().getBooleanExtra(IS_COUNTRY_SECTION,false);
+        isCountrySection = activity.getIntent().getBooleanExtra(COUNTRY_SECTION,false);
         networkState = new MutableLiveData<>();
         noConnectionThrowable = new Throwable(activity.getString(R.string.no_connection));
     }
@@ -84,7 +84,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, Article> {
 
     private Observable getObservable(int pageNumber){
         APIServices apiServices = retrofit.create(APIServices.class);
-        Map<String, Object> queries = getQueriesMap(activity, pageNumber);
+        Map<String, Object> queries = getQueriesMap(activity);
         if (null != searchKeyword) {
             queries.put(QUERY_Q_KEYWORD, searchKeyword);
             String lang = getKeywordLanguage(searchKeyword);

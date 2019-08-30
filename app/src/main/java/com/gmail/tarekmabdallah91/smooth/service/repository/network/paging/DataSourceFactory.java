@@ -18,9 +18,9 @@
 
 package com.gmail.tarekmabdallah91.smooth.service.repository.network.paging;
 
+import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
-import android.content.Context;
 
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 
@@ -34,11 +34,10 @@ public class DataSourceFactory extends DataSource.Factory {
     private MutableLiveData<ItemDataSource> networkStatus;
     private ItemDataSource itemDataSource;
 
-    public DataSourceFactory(Context context, String sectionId) {
+    public DataSourceFactory(Activity activity) {
         this.networkStatus = new MutableLiveData<>();
-        this.itemDataSource = new ItemDataSource(context, sectionId);
+        this.itemDataSource = new ItemDataSource(activity);
     }
-
 
     @Override
     public DataSource create() {

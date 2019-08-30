@@ -35,15 +35,18 @@ import java.util.concurrent.Executors;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.NUMBERS_OF_THREADS;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 
-
-public class ArticlesNetwork {
+public class PagedListSetter {
 
     final private LiveData<PagedList<Article>> articlesPaged;
     final private LiveData<NetworkState> networkState;
 
-    public ArticlesNetwork(DataSourceFactory dataSourceFactory, PagedList.BoundaryCallback<Article> boundaryCallback){
-        PagedList.Config pagedListConfig = (new PagedList.Config.Builder()).setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(PAGE_SIZE).setPageSize(PAGE_SIZE).build();
+    public PagedListSetter(DataSourceFactory dataSourceFactory, PagedList.BoundaryCallback<Article> boundaryCallback){
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(PAGE_SIZE)
+                        .setPageSize(PAGE_SIZE)
+                        .build();
         networkState = Transformations.switchMap(dataSourceFactory.getNetworkStatus(),
                 new Function<ItemDataSource, LiveData<NetworkState>>() {
                     @Override
@@ -60,12 +63,9 @@ public class ArticlesNetwork {
 
     }
 
-
     public LiveData<PagedList<Article>> getPagedArticles(){
         return articlesPaged;
     }
-
-
 
     public LiveData<NetworkState> getNetworkState() {
         return networkState;

@@ -46,7 +46,7 @@ public class Constants {
     public static final String QUERY_Q_KEYWORD = "q";
     public static final String QUERY_LANGUAGE_KEYWORD = "lang";
     static final String QUERY_PAGE_SIZE_KEYWORD = "page-size";
-    static final String QUERY_PAGE_KEYWORD = "page";
+    public static final String QUERY_PAGE_KEYWORD = "page";
     static final String QUERY_ORDER_BY_KEYWORD = "order-by";
     static final String QUERY_ORDER_date_KEYWORD = "order-date";
     static final String QUERY_SHOW_FIELDS_KEYWORD = "show-fields";
@@ -71,7 +71,7 @@ public class Constants {
     public static final String SECTION_ID_KEYWORD = "SECTION_ID_KEYWORD";
     public static final String IS_SP_UPDATED = "IS_SP_UPDATED";
     public static final String IS_LOADED_BEFORE = "IS_LOADED_BEFORE";
-    public static final String IS_COUNTRY_SECTION = "IS_COUNTRY_SECTION";
+    public static final String COUNTRY_SECTION = "COUNTRY_SECTION";
     public static final String IS_FAVOURITE_LIST = "IS_FAVOURITE_LIST";
     public static final String SCROLL_POSITION = "SCROLL_POSITION";
 

@@ -1,6 +1,7 @@
 package com.gmail.tarekmabdallah91.news.views.sections;
 
 import android.annotation.SuppressLint;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.gmail.tarekmabdallah91.news.data.room.favArticles.ArticlesRoomHelper;
 import com.gmail.tarekmabdallah91.news.data.room.favArticles.RetrieveArticleData;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
+import com.gmail.tarekmabdallah91.smooth.ui.view.ArticlesListFragment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,9 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.SPACE_REGEX;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceLabelStyle;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.appendStringToTextView;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.putSomeValuesInIntent;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.setSpinnerAdapter;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showFragment;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showView;
 import static com.gmail.tarekmabdallah91.news.views.section.SectionActivity.openSectionActivity;
 
@@ -102,24 +106,26 @@ public class SectionsFragment extends BaseFragment {
         final TextView countriesLabel = countriesSpinnerLayout.findViewById(R.id.spinner_label);
         countriesLabel.setText(activity.getString(R.string.countries_news_label));
         final List<String> countriesNamesList = Arrays.asList(activity.getResources().getStringArray(R.array.countries_labels));
-        final List<String> countriesIdsList = Arrays.asList(activity.getResources().getStringArray(R.array.countries_ids));
         final SpinnerAdapter countriesAdapter = new SpinnerAdapter(activity);
         countriesAdapter.addAll(countriesNamesList);
         SpinnerOnItemClickedListener spinnerOnItemClickedListener = new SpinnerOnItemClickedListener() {
             @Override
             public void onSelectItem(int position) {
-                setSpinnerOnItemClickedListener(position, true, countriesNamesList, countriesIdsList, countriesLabel, countriesAdapter);
+                setSpinnerOnItemClickedListener(position, true, countriesNamesList, countriesNamesList, countriesLabel, countriesAdapter);
             }
         };
         setSpinnerAdapter(countriesSpinner, countriesAdapter,spinnerOnItemClickedListener, countriesLabel);
     }
 
-    private void setSpinnerOnItemClickedListener (int position, boolean isContrySection , List<String> labels, List<String> ids, TextView labelTV, SpinnerAdapter adapter){
+    private void setSpinnerOnItemClickedListener (int position, boolean isCountrySection , List<String> labels, List<String> ids, TextView labelTV, SpinnerAdapter adapter){
         String countryName = labels.get(position);
         String sectionId = ids.get(position).toLowerCase().replaceAll(SPACE_REGEX, DASH);
         labelTV.setText(countryName);
         adapter.notifyDataSetChanged();
-        openSectionActivity(activity, sectionId, countryName, isContrySection);
+        ArticlesListFragment articlesListFragment = ArticlesListFragment.newInstance();
+        if (isCountrySection) putSomeValuesInIntent(activity.getIntent(), null, countryName);
+        else putSomeValuesInIntent(activity.getIntent(), sectionId, null);
+        showFragment(articlesListFragment, ((FragmentActivity) activity).getSupportFragmentManager(), R.id.fragmentsContainer, true);
     }
 
     public static SectionsFragment getInstance() {

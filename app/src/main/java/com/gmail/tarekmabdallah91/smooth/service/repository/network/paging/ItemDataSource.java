@@ -18,30 +18,41 @@
 
 package com.gmail.tarekmabdallah91.smooth.service.repository.network.paging;
 
+import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
-import android.content.Context;
-import android.os.Build;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.apis.APIServices;
+import com.gmail.tarekmabdallah91.news.apis.DataFetcherCallback;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
+import com.gmail.tarekmabdallah91.news.models.countryNews.ResponseCountryNews;
+import com.gmail.tarekmabdallah91.news.models.section.CommonResponse;
 import com.gmail.tarekmabdallah91.news.models.section.ResponseSection;
 import com.gmail.tarekmabdallah91.news.utils.NetworkState;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.subjects.ReplaySubject;
 
+import static com.gmail.tarekmabdallah91.news.apis.APIClient.getResponse;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.COUNTRY_SECTION;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_PAGE_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_Q_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.RX_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getQueriesMap;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getSectionIdOrCountrySection;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isConnected;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.printLog;
 
 /**
@@ -50,18 +61,114 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.printLog;
 
 public class ItemDataSource extends PageKeyedDataSource<String, Article> {
 
-    private final APIServices articlesService;
-    private final MutableLiveData networkState;
+    private final MutableLiveData<NetworkState> networkState;
     private final ReplaySubject<Article> articlesObservable;
-    private Context context;
-    private String sectionId;
+    private Activity activity;
+    private String sectionId, searchKeyword;
+    private boolean isCountrySection;
+    private Throwable noConnectionThrowable;
+    private Call currentCall;
+    private Map<String, Object> queries;
 
-    ItemDataSource(Context context, String sectionId) {
-        this.context = context;
-        this.articlesService = APIClient.getInstance(context).create(APIServices.class);
-        this.networkState = new MutableLiveData();
+    ItemDataSource(Activity activity) {
+        this.activity = activity;
+        this.networkState = new MutableLiveData<>();
         this.articlesObservable = ReplaySubject.create();
-        this.sectionId = sectionId;
+        Intent intent = activity.getIntent();
+        this.sectionId = getSectionIdOrCountrySection (activity.getIntent());
+        this.isCountrySection = null != intent.getStringExtra(COUNTRY_SECTION);
+        this.searchKeyword = null;
+        noConnectionThrowable = new Throwable(activity.getString(R.string.no_connection));
+        queries = getQueriesMap(activity);
+        if (null != searchKeyword) queries.put(QUERY_Q_KEYWORD, searchKeyword);
+        currentCall = getCurrentCall(queries);
+    }
+
+    @Override
+    public void loadInitial(@NonNull LoadInitialParams<String> params, @NonNull final LoadInitialCallback<String, Article> callback) {
+        printLog( "Loading Initial Rang, Count " + params.requestedLoadSize);
+        networkState.postValue(NetworkState.LOADING);
+        loadData(ONE, callback, null);
+    }
+
+
+    @Override
+    public void loadAfter(@NonNull LoadParams<String> params, final @NonNull LoadCallback<String, Article> callback) {
+        printLog( "Loading page " + params.key );
+        final AtomicInteger page = new AtomicInteger(ZERO);
+        try {
+            page.set(Integer.parseInt(params.key));
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        loadData(page.get()+ ONE, null, callback);
+    }
+
+
+    @Override
+    public void loadBefore(@NonNull LoadParams<String> params, @NonNull LoadCallback<String, Article> callback) {}
+
+    private void loadData(final int pageNumber,final LoadInitialCallback<String, Article> initialCallback,final LoadCallback<String, Article> callback){
+        DataFetcherCallback dataFetcherCallback = new DataFetcherCallback() {
+            @Override
+            public void onDataFetched(Object body) {
+                CommonResponse response = null;
+                if (body instanceof ResponseSection){
+                    ResponseSection responseSection = (ResponseSection) body;
+                    response = responseSection.getResponse();
+                }else if (body instanceof ResponseCountryNews){
+                    ResponseCountryNews responseCountryNews = (ResponseCountryNews) body;
+                    response = responseCountryNews.getResponse();
+                }
+                if (null != response) {
+                    List<Article> articles = response.getResults();
+                    if (null != articles && !articles.isEmpty()){
+                        networkState.postValue(NetworkState.LOADED);
+                        if (ONE == pageNumber) {
+                            initialCallback.onResult(articles, String.valueOf(ONE), String.valueOf(TWO));
+                        } else {
+                            callback.onResult(articles, String.valueOf(pageNumber));
+                        }
+                    }else {
+                        networkState.postValue(new NetworkState(NetworkState.Status.FAILED,
+                                activity.getString(R.string.no_news_found)));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t, int errorImageResId) {
+                handelFailureCase(t);
+            }
+        };
+        updateQuery(pageNumber);
+        callApi(currentCall, dataFetcherCallback);
+    }
+
+    /**
+     * to handle calling the APIs and get its response
+     * @param call to call the API
+     * @param dataFetcherCallback to handle success or failure cases
+     */
+    private void callApi(Call call, DataFetcherCallback dataFetcherCallback){
+        networkState.postValue(NetworkState.LOADING);
+        if (isConnected(activity))getResponse(call, dataFetcherCallback);
+        else handelFailureCase(noConnectionThrowable);
+    }
+
+    private void updateQuery (int pageNumber){
+        if (ZERO < pageNumber) queries.put(QUERY_PAGE_KEYWORD, pageNumber);
+    }
+
+    private Call getCurrentCall(Map<String, Object> queries) {
+        APIServices apiServices = APIClient.getAPIServices(activity);
+        if (isCountrySection) return apiServices.getCountrySectionCall(sectionId.toLowerCase(), queries);
+        else return apiServices.getArticlesBySectionCall(sectionId, queries);
+    }
+
+    private void handelFailureCase(Throwable t){
+        Log.d(RX_KEYWORD, "onError" + t.getMessage());
+        networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
     }
 
     public MutableLiveData getNetworkState() {
@@ -70,102 +177,5 @@ public class ItemDataSource extends PageKeyedDataSource<String, Article> {
 
     public ReplaySubject<Article> getArticles() {
         return articlesObservable;
-    }
-
-    @Override
-    public void loadInitial(@NonNull LoadInitialParams<String> params, @NonNull final LoadInitialCallback<String, Article> callback) {
-        printLog( "Loading Initial Rang, Count " + params.requestedLoadSize);
-
-        networkState.postValue(NetworkState.LOADING);
-        Call<ResponseSection> callBack = articlesService.getArticlesBySectionCall(sectionId, getQueriesMap(context, 1));
-        callBack.enqueue(new Callback<ResponseSection>() {
-            @Override
-            public void onResponse(Call<ResponseSection> call, Response<ResponseSection> response) {
-                if (response.isSuccessful()) {
-                    callback.onResult(response.body().getResponse().getResults(), Integer.toString(1), Integer.toString(2));
-                    networkState.postValue(NetworkState.LOADED);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        response.body().getResponse().getResults().forEach(new Consumer<Article>() {
-                            @Override
-                            public void accept(Article article) {
-                                articlesObservable.onNext(article);
-                            }
-                        });
-                    }else {
-                        Toast.makeText(context, "not Build.VERSION_CODES.N", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Log.e("API CALL", response.message());
-                    networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseSection> call, Throwable t) {
-                String errorMessage;
-                if (t.getMessage() == null) {
-                    errorMessage = "unknown error";
-                } else {
-                    errorMessage = t.getMessage();
-                }
-                networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
-                callback.onResult(new ArrayList<Article>(), Integer.toString(1), Integer.toString(2));
-            }
-        });
-    }
-
-
-
-    @Override
-    public void loadAfter(@NonNull LoadParams<String> params, final @NonNull LoadCallback<String, Article> callback) {
-        printLog( "Loading page " + params.key );
-        networkState.postValue(NetworkState.LOADING);
-        final AtomicInteger page = new AtomicInteger(0);
-        try {
-            page.set(Integer.parseInt(params.key));
-        }catch (NumberFormatException e){
-            e.printStackTrace();
-        }
-        Call<ResponseSection> callBack = articlesService.getArticlesBySectionCall(sectionId,getQueriesMap(context, page.get()));
-        callBack.enqueue(new Callback<ResponseSection>() {
-            @Override
-            public void onResponse(Call<ResponseSection> call, Response<ResponseSection> response) {
-                if (response.isSuccessful()) {
-                    callback.onResult(response.body().getResponse().getResults(), Integer.toString(page.get()+1));
-                    networkState.postValue(NetworkState.LOADED);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        response.body().getResponse().getResults().forEach(new Consumer<Article>() {
-                            @Override
-                            public void accept(Article t) {
-                                articlesObservable.onNext(t);
-                            }
-                        });
-                    }else {
-                        Toast.makeText(context, "not Build.VERSION_CODES.N", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
-                    Log.e("API CALL", response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseSection> call, Throwable t) {
-                String errorMessage;
-                if (t.getMessage() == null) {
-                    errorMessage = "unknown error";
-                } else {
-                    errorMessage = t.getMessage();
-                }
-                networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
-                callback.onResult(new ArrayList<Article>(), Integer.toString(page.get()));
-            }
-        });
-    }
-
-
-    @Override
-    public void loadBefore(@NonNull LoadParams<String> params, @NonNull LoadCallback<String, Article> callback) {
-
     }
 }

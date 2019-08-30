@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -71,6 +72,7 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLE_FIELDS;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.COMMA;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.INVALID;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ONE;
@@ -78,10 +80,10 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.PAGE_SIZE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_FROM_DATE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_ORDER_BY_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_ORDER_date_KEYWORD;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_PAGE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_PAGE_SIZE_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_SHOW_FIELDS_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.QUERY_TO_DATE_KEYWORD;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SPACE_REGEX;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.THREE;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TWO;
@@ -543,7 +545,7 @@ public final class ViewsUtils {
     /**
      * @return map contains filter keywords
      */
-    public static Map<String, Object> getQueriesMap(Context context, int pageNumber) {
+    public static Map<String, Object> getQueriesMap(Context context) {
         SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper.getInstance(context);
         String fromDate = sharedPreferencesHelper.getFromDate();
         String toDate = sharedPreferencesHelper.getToDate();
@@ -554,7 +556,7 @@ public final class ViewsUtils {
         queries.put(QUERY_PAGE_SIZE_KEYWORD, PAGE_SIZE);
         queries.put(QUERY_ORDER_BY_KEYWORD, orderBy);
         queries.put(QUERY_ORDER_date_KEYWORD, orderDate);
-        if (ZERO < pageNumber) queries.put(QUERY_PAGE_KEYWORD, pageNumber);
+//        if (ZERO < pageNumber) queries.put(QUERY_PAGE_KEYWORD, pageNumber);
         if (!EMPTY_STRING.equals(fromDate)) queries.put(QUERY_FROM_DATE_KEYWORD, fromDate);
         if (!EMPTY_STRING.equals(toDate)) queries.put(QUERY_TO_DATE_KEYWORD, toDate);
         return queries;
@@ -632,5 +634,30 @@ public final class ViewsUtils {
     public static void printLog (String statement){
         final String TAG = "APP_LOGS";
         Log.d(TAG, statement);
+    }
+
+    public static void showFragment(Fragment fragment, FragmentManager fragmentManager, int containerId, boolean isToAddToBackStack){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(containerId, fragment);
+        if (isToAddToBackStack) transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public static Intent putSomeValuesInIntent (Intent intent, String sectionId, String countrySection){
+        intent.putExtra(SECTION_ID_KEYWORD, sectionId);
+        intent.putExtra(COUNTRY_SECTION, countrySection);
+        return intent;
+    }
+
+    /**
+     *  check if countrySection != null means that sectionId is null
+     * (As one of them must be null) so keep it in sectionId var to complete process simply
+     * @return non null value
+     */
+    public static String getSectionIdOrCountrySection (Intent intent){
+        String sectionId = intent.getStringExtra(SECTION_ID_KEYWORD);
+        String countrySection = intent.getStringExtra(COUNTRY_SECTION);
+        if (null != countrySection) sectionId = countrySection;
+        return sectionId;
     }
 }

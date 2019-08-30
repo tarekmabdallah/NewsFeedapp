@@ -25,25 +25,26 @@ import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
-import com.gmail.tarekmabdallah91.news.views.section.SectionActivity;
+import com.gmail.tarekmabdallah91.smooth.ui.view.SimpleActivity;
 
+import static com.gmail.tarekmabdallah91.news.utils.Constants.COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceSubTitleStyle;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getValueFromPreferencesByKey;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.putSomeValuesInIntent;
 
-public class MainSectionActivity extends SectionActivity {
+public class MainSectionActivity extends SimpleActivity {
 
     @Override
     public void initiateValues(@Nullable Bundle savedInstanceState) {
-        // getMyApplication section id to be used in calling tha API
+        super.initiateValues(savedInstanceState);
+        // get section id to be used in calling tha API
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
         // is it world news ?
         boolean isDefaultSection = null == sectionId;
         if (isDefaultSection) sectionId = getString(R.string.sections_list_default_value);
-        getIntent().putExtra(SECTION_ID_KEYWORD, sectionId);
+        putSomeValuesInIntent(getIntent(), sectionId, null);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class MainSectionActivity extends SectionActivity {
 
     public static void openMainSectionActivity(Context context, boolean isCountrySection){
         Intent openMainSectionActivity = new Intent(context, MainSectionActivity.class);
-        openMainSectionActivity.putExtra(IS_COUNTRY_SECTION, isCountrySection);
+        openMainSectionActivity.putExtra(COUNTRY_SECTION, isCountrySection);
         context.startActivity(openMainSectionActivity);
     }
 

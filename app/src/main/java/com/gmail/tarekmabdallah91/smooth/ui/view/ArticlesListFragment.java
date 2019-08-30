@@ -41,12 +41,12 @@ import com.gmail.tarekmabdallah91.smooth.ui.viewmodel.ArticlesListViewModel;
 
 import butterknife.BindView;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 
 public class ArticlesListFragment extends BaseFragment implements ItemClickListener {
 
     private ArticleDetailsViewModel detailsViewModel;
     private FragmentActivity activity;
+    private String sectionId;
 
     @BindView(R.id.articles_recycler_view)
     protected RecyclerView recyclerView;
@@ -62,10 +62,6 @@ public class ArticlesListFragment extends BaseFragment implements ItemClickListe
         observersRegisters();
     }
 
-    private String getSectionId () {
-        return activity.getIntent().getStringExtra(SECTION_ID_KEYWORD);
-    }
-
     public void setRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -73,9 +69,7 @@ public class ArticlesListFragment extends BaseFragment implements ItemClickListe
     }
 
     private void observersRegisters() {
-        String sectionId = getSectionId();
-        ArticlesListViewModel viewModel = new ArticlesListViewModel(activity.getApplication(), sectionId);
-
+        ArticlesListViewModel viewModel = new ArticlesListViewModel(activity);
         final ItemAdapter pageListAdapter = new ItemAdapter();
         pageListAdapter.setOnArticleClickListener(new OnArticleClickListener() {
             @Override
@@ -100,7 +94,6 @@ public class ArticlesListFragment extends BaseFragment implements ItemClickListe
                 pageListAdapter.setNetworkState(networkState);
             }
         });
-
         recyclerView.setAdapter(pageListAdapter);
         detailsViewModel = ViewModelProviders.of(activity).get(ArticleDetailsViewModel.class);
     }
@@ -109,16 +102,19 @@ public class ArticlesListFragment extends BaseFragment implements ItemClickListe
     public void OnItemClick(Article article) {
         detailsViewModel.getArticle().postValue(article);
         if (!detailsViewModel.getArticle().hasActiveObservers()) {
-            // Create fragment and give it an argument specifying the article it should show
             ArticleDetailsFragment detailsFragment = new ArticleDetailsFragment();
             FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
             transaction.replace(R.id.fragmentsContainer, detailsFragment);
             transaction.addToBackStack(null);
-            // Commit the transaction
             transaction.commit();
         }
+    }
+
+    public static ArticlesListFragment newInstance() {
+        Bundle args = new Bundle();
+        ArticlesListFragment fragment = new ArticlesListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

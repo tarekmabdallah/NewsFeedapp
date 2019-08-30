@@ -33,7 +33,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gmail.tarekmabdallah91.news.apis.APIClient;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.paging.ItemAdapter;
@@ -77,7 +76,7 @@ public class SectionPresenter extends BasePresenter {
     @Override
     public void initiateValues(Activity activity, View...views) {
         setOnClickListenerForErrorMsg((TextView) views[TWO], (ImageView) views[THREE]);
-        retrofit = APIClient.getInstance(activity);
+       // retrofit = APIClient.getAPIServices(activity);
         setItemAdapter(activity);
         setArticlesRecyclerView((RecyclerView) views[FOUR]);
         //must set ViewModel here to recalled if the screen rotated

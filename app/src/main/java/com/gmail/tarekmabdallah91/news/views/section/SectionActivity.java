@@ -28,7 +28,7 @@ import com.gmail.tarekmabdallah91.news.views.bases.BasePresenter;
 
 import butterknife.BindView;
 
-import static com.gmail.tarekmabdallah91.news.utils.Constants.IS_COUNTRY_SECTION;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.TITLE_KEYWORD;
 
@@ -56,7 +56,7 @@ public class SectionActivity extends BaseActivity {
         Intent openSectionActivity = new Intent(context, SectionActivity.class);
         openSectionActivity.putExtra(SECTION_ID_KEYWORD, sectionId);
         openSectionActivity.putExtra(TITLE_KEYWORD, sectionTitle);
-        openSectionActivity.putExtra(IS_COUNTRY_SECTION, isCountrySection);
+        openSectionActivity.putExtra(COUNTRY_SECTION, isCountrySection);
         context.startActivity(openSectionActivity);
     }
 }

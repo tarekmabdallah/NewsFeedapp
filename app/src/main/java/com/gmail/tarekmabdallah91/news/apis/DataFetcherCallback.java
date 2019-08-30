@@ -16,22 +16,17 @@
  *
  */
 
-package com.gmail.tarekmabdallah91.smooth.ui.viewmodel;
+package com.gmail.tarekmabdallah91.news.apis;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+public interface DataFetcherCallback {
+    /**
+     * called when there is a successful response to view the data in the UI
+     */
+    void onDataFetched(Object body);
 
-import com.gmail.tarekmabdallah91.news.models.articles.Article;
 
-public class ArticleDetailsViewModel extends ViewModel {
-
-    final private MutableLiveData<Article> article;
-
-    public ArticleDetailsViewModel() {
-        article = new MutableLiveData<>();
-    }
-
-    public MutableLiveData<Article> getArticle() {
-        return article;
-    }
+    /**
+     * called when the call failed to get the response for any reason (each case is handled in the Method which deal with all calls in RetrofitWrapper)
+     */
+    void onFailure(Throwable t, int errorImageResId);
 }

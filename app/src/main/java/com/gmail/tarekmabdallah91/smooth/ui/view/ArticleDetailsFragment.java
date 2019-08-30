@@ -40,14 +40,12 @@ import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.loadImage;
 
 public class ArticleDetailsFragment extends Fragment {
 
-    private ArticleDetailsViewModel viewModel;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate view and obtain an instance of the binding class.
         final FragmentDetailsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false);
-        viewModel = ViewModelProviders.of(getActivity()).get(ArticleDetailsViewModel.class);
+        ArticleDetailsViewModel viewModel = ViewModelProviders.of(getActivity()).get(ArticleDetailsViewModel.class);
         View view = binding.getRoot();
         viewModel.getArticle().observe(this, new Observer<Article>() {
             @Override
@@ -60,8 +58,6 @@ public class ArticleDetailsFragment extends Fragment {
 
     @BindingAdapter("android:src")
     public static void setImageUrl(ImageView view, String url) {
-        if(url != null) {
-            loadImage(url, view);
-        }
+        if(url != null) loadImage(url, view);
     }
 }
