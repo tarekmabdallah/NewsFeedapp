@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.gmail.tarekmabdallah91.news.R;
-import com.gmail.tarekmabdallah91.news.data.room.news.ArticlesRoomHelper;
+import com.gmail.tarekmabdallah91.news.data.room.favArticles.ArticlesRoomHelper;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseFragment;
 
@@ -63,16 +63,16 @@ public class WebViewFragment extends BaseFragment {
     RelativeLayout addToFavouriteListFabLayout;
 
     private String url;
-    private String textHtml;
+    private String textHtml; // to show html view  blocks>body>bodyHtml
     private Article article;
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.fragment_web_view;
     }
 
-    @Override
-    protected void initiateValues() {
+//    @Override
+    public void initiateValues() {
         setWebView();
     }
 
@@ -90,8 +90,8 @@ public class WebViewFragment extends BaseFragment {
         checkIfFoundInWishListDb(addToFavouriteListFabLayout, addToFavouriteListFab, article.getId());
     }
 
-    @Override
-    protected void setUI() {
+//    @Override
+    public void setUI() {
         getComingIntent();
         if (null != textHtml) webView.loadData(textHtml, HTML_TEXT, UTF8);
         else if (null != url) webView.loadUrl(url);

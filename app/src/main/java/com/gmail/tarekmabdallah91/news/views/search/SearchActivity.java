@@ -20,29 +20,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
-import com.gmail.tarekmabdallah91.news.views.bases.BaseActivity;
+import com.gmail.tarekmabdallah91.news.views.section.SectionActivity;
+import com.gmail.tarekmabdallah91.news.views.section.SectionPresenter;
 
 import java.util.List;
 
 import butterknife.BindView;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.FIVE;
+import static com.gmail.tarekmabdallah91.news.utils.Constants.SEARCH_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.isValidString;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewGone;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showView;
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends SectionActivity {
 
-    @BindView(R.id.fragment_articles_container)
-    FrameLayout fragmentContainer;
     @BindView(R.id.search_view)
     SearchView searchView;
     @BindView(R.id.search_history_list_view)
@@ -50,14 +49,17 @@ public class SearchActivity extends BaseActivity {
 
     private SharedPreferencesHelper sharedPreferencesHelper;
     private SearchHistoryAdapter searchHistoryAdapter;
-    private onClickItemListener onSearchForKeyWordListener;
-
     private List<String> searchHistoryList;
-    private SearchFragment fragment;
 
-    @Override
-    protected int getLayoutResId() {
+
+//    @Override
+    public int getLayoutResId() {
         return R.layout.activity_search;
+    }
+
+//    @Override
+    protected String getSectionId() {
+        return SEARCH_KEYWORD;
     }
 
     @Override
@@ -70,27 +72,20 @@ public class SearchActivity extends BaseActivity {
         return new int[]{R.id.item_search};
     }
 
-    @Override
-    protected void initiateValues() {
-        fragment = SearchFragment.getInstance();
-        onSearchForKeyWordListener = fragment;
+//    @Override
+    public void initiateValues() {
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(this);
         setSearchHistoryListView();
         setSearchView();
-        setFragmentToCommit(fragment, R.id.fragment_articles_container);
+     //   super.initiateValues();
     }
 
-    @Override
-    protected void setActivityWhenSaveInstanceStateNull() {
-//         moved to initiateValues till find solution to keep data after rotating this fragment
-//        setFragmentToCommit(fragment, R.id.fragment_articles_container);
-    }
 
-    @Override
-    protected void setUI() {
+//    @Override
+    public void setUI() {
         String searchKeyword = getSearchKeyword();
         boolean isValidSearchKeyword = isValidString(searchKeyword);
-        showView(fragmentContainer, isValidSearchKeyword);
+        showView(articlesRecyclerView, isValidSearchKeyword);
         showView(searchHistoryListView, !isValidSearchKeyword);
     }
 
@@ -174,7 +169,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 makeViewVisible(searchHistoryListView);
-                makeViewGone(fragmentContainer);
+                makeViewGone(articlesRecyclerView);
             }
         };
         searchView.setOnClickListener(onClickSearchViewListener);
@@ -184,17 +179,25 @@ public class SearchActivity extends BaseActivity {
      * set queries params with the @param searchKeyword
      */
     private void searchForKeyWord(String searchKeyword) {
-        makeViewGone(fragmentContainer);
+        makeViewGone(articlesRecyclerView);
         if (isValidString(searchKeyword)) {
-            onSearchForKeyWordListener.onClickItem(searchKeyword);
-            makeViewVisible(fragmentContainer);
+            onClickItem(searchKeyword);
+            makeViewVisible(articlesRecyclerView);
             searchView.setFocusable(false);
         } else makeViewVisible(searchHistoryListView);
+    }
+
+    public void onClickItem(String searchKeyword) {
+        ((SectionPresenter)presenter).getItemAdapter().submitList(null);
+//        super.setPagingViewModel(searchKeyword);
     }
 
     private String getSearchKeyword() {
         return searchView.getQuery().toString();
     }
+
+//    @Override // empty to do nothing
+    protected void setPagingViewModel(String searchKeyword) {}
 
     public static void openSearchActivity(Context context) {
         Intent openSearchActivity = new Intent(context, SearchActivity.class);

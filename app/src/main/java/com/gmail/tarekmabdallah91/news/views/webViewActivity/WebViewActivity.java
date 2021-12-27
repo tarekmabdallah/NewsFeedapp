@@ -24,6 +24,7 @@ import android.content.Intent;
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.models.articles.Article;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivityNoMenu;
+import com.gmail.tarekmabdallah91.news.views.bases.BasePresenter;
 
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ARTICLES_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.URL_KEYWORD;
@@ -31,12 +32,17 @@ import static com.gmail.tarekmabdallah91.news.utils.Constants.URL_KEYWORD;
 public class WebViewActivity extends BaseActivityNoMenu {
 
     @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
     protected String getActivityTitle() {
         return getString(R.string.article_details_label);
     }
 
-    @Override
-    protected int getLayoutResId() {
+//    @Override
+    public int getLayoutResId() {
         return R.layout.activity_web_view;
     }
 

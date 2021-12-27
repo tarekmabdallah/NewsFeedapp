@@ -64,12 +64,12 @@ public class DatesFragment extends BaseFragment {
     private String fromDate, toDate;
 
     @Override
-    protected int getLayoutResId() {
+    public int getLayoutResId() {
         return R.layout.fragment_dates;
     }
 
-    @Override
-    protected void initiateValues() {
+//    @Override
+    public void initiateValues() {
         sharedPreferencesHelper = SharedPreferencesHelper.getInstance(activity);
         makeTypeFaceTextStyle(fromDateLabel, toDateLabel);
         makeTypeFaceBtnStyle(clearDatesBtn);

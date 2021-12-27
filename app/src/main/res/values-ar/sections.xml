@@ -19,82 +19,80 @@
 
 <resources>
 
-    <string-array name="sections_labels">
-        <item>عن الجارديان</item>
-        <item>حيوانات المزرعة</item>
-        <item>فن و تصميم</item>
-        <item>اخبار استراليا</item>
-        <item>اعمال افضل</item>
-        <item>كتب</item>
-        <item>تجارة واعمال</item>
-        <item>معاملات الشركات</item>
-        <item>اخبار كارديف</item>
-        <item>كتب اطفال</item>
-        <item>المدن</item>
-        <item>أراء</item>
-        <item>مجتمعي</item>
-        <item>الكلمات المتقاطعة</item>
-        <item>ثقافة</item>
-        <item>الشبكة الثقافية</item>
-        <item>شبكة المهنيين الثقافية</item>
-        <item>اخبار ادنبره</item>
-        <item>تعليم</item>
-        <item>شبكة مؤسسة الجارديان</item>
-        <item>البيئة</item>
-        <item>خاص</item>
-        <item>موضة وازياء</item>
-        <item>افلام</item>
-        <item>غذاء</item>
-        <item>كرة القدم</item>
-        <item>العاب</item>
-        <item>التنمية العالمية</item>
-        <item>شبكة محترفي التنمية العالمية</item>
-        <item>حوسبة الجارديان الحكومية</item>
-        <item>الجارديان المهنية</item>
-        <item>شبكة محترفي الرعاية الصحية</item>
-        <item>مساعدة</item>
-        <item>شبكة التعليم العالي</item>
-        <item>شبكة الاسكان</item>
-        <item>عدم المساواة</item>
-        <item>معلومات</item>
-        <item>وظائف</item>
-        <item>اخبار قاتين</item>
-        <item>القانون</item>
-        <item>اخبار مدينة ليدز</item>
-        <item>الحياة والأناقة</item>
-        <item>محلي (انجلترا)</item>
-        <item>شبكة القادة المحلية</item>
-        <item>الإعلام</item>
-        <item>شبكة الوسائط الاعلامية</item>
-        <item>العضوية</item>
-        <item>اموال</item>
-        <item>موسيقي</item>
-        <item>اخبار</item>
-        <item>سياسة</item>
-        <item>شبكة القادة العامة</item>
-        <item>علوم</item>
-        <item>بحث</item>
-        <item>شبكة الجارديان للمشروعات الصغيرة</item>
-        <item>شبكة الرعاية الاجتماعية</item>
-        <item>شبكة المؤسسات الاجتماعية</item>
-        <item>المجتمع</item>
-        <item>مجتمع المحترفين</item>
-        <item>رياضة</item>
-        <item>المسرح</item>
-        <item>شبكة المعلمين</item>
-        <item>تكنولوجيا</item>
-        <item>من الجارديان</item>
-        <item>من المراقبين</item>
-        <item>السفر</item>
-        <item>عروض عطلة الجارديان</item>
-        <item>التلفزيون و الراديو</item>
-        <item>اخبار المملكة المتحدة</item>
-        <item>اخبار الولايات المتحدة الامريكية</item>
-        <item>شبكة القطاع التطوعي</item>
-        <item>الطقس</item>
-        <item>المرأة في القيادة</item>
-        <item>العمل في التنمية</item>
-        <item>اخبار العالم</item>
-    </string-array>
+    <string name="about">عن الجارديان</string>
+    <string name="animals_farmed">حيوانات المزرعة</string>
+    <string name="art_and_design">فن و تصميم</string>
+    <string name="australia_news">اخبار استراليا</string>
+    <string name="better_business">اعمال افضل</string>
+    <string name="books">كتب</string>
+    <string name="business">تجارة واعمال</string>
+    <string name="business_to_business">معاملات الشركات</string>
+    <string name="cardiff_city_news">اخبار كارديف</string>
+    <string name="childrens_books">كتب اطفال</string>
+    <string name="cities">المدن</string>
+    <string name="opinion">أراء</string>
+    <string name="community">مجتمعي</string>
+    <string name="crosswords">الكلمات المتقاطعة</string>
+    <string name="culture">ثقافة</string>
+    <string name="culture_network">الشبكة الثقافية</string>
+    <string name="culture_professionals_network">شبكة المهنيين الثقافية</string>
+    <string name="edinburgh">اخبار ادنبره</string>
+    <string name="education">تعليم</string>
+    <string name="guardian_enterprise_network">شبكة مؤسسة الجارديان</string>
+    <string name="environment">البيئة</string>
+    <string name="extra">خاص</string>
+    <string name="fashion">موضة وازياء</string>
+    <string name="film">افلام</string>
+    <string name="food">غذاء</string>
+    <string name="football">كرة القدم</string>
+    <string name="games">العاب</string>
+    <string name="global_development">التنمية العالمية</string>
+    <string name="global_development_professionals_network">شبكة محترفي التنمية العالمية</string>
+    <string name="guardian_government_computing">حوسبة الجارديان الحكومية</string>
+    <string name="guardian_professional">الجارديان المهنية</string>
+    <string name="healthcare_professionals_network">شبكة محترفي الرعاية الصحية</string>
+    <string name="help">مساعدة</string>
+    <string name="higher_education_network">شبكة التعليم العالي</string>
+    <string name="housing_network">شبكة الاسكان</string>
+    <string name="inequality">عدم المساواة</string>
+    <string name="info">معلومات</string>
+    <string name="jobs">وظائف</string>
+    <string name="katine">اخبار قاتين</string>
+    <string name="law">القانون</string>
+    <string name="leeds">اخبار مدينة ليدز</string>
+    <string name="life_and_style">الحياة والأناقة</string>
+    <string name="local">محلي (انجلترا)</string>
+    <string name="local_leaders_network">شبكة القادة المحلية</string>
+    <string name="media">الإعلام</string>
+    <string name="media_network">شبكة الوسائط الاعلامية</string>
+    <string name="membership">العضوية</string>
+    <string name="money">اموال</string>
+    <string name="music">موسيقي</string>
+    <string name="news">اخبار</string>
+    <string name="politics">سياسة</string>
+    <string name="public_leaders_network">شبكة القادة العامة</string>
+    <string name="science">علوم</string>
+    <string name="search">بحث</string>
+    <string name="guardian_small_business_network">شبكة الجارديان للمشروعات الصغيرةk</string>
+    <string name="social_care_network">شبكة الرعاية الاجتماعية</string>
+    <string name="social_enterprise_network">شبكة المؤسسات الاجتماعية</string>
+    <string name="society">المجتمع</string>
+    <string name="society_professionals">مجتمع المحترفين</string>
+    <string name="sport">رياضة</string>
+    <string name="stage">المسرح</string>
+    <string name="teacher_network">شبكة المعلمين</string>
+    <string name="technology">تكنولوجيا</string>
+    <string name="from_the_guardian">من الجارديان</string>
+    <string name="from_the_observer">من المراقبين</string>
+    <string name="travel">السفر</string>
+    <string name="guardian_holiday_offers">عروض عطلة الجارديان</string>
+    <string name="television_radio">التلفزيون و الراديو</string>
+    <string name="uk_news">اخبار المملكة المتحدة</string>
+    <string name="us_news">اخبار الولايات المتحدة الامريكية</string>
+    <string name="voluntary_sector_network">شبكة القطاع التطوعي</string>
+    <string name="weather">الطقس</string>
+    <string name="women_in_leadership">المرأة في القيادة</string>
+    <string name="working_in_development">العمل في التنمية</string>
+    <string name="world_news">اخبار العالم</string>
 
 </resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/simple_view_btn"
+        style="@style/btn_style"
+        android:text="@string/simple_view"
+        android:layout_margin="@dimen/space32"
+        android:layout_above="@id/center_point" />
+
+    <View
+        android:id="@+id/center_point"
+        android:layout_width="@dimen/space1"
+        android:layout_height="@dimen/space1"
+        android:background="@android:color/transparent"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/easy_view_btn"
+        style="@style/btn_style"
+        android:text="@string/easy_view"
+        android:layout_below="@id/center_point"
+        android:layout_margin="@dimen/space32"/>
+
+</RelativeLayout>

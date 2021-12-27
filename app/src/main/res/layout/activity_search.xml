@@ -38,7 +38,7 @@
         android:padding="@dimen/space8"
         android:layout_below="@id/search_view"/>
 
-    <include layout="@layout/activity_section"
+    <include layout="@layout/fragment_articles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_view"/>

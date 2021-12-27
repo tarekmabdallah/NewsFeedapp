@@ -18,44 +18,60 @@ package com.gmail.tarekmabdallah91.news.views.bases;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
+import com.gmail.tarekmabdallah91.news.views.sections.SectionsFragment;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static aboutMe.AboutMeActivity.openAboutMeActivity;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.ZERO;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceTitleStyle;
-import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showShortToastMsg;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.showFragment;
 import static com.gmail.tarekmabdallah91.news.views.search.SearchActivity.openSearchActivity;
-import static com.gmail.tarekmabdallah91.news.views.sections.SectionsActivity.openSectionsActivity;
 import static com.gmail.tarekmabdallah91.news.views.settings.SettingsActivity.openSettingsActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     // TODO: 07-Apr-19 to use Fb sdk for logging
-    // TODO: 07-Apr-19 to use firebase for crash analytics and messing
-    // TODO: 07-Apr-19 to use dagger 2
+    // TODO: 07-Apr-19 to use firebase for crash analytics and messaging
     // TODO: 07-Apr-19 to update the UI (Responsive UI)
+
+    @Nullable @BindView(R.id.msg_iv)
+    protected ImageView errorIV;
+    @Nullable @BindView(R.id.progress_bar)
+    protected View progressBar;
+    @Nullable @BindView(R.id.msg_tv)
+    protected TextView errorTV;
+    @Nullable @BindView(R.id.msg_layout)
+    protected View errorLayout;
+
+    protected BasePresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
+        presenter = getPresenter();
         ButterKnife.bind(this);
-        initiateValues();
+        initiateValues(savedInstanceState);
         setActionBar();
-        if (null == savedInstanceState) {
-            setActivityWhenSaveInstanceStateNull();
-        } else {
-            reSetActivityWithSaveInstanceState(savedInstanceState);
-        }
+        if (null == savedInstanceState) setActivityWhenSaveInstanceStateNull();
+        else reSetActivityWithSaveInstanceState(savedInstanceState);
+    }
+
+    protected abstract int getLayoutResId();
+
+    protected BasePresenter getPresenter(){
+        return null;
     }
 
     protected void setActionBar(){
@@ -77,6 +93,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract String getActivityTitle();
 
+    public void initiateValues (@Nullable Bundle savedInstanceState){}
+
+    public void setActivityWhenSaveInstanceStateNull() {}
+
+    public void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {}
+
+    public void setUI (){}
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -94,8 +118,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.item_settings) openSettingsActivity(this);
         else if (id == R.id.item_search) openSearchActivity(this);
-        else if (id == R.id.item_sections) openSectionsActivity(this);
-        else if (id == R.id.item_about_me) openAboutMeActivity(this,
+        else if (id == R.id.item_sections) {
+            SectionsFragment sectionsFragment = new SectionsFragment();
+            showFragment(sectionsFragment, getSupportFragmentManager(), R.id.fragmentsContainer, false);
+        } else if (id == R.id.item_about_me) openAboutMeActivity(this,
                 "Tarek AbdAllah",
                 "Android Developer",
                 "+201096071130",
@@ -126,50 +152,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int[] getMenuItemIdsToHide(){
         return null;
     }
-
-    /**
-     * called when the activity created for the first time (WhenSaveInstanceStateNull)
-     */
-    protected void setActivityWhenSaveInstanceStateNull() {
-    }
-
-    /**
-     * called when the device rotated  (WhenSaveInstanceState IS NOT Null)
-     *
-     * @param savedInstanceState -
-     */
-    protected void reSetActivityWithSaveInstanceState(Bundle savedInstanceState) {
-    }
-
-    /**
-     * to init some values once and will be called every time the device rotated
-     */
-    protected void initiateValues() {
-    }
-
-    /**
-     * override it to set the  UI
-     * it is called in onResume() to recalled each time the activity resumed
-     */
-    protected void setUI() {
-    }
-
-    protected void setFragmentToCommit (BaseFragment fragment, int containerId){
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(containerId, fragment).commit();
-    }
-
-    /**
-     * simple method to show Toast Msg and control all Toast's style in the app
-     *
-     * @param msg which will be shown
-     */
-    protected void showToastMsg(String msg) {
-        showShortToastMsg(this, msg);
-    }
-
-    /**
-     * @return the layout resource id for each activity
-     */
-    protected abstract int getLayoutResId();
 }

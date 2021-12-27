@@ -16,30 +16,35 @@
 
 package com.gmail.tarekmabdallah91.news.views.mainSection;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.widget.TextView;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.data.sp.SharedPreferencesHelper;
-import com.gmail.tarekmabdallah91.news.views.section.SectionActivity;
+import com.gmail.tarekmabdallah91.smooth.ui.view.SimpleActivity;
 
+import static com.gmail.tarekmabdallah91.news.utils.Constants.COUNTRY_SECTION;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.EMPTY_STRING;
-import static com.gmail.tarekmabdallah91.news.utils.Constants.SECTION_ID_KEYWORD;
 import static com.gmail.tarekmabdallah91.news.utils.Constants.makeTypeFaceSubTitleStyle;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.getValueFromPreferencesByKey;
 import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.makeViewVisible;
+import static com.gmail.tarekmabdallah91.news.utils.ViewsUtils.putSomeValuesInIntent;
 
-public class MainSectionActivity extends SectionActivity {
+public class MainSectionActivity extends SimpleActivity {
 
     @Override
-    protected void initiateValues() {
-        super.initiateValues();
-        // getMyApplication section id to be used in calling tha API
+    public void initiateValues(@Nullable Bundle savedInstanceState) {
+        super.initiateValues(savedInstanceState);
+        // get section id to be used in calling tha API
         String sectionId = getValueFromPreferencesByKey(this, R.string.sections_list_key, R.string.sections_list_default_value);
         // is it world news ?
         boolean isDefaultSection = null == sectionId;
         if (isDefaultSection) sectionId = getString(R.string.sections_list_default_value);
-        getIntent().putExtra(SECTION_ID_KEYWORD, sectionId);
+        putSomeValuesInIntent(getIntent(), sectionId, null);
     }
 
     @Override
@@ -64,4 +69,11 @@ public class MainSectionActivity extends SectionActivity {
         makeTypeFaceSubTitleStyle(subtitleTV);
         subtitleTV.setText(sectionName);
     }
+
+    public static void openMainSectionActivity(Context context, boolean isCountrySection){
+        Intent openMainSectionActivity = new Intent(context, MainSectionActivity.class);
+        openMainSectionActivity.putExtra(COUNTRY_SECTION, isCountrySection);
+        context.startActivity(openMainSectionActivity);
+    }
+
 }

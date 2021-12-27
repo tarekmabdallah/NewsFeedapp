@@ -21,12 +21,18 @@ import android.content.Intent;
 
 import com.gmail.tarekmabdallah91.news.R;
 import com.gmail.tarekmabdallah91.news.views.bases.BaseActivityNoMenu;
+import com.gmail.tarekmabdallah91.news.views.bases.BasePresenter;
 
 public class SettingsActivity extends BaseActivityNoMenu {
 
-    @Override
-    protected int getLayoutResId() {
+//    @Override
+    public int getLayoutResId() {
         return R.layout.settings_layout;
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
     }
 
     @Override

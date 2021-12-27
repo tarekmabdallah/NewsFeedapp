@@ -19,82 +19,158 @@
 
 <resources>
 
+    <string name="about">About</string>
+    <string name="animals_farmed">Animals farmed</string>
+    <string name="art_and_design">Art and design</string>
+    <string name="australia_news">Australia news</string>
+    <string name="better_business">Better Business</string>
+    <string name="books">Books</string>
+    <string name="business">Business</string>
+    <string name="business_to_business">Business to business</string>
+    <string name="cardiff_city_news">Cardiff city news</string>
+    <string name="childrens_books">Children\'s books</string>
+    <string name="cities">Cities</string>
+    <string name="opinion">Opinion</string>
+    <string name="community">Community</string>
+    <string name="crosswords">Crosswords</string>
+    <string name="culture">Culture</string>
+    <string name="culture_network">Culture Network</string>
+    <string name="culture_professionals_network">Culture professionals network</string>
+    <string name="edinburgh">Edinburgh</string>
+    <string name="education">Education</string>
+    <string name="guardian_enterprise_network">Guardian Enterprise Network</string>
+    <string name="environment">Environment</string>
+    <string name="extra">Extra</string>
+    <string name="fashion">Fashion</string>
+    <string name="film">Film</string>
+    <string name="food">Food</string>
+    <string name="football">Football</string>
+    <string name="games">Games</string>
+    <string name="global_development">Global development</string>
+    <string name="global_development_professionals_network">Global Development Professionals Network</string>
+    <string name="guardian_government_computing">Guardian Government Computing</string>
+    <string name="guardian_professional">Guardian Professional</string>
+    <string name="healthcare_professionals_network">Healthcare Professionals Network</string>
+    <string name="help">Help</string>
+    <string name="higher_education_network">Higher Education Network</string>
+    <string name="housing_network">Housing Network</string>
+    <string name="inequality">Inequality</string>
+    <string name="info">Info</string>
+    <string name="jobs">Jobs</string>
+    <string name="katine">Katine</string>
+    <string name="law">Law</string>
+    <string name="leeds">Leeds</string>
+    <string name="life_and_style">Life and style</string>
+    <string name="local">Local</string>
+    <string name="local_leaders_network">Local Leaders Network</string>
+    <string name="media">Media</string>
+    <string name="media_network">Media Network</string>
+    <string name="membership">Membership</string>
+    <string name="money">Money</string>
+    <string name="music">Music</string>
+    <string name="news">News</string>
+    <string name="politics">Politics</string>
+    <string name="public_leaders_network">Public Leaders Network</string>
+    <string name="science">Science</string>
+    <string name="search">Search</string>
+    <string name="guardian_small_business_network">Guardian Small Business Network</string>
+    <string name="social_care_network">Social Care Network</string>
+    <string name="social_enterprise_network">Social Enterprise Network</string>
+    <string name="society">Society</string>
+    <string name="society_professionals">Society Professionals</string>
+    <string name="sport">Sport</string>
+    <string name="stage">Stage</string>
+    <string name="teacher_network">Teacher Network</string>
+    <string name="technology">Technology</string>
+    <string name="from_the_guardian">From the Guardian</string>
+    <string name="from_the_observer">From the Observer</string>
+    <string name="travel">Travel</string>
+    <string name="guardian_holiday_offers">Guardian holiday offers</string>
+    <string name="television_radio">Television and radio</string>
+    <string name="uk_news">UK news</string>
+    <string name="us_news">US news</string>
+    <string name="voluntary_sector_network">Voluntary Sector Network</string>
+    <string name="weather">Weather</string>
+    <string name="women_in_leadership">Women in Leadership</string>
+    <string name="working_in_development">Working in development</string>
+    <string name="world_news">World news</string>
+
     <string-array name="sections_labels">
-        <item>About</item>
-        <item>Animals farmed</item>
-        <item>Art and design</item>
-        <item>Australia news</item>
-        <item>Better Business</item>
-        <item>Books</item>
-        <item>Business</item>
-        <item>Business to business</item>
-        <item>Cardiff city news</item>
-        <item>Children\'s books</item>
-        <item>Cities</item>
-        <item>Opinion</item>
-        <item>Community</item>
-        <item>Crosswords</item>
-        <item>Culture</item>
-        <item>Culture Network</item>
-        <item>Culture professionals network</item>
-        <item>Edinburgh</item>
-        <item>Education</item>
-        <item>Guardian Enterprise Network</item>
-        <item>Environment</item>
-        <item>Extra</item>
-        <item>Fashion</item>
-        <item>Film</item>
-        <item>Food</item>
-        <item>Football</item>
-        <item>Games</item>
-        <item>Global development</item>
-        <item>Global Development Professionals Network</item>
-        <item>Guardian Government Computing</item>
-        <item>Guardian Professional</item>
-        <item>Healthcare Professionals Network</item>
-        <item>Help</item>
-        <item>Higher Education Network</item>
-        <item>Housing Network</item>
-        <item>Inequality</item>
-        <item>Info</item>
-        <item>Jobs</item>
-        <item>Katine</item>
-        <item>Law</item>
-        <item>Leeds</item>
-        <item>Life and style</item>
-        <item>Local</item>
-        <item>Local Leaders Network</item>
-        <item>Media</item>
-        <item>Media Network</item>
-        <item>Membership</item>
-        <item>Money</item>
-        <item>Music</item>
-        <item>News</item>
-        <item>Politics</item>
-        <item>Public Leaders Network</item>
-        <item>Science</item>
-        <item>Search</item>
-        <item>Guardian Small Business Network</item>
-        <item>Social Care Network</item>
-        <item>Social Enterprise Network</item>
-        <item>Society</item>
-        <item>Society Professionals</item>
-        <item>Sport</item>
-        <item>Stage</item>
-        <item>Teacher Network</item>
-        <item>Technology</item>
-        <item>From the Guardian</item>
-        <item>From the Observer</item>
-        <item>Travel</item>
-        <item>Guardian holiday offers</item>
-        <item>Television &amp; radio</item>
-        <item>UK news</item>
-        <item>US news</item>
-        <item>Voluntary Sector Network</item>
-        <item>Weather</item>
-        <item>Women in Leadership</item>
-        <item>Working in development</item>
-        <item>World news</item>
+        <item>@string/about</item>
+        <item>@string/animals_farmed</item>
+        <item>@string/art_and_design</item>
+        <item>@string/australia_news</item>
+        <item>@string/better_business</item>
+        <item>@string/books</item>
+        <item>@string/business</item>
+        <item>@string/business_to_business</item>
+        <item>@string/cardiff_city_news</item>
+        <item>@string/childrens_books</item>
+        <item>@string/cities</item>
+        <item>@string/opinion</item>
+        <item>@string/community</item>
+        <item>@string/crosswords</item>
+        <item>@string/culture</item>
+        <item>@string/culture_network</item>
+        <item>@string/culture_professionals_network</item>
+        <item>@string/edinburgh</item>
+        <item>@string/education</item>
+        <item>@string/guardian_enterprise_network</item>
+        <item>@string/environment</item>
+        <item>@string/extra</item>
+        <item>@string/fashion</item>
+        <item>@string/film</item>
+        <item>@string/food</item>
+        <item>@string/football</item>
+        <item>@string/games</item>
+        <item>@string/global_development</item>
+        <item>@string/global_development_professionals_network</item>
+        <item>@string/guardian_government_computing</item>
+        <item>@string/guardian_professional</item>
+        <item>@string/healthcare_professionals_network</item>
+        <item>@string/help</item>
+        <item>@string/higher_education_network</item>
+        <item>@string/housing_network</item>
+        <item>@string/inequality</item>
+        <item>@string/info</item>
+        <item>@string/jobs</item>
+        <item>@string/katine</item>
+        <item>@string/law</item>
+        <item>@string/leeds</item>
+        <item>@string/life_and_style</item>
+        <item>@string/local</item>
+        <item>@string/local_leaders_network</item>
+        <item>@string/media</item>
+        <item>@string/media_network</item>
+        <item>@string/membership</item>
+        <item>@string/money</item>
+        <item>@string/music</item>
+        <item>@string/news</item>
+        <item>@string/politics</item>
+        <item>@string/public_leaders_network</item>
+        <item>@string/science</item>
+        <item>@string/search</item>
+        <item>@string/guardian_small_business_network</item>
+        <item>@string/social_care_network</item>
+        <item>@string/social_enterprise_network</item>
+        <item>@string/society</item>
+        <item>@string/society_professionals</item>
+        <item>@string/sport</item>
+        <item>@string/stage</item>
+        <item>@string/teacher_network</item>
+        <item>@string/technology</item>
+        <item>@string/from_the_guardian</item>
+        <item>@string/from_the_observer</item>
+        <item>@string/travel</item>
+        <item>@string/guardian_holiday_offers</item>
+        <item>@string/television_radio</item>
+        <item>@string/uk_news</item>
+        <item>@string/us_news</item>
+        <item>@string/voluntary_sector_network</item>
+        <item>@string/weather</item>
+        <item>@string/women_in_leadership</item>
+        <item>@string/working_in_development</item>
+        <item>@string/world_news</item>
     </string-array>
 
     <string-array name="sections_ids">
@@ -172,6 +248,60 @@
         <item>weather</item>
         <item>women-in-leadership</item>
         <item>working-in-development</item>
+        <item>world</item>
+    </string-array>
+
+    <string-array name="easy_view_sections_labels">
+        <item>@string/books</item>
+        <item>@string/business</item>
+        <item>@string/opinion</item>
+        <item>@string/community</item>
+        <item>@string/culture</item>
+        <item>@string/education</item>
+        <item>@string/environment</item>
+        <item>@string/extra</item>
+        <item>@string/fashion</item>
+        <item>@string/film</item>
+        <item>@string/food</item>
+        <item>@string/football</item>
+        <item>@string/games</item>
+        <item>@string/info</item>
+        <item>@string/jobs</item>
+        <item>@string/media</item>
+        <item>@string/money</item>
+        <item>@string/music</item>
+        <item>@string/news</item>
+        <item>@string/politics</item>
+        <item>@string/science</item>
+        <item>@string/sport</item>
+        <item>@string/weather</item>
+        <item>@string/world_news</item>
+    </string-array>
+
+    <string-array name="easy_view_sections_ids">
+        <item>books</item>
+        <item>business</item>
+        <item>commentisfree</item>
+        <item>community</item>
+        <item>culture</item>
+        <item>education</item>
+        <item>environment</item>
+        <item>extra</item>
+        <item>fashion</item>
+        <item>film</item>
+        <item>food</item>
+        <item>football</item>
+        <item>games</item>
+        <item>info</item>
+        <item>jobsadvice</item>>
+        <item>media</item>
+        <item>money</item>
+        <item>music</item>
+        <item>news</item>
+        <item>politics</item>
+        <item>science</item>
+        <item>sport</item>
+        <item>weather</item>
         <item>world</item>
     </string-array>
 </resources>
